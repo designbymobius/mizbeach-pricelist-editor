@@ -15,6 +15,7 @@
 
 		$response = array();
 
+	// product transactions
 		if($transaction->product){
 
 			$response['product'] = array();
