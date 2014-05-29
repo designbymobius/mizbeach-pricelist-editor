@@ -1117,7 +1117,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         // load required db data
                             deviceStorage.get("product", function(ok, value){
 
-                                if(ok && value !== ""){
+                                if(ok && value !== null){
 
                                     product_db_json = value;
 
@@ -1150,7 +1150,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                             deviceStorage.get("manufacturer", function(ok, value){
 
-                                if(ok && value !== ""){
+                                if(ok && value !== null){
 
                                     manufacturer_db_json = value;
 
@@ -1183,7 +1183,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                             deviceStorage.get("transaction", function(ok, value){
 
-                                if(ok && value !== ""){
+                                if(ok && value !== null){
 
                                     transaction_db_json = value;
 
