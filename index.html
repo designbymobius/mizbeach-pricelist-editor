@@ -956,8 +956,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                     // required vars
                     var product_list_wrapper = document.getElementById('product-list'),
-                        manufacturer_list_wrapper = document.getElementById('manufacturer-list'),
-                        add_product_btn = document.getElementById('start-add-product');
+                        manufacturer_list_wrapper = document.getElementById('manufacturer-list');
 
 
                     // teardown
@@ -976,8 +975,6 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                             render_manufacturer_list();
                         });
-
-                        add_product_btn.addEventListener("click", addProductsWorkflow);
 
                     // filter rendered product list by manufacturer
                         _subscribe("product-list-rendered", "filter-by-manufacturer", function(){
@@ -1017,8 +1014,6 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                         product_list_wrapper.removeEventListener("click", edit_product);
                         product_list_wrapper.removeEventListener("touchmove", product_list_wrapper_scroll);
-
-                        add_product_btn.removeEventListener("click", addProductsWorkflow);
 
                         _unsubscribe("screens-resized", "resize-list-wrapper");
 
