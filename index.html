@@ -441,14 +441,13 @@ html, body {
 			<div id="start-app" class="btn large">Get Started</div>
 		</div>
 
-		<div id="tasks" class="fullscreen tasks">
-			
-			<div class="headline">Tasks</div>
-			<div class="title">What are you trying to do?</div>
-			<ul id="task-list">
-				<li id="start-view-products">View Product List</li>
-				<li id="start-add-product">Add New Products</li>
-			</ul>
+		<div id="view-product-list" class="fullscreen view-product">
+		
+			<div id="manufacturer-filter">
+				<label>Manufacturer</label>
+				<select id="manufacturer-list"></select>
+			</div>
+			<div id="product-list"></div>
 		</div>
 
 		<div id="add-product-metadata" class="fullscreen add-product">
@@ -469,15 +468,6 @@ html, body {
 				<span class="product-name"></span>
 			</div>
 			<div id="submit-add-product" class="btn large">Yes - Add It</div>	
-		</div>
-
-		<div id="view-product-list" class="fullscreen view-product">
-			
-			<div id="manufacturer-filter">
-				<label>Manufacturer</label>
-				<select id="manufacturer-list"></select>
-			</div>
-			<div id="product-list"></div>
 		</div>
 
 <script type="text/javascript">/*! offline 0.4.7 */
@@ -966,11 +956,12 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                     // required vars
                     var product_list_wrapper = document.getElementById('product-list'),
-                        manufacturer_list_wrapper = document.getElementById('manufacturer-list');
+                        manufacturer_list_wrapper = document.getElementById('manufacturer-list'),
+                        add_product_btn = document.getElementById('start-add-product');
 
 
-                    _subscribe_once("teardown-screen", "teardown", teardown);
-
+                    // teardown
+                        _subscribe_once("teardown-screen", "teardown", teardown);
 
                     // update product list view when model updates
                         _subscribe("product-metadata-updated", "update-product-list", function(data){
@@ -985,6 +976,8 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                             render_manufacturer_list();
                         });
+
+                        add_product_btn.addEventListener("click", addProductsWorkflow);
 
                     // filter rendered product list by manufacturer
                         _subscribe("product-list-rendered", "filter-by-manufacturer", function(){
@@ -1007,17 +1000,25 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     
                     // activate edit button on product list  
                         product_list_wrapper.addEventListener("click", edit_product);
+
+                    // activate touch scrolling 
                         product_list_wrapper.addEventListener("touchmove", product_list_wrapper_scroll);
+
+                    // activate filtering by manufacturer
                         manufacturer_list_wrapper.addEventListener("change", manufacturer_filter);
 
+                    // render modules
                         render_product_list();
                         render_manufacturer_list();
+                        create_add_product_btn();
 
 
                     function teardown(){
 
                         product_list_wrapper.removeEventListener("click", edit_product);
                         product_list_wrapper.removeEventListener("touchmove", product_list_wrapper_scroll);
+
+                        add_product_btn.removeEventListener("click", addProductsWorkflow);
 
                         _unsubscribe("screens-resized", "resize-list-wrapper");
 
@@ -1579,7 +1580,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                     activeScreens = [];
                     addToActiveScreens('landing');
-                    addToActiveScreens('tasks');
+                    addToActiveScreens('view-product');
                 } 
 
         /* NETWORK */
@@ -2048,6 +2049,57 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     return modelled_db;
                 }
 
+            // context settings - cancel task
+                function create_cancel_task_btn(){
+
+                    var contextSettingsMenu = document.getElementById('context-settings'),
+                        cancelTaskBtnMarkup = "<div id='cancel-task' class='setting'>cancel task</div>";
+
+                    // create Cancel Task button                            
+                        contextSettingsMenu.innerHTML += cancelTaskBtnMarkup;
+
+                    // remove btn when task ends
+                        _subscribe_once("task-ended", "remove-cancel-task-btn", 
+
+                            function(){
+
+                                var cancel_task_btn = document.getElementById('cancel-task');
+
+                                cancel_task_btn.parentNode.removeChild(cancel_task_btn);
+                            }
+                        );
+
+                    // set behavior
+                        document.getElementById('cancel-task').addEventListener("click", function(){
+
+                            _publish("task-ended", "cancel-task-btn");
+                        });
+                }            
+
+            // context settings - add product
+                function create_add_product_btn(){
+
+                    var contextSettingsMenu = document.getElementById('context-settings'),
+                        addProductBtnMarkup = "<div id='start-add-product' class='setting'>+ add product</div>";
+
+                    // create add product button                            
+                        contextSettingsMenu.innerHTML += addProductBtnMarkup;
+
+                    // remove btn when task ends
+                        _subscribe_once("teardown-screen", "remove-add-product-btn", 
+
+                            function(){
+
+                                var add_product_btn = document.getElementById('start-add-product');
+
+                                add_product_btn.parentNode.removeChild(add_product_btn);
+                            }
+                        );
+
+                    // set behavior
+                        document.getElementById('start-add-product').addEventListener("click", addProductsWorkflow);
+                }            
+            
             function addProductsWorkflow(){
 
                 // activate add product screens 
@@ -2090,35 +2142,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     });
             }
 
-            function create_cancel_task_btn(){
-
-                var contextSettingsMenu = document.getElementById('context-settings'),
-                    cancelTaskBtnMarkup = "<div id='cancel-task' class='setting'>cancel task</div>";
-
-                // create Cancel Task button                            
-                    contextSettingsMenu.innerHTML += cancelTaskBtnMarkup;
-
-                // remove btn when task ends
-                    _subscribe_once("task-ended", "remove-cancel-task-btn", 
-
-                        function(){
-
-                            var cancel_task_btn = document.getElementById('cancel-task');
-
-                            cancel_task_btn.parentNode.removeChild(cancel_task_btn);
-                        }
-                    );
-
-                // set behavior
-                    document.getElementById('cancel-task').addEventListener("click", function(){
-
-                        _publish("task-ended", "cancel-task-btn");
-                    });
-            }            
-            
-            pubsub.log.crawl = function(key){
-
-                var results = "";
+            pubsub.log.crawl = function(key){                var results = "";
 
                 for(var i = 0; i < pubsub.log.length - 1; i += 1){ 
 
