@@ -1,14 +1,11 @@
 CACHE MANIFEST
-# Time: Wed May 28 2014 23:02:51 GMT+0100 (W. Central Africa Standard Time)
+# Time: Thu May 29 2014 06:53:15 GMT+0100 (W. Central Africa Standard Time)
 
 CACHE:
 index.html
 
 NETWORK:
 *
-server-check.php
-get-manufacturer.php
-get-product.php
 
 FALLBACK:
 / index.html

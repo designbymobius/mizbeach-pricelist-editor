@@ -5,7 +5,395 @@
 		<title>Mizbeach Price Updating App</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 
-<style>body,html{margin:0;padding:0;width:100%;overflow:hidden;font-family:arial,helvetica,sans-serif}.fullscreen{position:relative;overflow:hidden;display:none;opacity:.4;padding:3.0625em 2.1875em;-webkit-transition:opacity .2s ease-out;-moz-transition:opacity .2s ease-out;-ms-transition:opacity .2s ease-out;-o-transition:opacity .2s ease-out;transition:opacity .2s ease-out}.fullscreen.focal{opacity:1}.fullscreen.active{display:block}.headline{font-weight:900;font-size:1.75em;line-height:.925em;letter-spacing:-.0625em;margin-bottom:.4em}.title{font-size:1.25em;line-height:.975em;letter-spacing:-.05em}.subtext{font-family:georgia,serif;margin-top:.8823529em;font-style:italic;font-size:.85em;color:#777;clear:both}.btn{cursor:pointer;position:relative;text-align:center;text-transform:uppercase;color:#fff;background-color:#8ab953;border-bottom:.25em solid #3e7400;-webkit-border-radius:.416666666666em;border-radius:.416666666666em}.btn:hover{top:.05em;border-bottom-width:.2em}.btn:active{top:.15em;border-bottom-width:.1em}.btn.large{font-size:1em;margin:1.25em 0;font-weight:900;line-height:2.5em;word-spacing:.125em;letter-spacing:.0625em;text-shadow:.0625em .125em .0625em #3e7400;filter:dropshadow(color=#3e7400,offx=1,offy=2)}.btn.small{padding:.35em .7em;font-size:.75em;float:right}.fullscreen input{width:97.5%;margin:1em 1.25%;font-size:1em;padding:.125em .5em;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}#app-hud{display:block;position:fixed;width:inherit;z-index:10;top:0;height:3.5em;overflow:hidden;background:-moz-linear-gradient(top,rgba(255,255,255,1) 0,rgba(255,255,255,.85) 60%,rgba(255,255,255,0) 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,1)),color-stop(60%,rgba(255,255,255,.85)),color-stop(100%,rgba(255,255,255,0)));background:-webkit-linear-gradient(top,rgba(255,255,255,1) 0,rgba(255,255,255,.85) 60%,rgba(255,255,255,0) 100%);background:-o-linear-gradient(top,rgba(255,255,255,1) 0,rgba(255,255,255,.85) 60%,rgba(255,255,255,0) 100%);background:-ms-linear-gradient(top,rgba(255,255,255,1) 0,rgba(255,255,255,.85) 60%,rgba(255,255,255,0) 100%);background:linear-gradient(to bottom,rgba(255,255,255,1) 0,rgba(255,255,255,.85) 60%,rgba(255,255,255,0) 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=0)}#app-hud .connection-indicator{float:left;display:block;position:relative;border-radius:.375em;margin-top:1.0625em;margin-left:1em;height:.75em;width:.75em;background-color:orange;-webkit-transition:background .35s ease-in;-moz-transition:background .35s ease-in;-ms-transition:background .35s ease-in;-o-transition:background .35s ease-in;transition:background .35s ease-in}body.connection-online #app-hud .connection-indicator{background-color:green}body.connection-offline #app-hud .connection-indicator{background-color:red}body #app-hud .connection-indicator.connection-checking{background-color:orange}#app-hud .title{text-transform:uppercase;letter-spacing:0;margin-left:.5em;line-height:3em;font-weight:900;font-size:1em;float:left}#app-hud .settings{display:block;position:relative;height:18px;width:18px;background-size:100%;float:right;background-position:bottom;margin-right:1em;margin-top:15px;background-image:url(data:image/png;base64,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)}#app-hud .settings:hover{background-position:top}#context-settings{float:right;margin:0 1em;font-size:1em;line-height:3em}#context-settings .setting{color:#bbb;font-size:75%;margin-left:1em;font-weight:900;float:right;cursor:pointer;text-transform:uppercase;transition:color .75s ease-out}#context-settings .setting:hover{color:red}#task-list{list-style-type:none;float:left;font-size:1.25em;margin-top:1.5em;padding:0}#task-list li{padding:.5em 3.5em .5em 1.5em;border-bottom:1px solid #ddd;font-weight:900;color:#1087bc;cursor:pointer}#task-list li:hover{background-color:#e0f3fc}#task-list li:active{color:#0b5a7d}#task-list a{text-decoration:none}.add-product.focal input.attention{border-color:red;color:red}.add-product #product-metadata{font-weight:900;line-height:2em;font-size:2.25em;text-transform:uppercase}#product-list{width:100%;overflow:auto}#product-list .product{border-bottom:1px solid #ddd;text-transform:uppercase;padding:1em;line-height:1.25em}#product-list .product.edit-product{background-color:orange}#product-list .product.editted-product{background-color:#8f8}#product-list .product>div{display:inline-block}#product-list .product .name{width:60%}#product-list .product .price,#product-list .product .settings{width:19%;text-align:right}#product-list .product .settings{color:#aaa;font-size:.7em;letter-spacing:.3em}#product-list .edit-product .settings{color:#fff}#product-list .product .modified-value{font-weight:900}#product-list .manufacturer-filter-match{background-color:#ffa}#product-list.filtered .product{display:none}#product-list.filtered .manufacturer-filter-match{display:block}#manufacturer-filter{float:right;padding:.25em .75em;background-color:#eee}#manufacturer-filter label{text-transform:uppercase;font-weight:900;color:#444;font-size:.7em;letter-spacing:.15em;padding-right:2em}</style>
+<style> /* -------------- */
+/* DEFAULT RESETS */
+
+html, body {
+
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	overflow: hidden;
+	font-family: arial, helvetica, sans-serif;
+}
+
+ /* --------------- */
+/* GLOBAL CLASSES */
+
+.fullscreen {
+
+	position: relative;
+	overflow: hidden;
+	display: none;
+	opacity: 0.4;
+
+	padding: 3.0625em 2.1875em;
+
+	-webkit-transition: opacity 0.2s ease-out;
+	-moz-transition: opacity 0.2s ease-out;
+    -ms-transition: opacity 0.2s ease-out;
+    -o-transition: opacity 0.2s ease-out;
+	transition: opacity 0.2s ease-out;
+}
+
+.fullscreen.focal {
+
+	opacity: 1;
+}
+
+.fullscreen.active {
+
+	display: block;
+}
+
+.headline {
+
+	font-weight: 900;	
+	font-size: 1.75em;
+	line-height: 0.925em;
+	letter-spacing: -0.0625em;
+
+	margin-bottom: 0.4em;
+}
+
+.title {
+
+	font-size: 1.25em;
+	line-height: 0.975em;
+	letter-spacing: -0.05em;
+}
+
+.subtext {
+
+	font-family: georgia, serif;
+	margin-top: 0.8823529em;
+	font-style: italic;
+	font-size: 0.85em;
+	color: #777;
+	clear: both;
+}
+
+.btn {
+	
+	cursor: pointer;
+	position: relative;
+	text-align: center;
+	text-transform: uppercase;
+	
+	color: #fff;
+	background-color: #8ab953;
+
+	border-bottom: .25em solid #3e7400;
+
+	-webkit-border-radius: 0.416666666666em 0.416666666666em 0.416666666666em 0.416666666666em;
+	border-radius: 0.416666666666em 0.416666666666em 0.416666666666em 0.416666666666em;
+}
+
+.btn:hover {
+
+	top: .05em;
+	border-bottom-width: .2em;
+}
+
+.btn:active {
+
+	top: .15em;
+	border-bottom-width: .1em; 
+}
+
+.btn.large {
+	
+	font-size: 1em;
+	margin: 1.25em 0;
+	font-weight: 900;
+
+	line-height: 2.5em;
+	word-spacing: 0.125em;
+	letter-spacing: 0.0625em;
+
+	text-shadow: 0.0625em 0.125em 0.0625em #3e7400;
+	filter: dropshadow(color=#3e7400, offx=1, offy=2);
+}
+
+.btn.small {
+
+	padding: .35em .7em;
+	font-size: .75em;
+	float: right;
+}
+
+.fullscreen input {
+
+	width: 97.5%;
+	margin: 1em 1.25%;
+	font-size: 1em;
+	padding: .125em .5em;
+
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+ /* --------------- */
+/* MODULE SPECIFIC */
+
+/* Top-Level Controls */
+	
+	#app-hud {
+
+		display: block;
+		position: fixed;
+		width: inherit;
+		z-index: 10;
+		top: 0;
+
+		height: 3.5em;
+
+		overflow: hidden;
+
+		background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(60%,rgba(255,255,255,0.85)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.85) 60%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.85) 60%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.85) 60%,rgba(255,255,255,0) 100%); /* IE10+ */
+		background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.85) 60%,rgba(255,255,255,0) 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+	}
+
+	#app-hud .connection-indicator {
+
+		float: left;
+		display: block;
+		position: relative;
+
+	    border-radius: .375em;
+		margin-top: 1.0625em;
+		margin-left: 1em;
+		height: .75em;
+		width: .75em;
+		  
+	    background-color: orange;
+
+	    -webkit-transition: background .35s ease-in;
+		-moz-transition: background .35s ease-in;
+		-ms-transition: background .35s ease-in;
+		-o-transition: background .35s ease-in;
+		transition: background .35s ease-in;
+	}
+
+	body.connection-online #app-hud .connection-indicator {
+
+		background-color: green;
+	}
+
+	body.connection-offline #app-hud .connection-indicator {
+
+		background-color: red;
+	}
+
+	body #app-hud .connection-indicator.connection-checking {
+
+	    background-color: orange;
+	}
+
+	#app-hud .title {
+
+		text-transform: uppercase;
+		letter-spacing: 0;
+		margin-left: .5em;
+		line-height: 3em;
+		font-weight: 900;
+		font-size: 1em;
+		float: left;
+	}
+
+	#app-hud .settings {
+
+		display: block;
+		position: relative;
+		height: 18px;
+		width: 18px;
+		background-size: 100%;
+		float: right;
+		background-position: bottom;
+		margin-right: 1em;
+		margin-top: 15px;
+		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAABgCAYAAABbjPFwAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAADBhJREFUeNrEXAlQlNkR/gcUEBZcREAEAUUUQQUPUFBRYxHwKpVVs6urRtddN6UxYnS9YqWMRzTqmhJR3PWIJSLrfcSyPDYajqjgekYXl0MEgYiiCAgIyORrfEPG8Z/53//P/Juu6hqdef1e9zu6v+73VBDMJE9PT+vFixePKy4uzrh27dpaHhkvLy9h/fr108LDwzsJ/y8aMmSIz9atW+cXFhama7XaOrC2oaHh2ezZs4OlZBMTE2dR8/Ly8tzk5ORVY8aM6f6zKG1vb69ZtGjRiLS0tINQoEIrQq9fv77et29fe2N9LF++PAzNqg3EatPT0w8uWLBgmKurq3oGuLm5aZ4/f56llaDMzMyNrVq1ek9+8ODBLvX19fdNyZaUlFzG1uqqmhGY/RStNDWuXr16pL5chw4dNKWlpUc4ZLXjx4/vo6YB63mUqKmpycfedmdbTzh9+vQyHjlswaLQ0FAn1QyIj4//UstJL1++vJeRkZGUnZ29F3+t55F5+PBhauvWrbn1aSXXgDt37hTytnVycgqMiIgIlNN/ZWVldlNTE3d7K7kGvHnzphgfjWqtcGpq6o8YQz0DMEB+XV1dpVoGFBQU3JPTvsUAOzs7YdSoUZ4eHh72tra2xuKAsHHjxrn4Xa1D1oAtmqtIcvLkyQE4Q0+ePXuW/+jRo7PwGls2bdo0Z/78+UNCQkK8e/Xq5Xjq1Kl1WnlEAatKRvum/Pz8Xd7e3kZ3BsUXPz+/lrOr0f3h2LFjmydMmLDQiFxFY2NjOYT9JOahDAqcP3fu3CUEvOzHjx8/1Wg0WqxqexcXl65RUVFD/f39o9HOJAY6c+bM1qVLl67p37+/O1bds23btt6Q9WnTpo2Po6OjH6J1Vb9+/cai//pmgT59+lCEfKJVTk8RfZdNnTq1o4ODg1HF6Dco0j4lJeW3kCmSiAfl9GHsd2Cu6JaOt23b9hulmldUVFwEGu0mx3cTTZkyxROR+bDScW/cuJFsY2MjCB07drTDsv+gpJOysrIDAwYMsFN6YhFxNUVFRTuUjA3kW4Et5ins2bOHZv+N3A5evHhxEcrbmOt2wsLCrLASKUqMgO7zBXzmKZn8uLg4X0v5zkmTJrkg+srWA6t3TZgzZ84g7OPLcgSReX0lBpfNoYMHD36qZBWahYODgx2uXr2ayClTipjhYukIhlhjW1tbe1+O8sgdzrV00L59e+Ho0aNfSAWenJycXc2nXx2ovoZT97qzZ88uDwoKsn6vkxUrVgw0NRPbt2//RC0ctHbt2ijJTKmx8S5Sz0iTbhupnysgxU9i3gs5bV+1DIiOju5iagfcvn07cejQoc5cnV25ciVNzHvCdapWCgkICPAAlC57DyA1NVVh5T8Vi/Jy4bSWsSrU4lUMCPD9IXLspFevXvEZMHbsWHeArg5icGbEiBHOahng4+Nja2Vl9R6Wr6qq0rq5uUknNLREsDQGsDmd0KNIextCg2oZgPTTGx+OIuWcnkCo34WHhxsvGg0cONAe+54qDo2mvACS9C1qGQCUusTU2MiX7wJmh727BFZWwvTp00OwvzK4HHBdXS7gt72lle/du7cV+r7GoUJlcnLy59ghbwUREFbjy+dyIiDC/q8tbcC+fftiyOHIgNPbhw0b5khlDNlQGm4td+LEiR9acO/b1dTUZCmA88eElStXjtRVl+UQ0rm/9e1rfkyjQgEC1CYlQO7QoUNfC506dbLOzc1NU9IBkv91OA+KlSevd/LkycUKk7JXo0eP9tOllHOVpnZYiW8R3tsquF+wvXnz5nql4966desAkvy3nSHD74gk+qXSzpDe3dm/f38sVsNaSnFAd2HDhg3RGC9Dq5yapk2bNvidskpmZmYyctRPjMCHp7qYYkq5+vr6LOQVx9PT09MuXbpUiFSxmuSBHB1iYmI8cWYixo0bNwFwfIg55waZWHq3bt0i4Xa1LWlVUlLSLg8PDx8qb2dlZT3C1igAdC2EQkUFBQVlXl5eNnv37t3v6uoaaaxjKBYaGRlJTDcxFQBmzQZYW1sTCmvHo9yTJ09uAbgttLOzc+3cuXNP5MwB2CrdoZuXrg8EvARS/r2ARuVFU8kK4K43lq9cqxLB4KdYqXcgDJU5nZ2draOiojyweoMSEhI+9vX1dVC0dIAb/kpcrpwsEVujnRydZMHpMWPGBNCkqHiP6I6coKNqBmAvBgrqkpXchIm7NkJllOHDh/eQ0XcNuFw3s3TGeYQ0Go23KitAyRIOE++FdPWqVatGIy4Ew3UGb9myZRbvOPA8vjDC8msbEhLiDMBVynMSd+/e/Zm+LJIgAZGTqwaak5OTLLdQzEWxsbGhPApcv359h9htO+CGU3V19R0p+cLCwky4TssvQWBgoA9Q42FTbhS561VEc6PJzrx58yKk3HB2dvYFxCJrdVwEgh2S+iDkpxsxVrEhPAc+6S7lCKiiJlauSU1NTY6Lixvp7+9vJ/wchCTEdfPmzb9D6Kdt8TI+Pj6aRw5RtFVxcfEFuswHVrqCPhbSyxelemhOnDihpH4j1NbWCnQh3aNHjw/c3d2nIcXrAyhwCx5ku8lryIYGISgo6EMnJ6d5MGDPgwcPSmhlCRor8T6akpISpcb7wpBYINBfQfEQ4CgbKEK+n2DuTVOCAGIzYfw32FKl8DhJUHw/vv5R0Qrk5eXJag/+BXg2mF6jiCUyP4AjWSATvZQB/4MSMn2bwLQVdoIvq21AJri/RLtN4MUi31MtJA1sKqL/k00Q14W3ktooj8VxbIUMjd8poXxzyBCrzlnKAKICjjbkxxMYBtLRUvBHHLKPOSdJHpiTaUAzrGF7nQ50A3gqp9xDcKWaBhTKaBvIWA5lq5YPMFL1vZBcd6rEgHw5S6yA7pljgCdV+yRk5oJVey/E6z7FzkAA88F0j/OA7UXi++BH4BfgZYx56RVzvR/I0Gc5+Atwk0S7RkMDPtcrXJEHidH7rYKlh5LvhcDnwZeY8U+ZAe3BXZmPN/VeiGLFZ8zwNcwN066gNNOHMelQBR5LtTRdJHZhM+2mcOmfgb+mMj9YClyRMVQB/ArsZaLdc7ZyxnJpmuBzujMw2QzlvwcPAv+ZQ3mdsfFUZgIfMdGunUQhYIbuENsx7KGEkqlcBP5JoTumiUtUOPYo2l5kwEzK2RXO/EyGJJWSlnm17xTIEhL+iM4AHYIuMoWfMlhcYCH36cJQrlw9MmkFpjP3KYc2WVB5gXm4PyqQCyMDMsCjGdTlof+Ad6sQxA4ryMrOW+kFnC/Bc6iqJiF0Rq9kaEl6DT4mo+0KOsiGUOIbcJTETHyvIg7i2cr/Bv8SvA78RgzMXWURM0fkt0YGM9SiPIkdsJPl26lSaJS8zBOR76uF/92XqUG1jMXGnca2+Qtzc2KtigZoTWRpSXLyAQJRou+FwM4qGmAriN8AaeUkNASS0hl6NCQbDkRqDnkbqUj0ZNHa1ZQBlMisB//diPL6ZQ+1KELQu7s20HMyKxKEiRlAWOgCeAkriZiisRxZmxIiXWIl2tBKXGS5S4vQamZZBOdAfmw2LE3k20M52jmyeEVFZEcCc1TLlPtuhvx1f5apWYII0qcJ0iVLQzpOK/AHFprlEK3CXy04+2sUKE9UYMVy2CwFwjNYODeXqAj8ewVyVP1OIAPoX52lKBycKhTfCuJldh6fT17vLwrHpnJ8ns4LHTejWDWb7d9YDg+mo2jmOJaYEbF3NJcx9O4Hklm1QKwx13shthWPM4MKGYbRsgjuyTzdBPAQM7ddOgN1Wv260C5WdylihawCpkQRq/dQFN7PBI1RqJ4rrDAwgPcVyi3wQhZ1e7KCW3dWgtH1kaCDF3JvaCjU35ShjJL6UrjwfnnRmq1+F1YUO82SMNnldVvh3bstS1MDK2gZEjmaUsZcaNQYqf5eCKzeeyFB/mWFEjykznshRqq/F2LnTLUV4H4vxEo1wYxnyRjDVy0DnGV0vkB4e2H9gvEBgb8G6qOWAV2NpJmGlGik8EVR9y7nOBo1DKBgdkQCuV4zAcwqWVVBCvm+lKOXHAMoOk8C9wNvFN6Wxw0NnCEYfyNB9C/wn0S+r2BQZhTL+Lj/WwO5kVifKNR/LLy9EuoGnsIQIo/no7w7imGnFIafHilR4r8CDAD8Y+TOoiJw3QAAAABJRU5ErkJggg==);
+	}
+
+	#app-hud .settings:hover {
+
+		background-position: top;
+	}
+
+	#context-settings {
+
+		float: right;
+		margin: 0 1em;
+		font-size: 1em;
+		line-height: 3em;
+	}
+
+	#context-settings .setting {
+
+		color: #bbb;
+		font-size: 75%;
+		margin-left: 1em;
+		font-weight: 900;
+
+		float: right;
+		cursor: pointer;
+		text-transform: uppercase;
+
+		transition: color .75s ease-out;
+	}
+
+	#context-settings .setting:hover {
+
+		color: red;
+	}
+
+/* Task List */
+	#task-list {
+
+		list-style-type: none;
+		float: left;
+
+		font-size: 1.25em;
+		margin-top: 1.5em;
+		padding: 0;
+	}
+
+	#task-list li {
+
+		padding: 0.5em 3.5em 0.5em 1.5em;
+		border-bottom: 1px solid #ddd;
+		font-weight: 900;
+		color: #1087bc;
+
+		cursor: pointer;
+	}
+
+	#task-list li:hover {
+
+		background-color: #e0f3fc;
+	}
+
+	#task-list li:active {
+
+		color: #0b5a7d;
+	}
+
+	#task-list a {
+
+		text-decoration: none;
+	}
+
+/* Add Products */
+	.add-product.focal input.attention {
+
+		border-color: red;
+		color: red;
+	}
+
+	.add-product #product-metadata{
+
+		font-weight: 900;
+		line-height: 2em;
+		font-size: 2.25em;
+		text-transform: uppercase;
+	}
+
+/* View Products */
+	#product-list {
+
+		width: 100%;
+		overflow: auto;
+	}
+
+	#product-list .product {
+
+		border-bottom: 1px solid #ddd;
+		text-transform: uppercase;
+		padding: 1em;
+		line-height: 1.25em;
+	}
+
+	#product-list .product.edit-product {
+
+		background-color: orange;
+	}
+
+	#product-list .product.editted-product {
+
+		background-color: #8f8;
+	}
+
+	#product-list .product > div {
+
+		display: inline-block;
+	}
+
+	#product-list .product .name {
+
+		width: 60%;
+	}
+
+	#product-list .product .price,
+	#product-list .product .settings {
+
+		width: 19%;
+		text-align: right;
+	}
+
+	#product-list .product .settings {
+
+		color: #aaa;
+		font-size: 0.7em;
+		letter-spacing: 0.3em;
+	}
+
+	#product-list .edit-product .settings {
+
+		color: #fff;
+	}
+
+	#product-list .product .modified-value {
+
+		font-weight: 900;
+	}
+
+	#product-list .manufacturer-filter-match {
+
+		background-color: #ffa;
+	}
+
+	#product-list.filtered .product{
+
+		display: none;
+	}
+
+	#product-list.filtered .manufacturer-filter-match{
+
+		display: block;
+	}
+
+	#manufacturer-filter {
+
+		float: right;
+		padding: .25em .75em;
+		background-color: #eee;
+	}
+
+	#manufacturer-filter label {
+
+		text-transform: uppercase;
+		font-weight: 900;
+		color: #444;
+		font-size: 0.7em;
+		letter-spacing: 0.15em;
+		padding-right: 2em;
+	}</style>
 	</head>
 
 	<body>
@@ -226,7 +614,1551 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 	window.dxmPubSub.consoleLogOff = function(){ dxm.settings.consoleLog = false; };
 	
 })();
-(function(){var a,b,c,d,e,f,g;d=function(a,b){var c,d,e,f;f=[];for(d in b.prototype)try{e=b.prototype[d],f.push(null==a[d]&&"function"!=typeof e?a[d]=e:void 0)}catch(g){c=g}return f},a={},null==a.options&&(a.options={}),c={checks:{xhr:{url:function(){return"/offline-test-request/"+Math.floor(1e9*Math.random())}},image:{url:function(){return"http://dqakt69vkj09v.cloudfront.net/are-we-online.gif?_="+Math.floor(1e9*Math.random())}},active:"image"},checkOnLoad:!1,interceptRequests:!0,reconnect:!0},e=function(a,b){var c,d,e,f,g,h;for(c=a,f=b.split("."),d=g=0,h=f.length;h>g&&(e=f[d],c=c[e],"object"==typeof c);d=++g);return d===f.length-1?c:void 0},a.getOption=function(b){var d,f;return d=null!=(f=e(a.options,b))?f:e(c,b),"function"==typeof d?d():d},"function"==typeof window.addEventListener&&window.addEventListener("online",function(){return setTimeout(a.confirmUp,100)},!1),"function"==typeof window.addEventListener&&window.addEventListener("offline",function(){return a.confirmDown()},!1),a.state="up",a.markUp=function(){return a.trigger("confirmed-up"),"up"!==a.state?(a.state="up",a.trigger("up")):void 0},a.markDown=function(){return a.trigger("confirmed-down"),"down"!==a.state?(a.state="down",a.trigger("down")):void 0},f={},a.on=function(b,c,d){var e,g,h,i,j;if(g=b.split(" "),g.length>1){for(j=[],h=0,i=g.length;i>h;h++)e=g[h],j.push(a.on(e,c,d));return j}return null==f[b]&&(f[b]=[]),f[b].push([d,c])},a.off=function(a,b){var c,d,e,g,h;if(null!=f[a]){if(b){for(d=0,h=[];d<f[a].length;)g=f[a][d],c=g[0],e=g[1],h.push(e===b?f[a].splice(d,1):d++);return h}return f[a]=[]}},a.trigger=function(a){var b,c,d,e,g,h,i;if(null!=f[a]){for(g=f[a],i=[],d=0,e=g.length;e>d;d++)h=g[d],b=h[0],c=h[1],i.push(c.call(b));return i}},b=function(a,b,c){var d,e;return d=function(){return a.status&&a.status<12e3?b():c()},null===a.onprogress?(a.addEventListener("error",c,!1),a.addEventListener("timeout",c,!1),a.addEventListener("load",d,!1)):(e=a.onreadystatechange,a.onreadystatechange=function(){return 4===a.readyState?d():0===a.readyState&&c(),"function"==typeof e?e.apply(null,arguments):void 0})},a.checks={},a.checks.xhr=function(){var c,d;d=new XMLHttpRequest,d.offline=!1,d.open("HEAD",a.getOption("checks.xhr.url"),!0),b(d,a.markUp,a.markDown);try{d.send()}catch(e){c=e,a.markDown()}return d},a.checks.image=function(){var b;return b=document.createElement("img"),b.onerror=a.markDown,b.onload=a.markUp,void(b.src=a.getOption("checks.image.url"))},a.check=function(){return a.trigger("checking"),a.checks[a.getOption("checks.active")]()},a.confirmUp=a.confirmDown=a.check,a.onXHR=function(a){var b,c,e;return b=function(b,c){var d;return d=b.open,b.open=function(e,f,g,h,i){return a({type:e,url:f,async:g,flags:c,user:h,password:i,xhr:b}),d.apply(b,arguments)}},e=window.XMLHttpRequest,window.XMLHttpRequest=function(a){var c,d,f;return c=new e(a),b(c,a),f=c.setRequestHeader,c.headers={},c.setRequestHeader=function(a,b){return c.headers[a]=b,f.call(c,a,b)},d=c.overrideMimeType,c.overrideMimeType=function(a){return c.mimeType=a,d.call(c,a)},c},d(window.XMLHttpRequest,e),null!=window.XDomainRequest?(c=window.XDomainRequest,window.XDomainRequest=function(){var a;return a=new c,b(a),a},d(window.XDomainRequest,c)):void 0},g=function(){return a.getOption("interceptRequests")&&a.onXHR(function(c){var d;return d=c.xhr,d.offline!==!1?b(d,a.confirmUp,a.confirmDown):void 0}),a.getOption("checkOnLoad")?a.check():void 0},setTimeout(g,0),window.Offline=a}).call(this),function(){var a,b,c,d,e,f,g,h,i;if(!window.Offline)throw new Error("Offline Reconnect brought in without offline.js");d=Offline.reconnect={},f=null,e=function(){var a;return null!=d.state&&"inactive"!==d.state&&Offline.trigger("reconnect:stopped"),d.state="inactive",d.remaining=d.delay=null!=(a=Offline.getOption("reconnect.initialDelay"))?a:3},b=function(){var a,b;return a=null!=(b=Offline.getOption("reconnect.delay"))?b:Math.min(Math.ceil(1.5*d.delay),3600),d.remaining=d.delay=a},g=function(){return"connecting"!==d.state?(d.remaining-=1,Offline.trigger("reconnect:tick"),0===d.remaining?h():void 0):void 0},h=function(){return"waiting"===d.state?(Offline.trigger("reconnect:connecting"),d.state="connecting",Offline.check()):void 0},a=function(){return Offline.getOption("reconnect")?(e(),d.state="waiting",Offline.trigger("reconnect:started"),f=setInterval(g,1e3)):void 0},i=function(){return null!=f&&clearInterval(f),e()},c=function(){return Offline.getOption("reconnect")?"connecting"===d.state?(Offline.trigger("reconnect:failure"),d.state="waiting",b()):void 0:void 0},d.tryNow=h,e(),Offline.on("down",a),Offline.on("confirmed-down",c),Offline.on("up",i)}.call(this),function(){var a,b,c,d,e,f;if(!window.Offline)throw new Error("Requests module brought in without offline.js");c=[],f=!1,d=function(a){return Offline.trigger("requests:capture"),"down"!==Offline.state&&(f=!0),c.push(a)},e=function(a){var b,c,d,e,f,g,h,i,j;i=a.xhr,f=a.url,e=a.type,g=a.user,d=a.password,b=a.body,i.abort(),i.open(e,f,!0,g,d),j=i.headers;for(c in j)h=j[c],i.setRequestHeader(c,h);return i.mimeType&&i.overrideMimeType(i.mimeType),i.send(b)},a=function(){return c=[]},b=function(){var b,d,f,g,h,i;for(Offline.trigger("requests:flush"),f={},h=0,i=c.length;i>h;h++)d=c[h],g=d.url.replace(/(\?|&)_=[0-9]+/,function(a,b){return"?"===b?b:""}),f[""+d.type.toUpperCase()+" - "+g]=d;for(b in f)d=f[b],e(d);return a()},setTimeout(function(){return Offline.getOption("requests")!==!1?(Offline.on("confirmed-up",function(){return f?(f=!1,a()):void 0}),Offline.on("up",b),Offline.on("down",function(){return f=!1}),Offline.onXHR(function(a){var b,c,e,f,g;return e=a.xhr,b=a.async,e.offline!==!1&&(c=function(){return d(a)},g=e.send,e.send=function(b){return a.body=b,g.apply(e,arguments)},b)?null===e.onprogress?(e.addEventListener("error",c,!1),e.addEventListener("timeout",c,!1)):(f=e.onreadystatechange,e.onreadystatechange=function(){return 0===e.readyState?c():4===e.readyState&&(0===e.status||e.status>=12e3)&&c(),"function"==typeof f?f.apply(null,arguments):void 0}):void 0}),Offline.requests={flush:b,clear:a}):void 0},0)}.call(this),function(){var a,b,c,d,e,f,g,h,i,j,k,l,m;if(!window.Offline)throw new Error("Offline UI brought in without offline.js");b='<div class="offline-ui"><div class="offline-ui-content"></div></div>',a='<a href class="offline-ui-retry"></a>',e=function(a){var b;return b=document.createElement("div"),b.innerHTML=a,b.children[0]},f=d=null,c=function(a){return k(a),f.className+=" "+a},k=function(a){return f.className=f.className.replace(new RegExp("(^| )"+a.split(" ").join("|")+"( |$)","gi")," ")},h={},g=function(a,b){return c(a),null!=h[a]&&clearTimeout(h[a]),h[a]=setTimeout(function(){return k(a),delete h[a]},1e3*b)},i=function(a,b){var c,d,e,f,g,h;if(null==b&&(b=!1),0===a)return"now";c={d:86400,h:3600,m:60,s:1},d={s:"second",m:"minute",h:"hour",d:"day"},f="";for(g in c)if(e=c[g],a>=e)return h=Math.floor(a/e),b&&(g=" "+d[g],1!==h&&(g+="s")),""+h+g},l=function(){var g,h;return f=e(b),document.body.appendChild(f),null!=Offline.reconnect&&Offline.getOption("reconnect")&&(f.appendChild(e(a)),g=f.querySelector(".offline-ui-retry"),h=function(a){return a.preventDefault(),Offline.reconnect.tryNow()},null!=g.addEventListener?g.addEventListener("click",h,!1):g.attachEvent("click",h)),c("offline-ui-"+Offline.state),d=f.querySelector(".offline-ui-content")},j=function(){return l(),Offline.on("up",function(){return k("offline-ui-down"),c("offline-ui-up"),g("offline-ui-up-2s",2),g("offline-ui-up-5s",5)}),Offline.on("down",function(){return k("offline-ui-up"),c("offline-ui-down"),g("offline-ui-down-2s",2),g("offline-ui-down-5s",5)}),Offline.on("reconnect:connecting",function(){return c("offline-ui-connecting"),k("offline-ui-waiting")}),Offline.on("reconnect:tick",function(){return c("offline-ui-waiting"),k("offline-ui-connecting"),d.setAttribute("data-retry-in-seconds",Offline.reconnect.remaining),d.setAttribute("data-retry-in-abbr",i(Offline.reconnect.remaining)),d.setAttribute("data-retry-in",i(Offline.reconnect.remaining,!0))}),Offline.on("reconnect:stopped",function(){return k("offline-ui-connecting offline-ui-waiting"),d.setAttribute("data-retry-in-seconds",null),d.setAttribute("data-retry-in-abbr",null),d.setAttribute("data-retry-in",null)}),Offline.on("reconnect:failure",function(){return g("offline-ui-reconnect-failed-2s",2),g("offline-ui-reconnect-failed-5s",5)}),Offline.on("reconnect:success",function(){return g("offline-ui-reconnect-succeeded-2s",2),g("offline-ui-reconnect-succeeded-5s",5)})},"complete"===document.readyState?j():null!=document.addEventListener?document.addEventListener("DOMContentLoaded",j,!1):(m=document.onreadystatechange,document.onreadystatechange=function(){return"complete"===document.readyState&&j(),"function"==typeof m?m.apply(null,arguments):void 0})}.call(this),Persist=function(){var a,b,c,d,e,f,g="0.1.0";f=function(){var a,b="Thu, 01-Jan-1970 00:00:01 GMT",c=864e5,d=["expires","path","domain"],e=escape,f=unescape,g=document,h=function(){var a=new Date;return a.setTime(a.getTime()),a},j=function(a,b){var c,f,g,h=[],i=arguments.length>2?arguments[2]:{};for(h.push(e(a)+"="+e(b)),c=0;c<d.length;c++)f=d[c],(g=i[f])&&h.push(f+"="+g);return i.secure&&h.push("secure"),h.join("; ")},k=function(){var a="__EC_TEST__",b=new Date;return b=b.toGMTString(),this.set(a,b),this.enabled=this.remove(a)==b,this.enabled};return a={set:function(a,b){var d=arguments.length>2?arguments[2]:{},e=h(),f={};d.expires&&(d.expires*=c,f.expires=new Date(e.getTime()+d.expires),f.expires=f.expires.toGMTString());var k=["path","domain","secure"];for(i=0;i<k.length;i++)d[k[i]]&&(f[k[i]]=d[k[i]]);var l=j(a,b,f);return g.cookie=l,b},has:function(a){a=e(a);var b=g.cookie,c=b.indexOf(a+"="),d=(c+a.length+1,b.substring(0,a.length));return!c&&a!=d||0>c?!1:!0},get:function(a){a=e(a);var b,c=g.cookie,d=c.indexOf(a+"="),h=d+a.length+1,i=c.substring(0,a.length);return!d&&a!=i||0>d?null:(b=c.indexOf(";",h),0>b&&(b=c.length),f(c.substring(h,b)))},remove:function(c){var d=a.get(c),e={expires:b};return g.cookie=j(c,"",e),d},keys:function(){var a,b,c=g.cookie,d=c.split("; "),e=[];for(a=0;a<d.length;a++)b=d[a].split("="),e.push(f(b[0]));return e},all:function(){var a,b,c=g.cookie,d=c.split("; "),e=[];for(a=0;a<d.length;a++)b=d[a].split("="),e.push([f(b[0]),f(b[1])]);return e},version:"0.2.1",enabled:!1},a.enabled=k.call(a),a}(),e=function(){},c=function(a){return"PS"+a.replace(/_/g,"__").replace(/ /g,"_s")},C={search_order:["gears","localstorage","whatwg_db","globalstorage","flash","ie","cookie"],name_re:/^[a-z][a-z0-9_ -]+$/i,methods:["init","get","set","remove","load","save"],sql:{version:"1",create:"CREATE TABLE IF NOT EXISTS persist_data (k TEXT UNIQUE NOT NULL PRIMARY KEY, v TEXT NOT NULL)",get:"SELECT v FROM persist_data WHERE k = ?",set:"INSERT INTO persist_data(k, v) VALUES (?, ?)",remove:"DELETE FROM persist_data WHERE k = ?"},flash:{div_id:"_persist_flash_wrap",id:"_persist_flash",path:"persist.swf",size:{w:1,h:1},args:{autostart:!0}}},b={gears:{size:-1,test:function(){return window.google&&window.google.gears?!0:!1},methods:{transaction:function(a){var b=this.db;b.execute("BEGIN").close(),a.call(this,b),b.execute("COMMIT").close()},init:function(){var a;a=this.db=google.gears.factory.create("beta.database"),a.open(c(this.name)),a.execute(C.sql.create).close()},get:function(a,b,c){var d,e=C.sql.get;b&&this.transaction(function(f){d=f.execute(e,[a]),d.isValidRow()?b.call(c||this,!0,d.field(0)):b.call(c||this,!1,null),d.close()})},set:function(a,b,c,d){var e=C.sql.remove,f=C.sql.set;this.transaction(function(g){g.execute(e,[a]).close(),g.execute(f,[a,b]).close(),c&&c.call(d||this,!0,b)})},remove:function(a,b,c){var d=C.sql.get;sql=C.sql.remove,val,this.transaction(function(e){b?(r=e.execute(d,[a]),r.isValidRow()?(val=r.field(0),e.execute(sql,[a]).close(),b.call(c||this,!0,val)):b.call(c||this,!1,null),r.close()):e.execute(sql,[a]).close()})}}},whatwg_db:{size:204800,test:function(){var a="PersistJS Test",c="Persistent database test.";return window.openDatabase?window.openDatabase(a,C.sql.version,c,b.whatwg_db.size)?!0:!1:!1},methods:{transaction:function(a){if(!this.db_created){var b=C.sql.create;this.db.transaction(function(a){a.executeSql(b,[],function(){this.db_created=!0})},e)}this.db.transaction(a)},init:function(){var a,c;a=this.o.about||"Persistent storage for "+this.name,c=this.o.size||b.whatwg_db.size,this.db=openDatabase(this.name,C.sql.version,a,c)},get:function(a,b,c){var d=C.sql.get;b&&(c=c||this,this.transaction(function(e){e.executeSql(d,[a],function(a,d){d.rows.length>0?b.call(c,!0,d.rows.item(0).v):b.call(c,!1,null)})}))},set:function(a,b,c,d){var e=C.sql.remove,f=C.sql.set;return this.transaction(function(g){g.executeSql(e,[a],function(){g.executeSql(f,[a,b],function(){c&&c.call(d||this,!0,b)})})}),b},remove:function(a,b,c){var d=C.sql.get;sql=C.sql.remove,this.transaction(function(e){b?e.executeSql(d,[a],function(d,e){if(e.rows.length>0){var f=e.rows.item(0).v;d.executeSql(sql,[a],function(){b.call(c||this,!0,f)})}else b.call(c||this,!1,null)}):e.executeSql(sql,[a])})}}},globalstorage:{size:5242880,test:function(){return window.globalStorage?!0:!1},methods:{key:function(a){return c(this.name)+c(a)},init:function(){this.store=globalStorage[this.o.domain]},get:function(a,b,c){a=this.key(a),b&&b.call(c||this,!0,this.store.getItem(a))},set:function(a,b,c,d){a=this.key(a),this.store.setItem(a,b),c&&c.call(d||this,!0,b)},remove:function(a,b,c){var d;a=this.key(a),d=this.store[a],this.store.removeItem(a),b&&b.call(c||this,null!==d,d)}}},localstorage:{size:-1,test:function(){return window.localStorage?!0:!1},methods:{key:function(a){return c(this.name)+c(a)},init:function(){this.store=localStorage},get:function(a,b,c){a=this.key(a),b&&b.call(c||this,!0,this.store.getItem(a))},set:function(a,b,c,d){a=this.key(a),this.store.setItem(a,b),c&&c.call(d||this,!0,b)},remove:function(a,b,c){var d;a=this.key(a),d=this.getItem(a),this.store.removeItem(a),b&&b.call(c||this,null!==d,d)}}},ie:{prefix:"_persist_data-",size:65536,test:function(){return window.ActiveXObject?!0:!1},make_userdata:function(a){var b=document.createElement("div");return b.id=a,b.style.display="none",b.addBehavior("#default#userData"),document.body.appendChild(b),b},methods:{init:function(){var a=b.ie.prefix+c(this.name);this.el=b.ie.make_userdata(a),this.o.defer&&this.load()},get:function(a,b,d){var e;a=c(a),this.o.defer||this.load(),e=this.el.getAttribute(a),b&&b.call(d||this,e?!0:!1,e)},set:function(a,b,d,e){a=c(a),this.el.setAttribute(a,b),this.o.defer||this.save(),d&&d.call(e||this,!0,b)},load:function(){this.el.load(c(this.name))},save:function(){this.el.save(c(this.name))}}},cookie:{delim:":",size:4e3,test:function(){return a.Cookie.enabled?!0:!1},methods:{key:function(a){return this.name+b.cookie.delim+a},get:function(a,b,c,d){a=this.key(a),b=f.get(a),c&&c.call(d||this,null!=b,b)},set:function(a,b,c,d){a=this.key(a),f.set(a,b,this.o),c&&c.call(d||this,!0,b)},remove:function(a,b,c,d){var b;a=this.key(a),b=f.remove(a),c&&c.call(d||this,null!=b,b)}}},flash:{test:function(){if(!window.SWFObject||!deconcept||!deconcept.SWFObjectUtil)return!1;var a=deconcept.SWFObjectUtil.getPlayerVersion().major;return a>=8?!0:!1},methods:{init:function(){if(!b.flash.el){var a,c,d,e=C.flash;d=document.createElement("div"),d.id=e.div_id,document.body.appendChild(d),a=new SWFObject(this.o.swf_path||e.path,e.id,e.size.w,e.size.h,"8");for(c in e.args)a.addVariable(c,e.args[c]);a.write(d),b.flash.el=document.getElementById(e.id)}this.el=b.flash.el},get:function(a,b,d){var e;a=c(a),e=this.el.get(this.name,a),b&&b.call(d||this,null!==e,e)},set:function(a,b,d,e){var f;a=c(a),f=this.el.set(this.name,a,b),d&&d.call(e||this,!0,b)},remove:function(a,b,d){var e;a=c(a),e=this.el.remove(this.name,a),b&&b.call(d||this,!0,e)}}}};var d=function(){var c,d,f,g,h=C.methods,i=C.search_order;for(c=0,d=h.length;d>c;c++)a.Store.prototype[h[c]]=e;for(a.type=null,a.size=-1,c=0,d=i.length;!a.type&&d>c;c++)if(f=b[i[c]],f.test()){a.type=i[c],a.size=f.size;for(g in f.methods)a.Store.prototype[g]=f.methods[g]}a._init=!0};return a={VERSION:g,type:null,size:0,add:function(a){b[a.id]=a,C.search_order=[a.id].concat(C.search_order),d()},remove:function(a){var c=C.search_order.indexOf(a);0>c||(C.search_order.splice(c,1),delete b[a],d())},Cookie:f,Store:function(b,c){if(!C.name_re.exec(b))throw new Error("Invalid name");if(!a.type)throw new Error("No suitable storage found");c=c||{},this.name=b,c.domain=c.domain||location.hostname||"localhost.localdomain",this.o=c,c.expires=c.expires||730,c.path=c.path||"/",this.init()}},d(),a}(),function(a){a={},a.notification=a.notification||{},a.settings={},a.settings.consoleLog=!1,a.notification.subscribers=[],a.notification.log=[],a.notification.subscribe=function(b,c,d,e){a.notification.subscribers[b]||(a.notification.subscribers[b]={});var f=a.notification.subscribers[b];f[c]={},f[c].response=d,f[c].responseParams=e||null,a.notification.log.push({type:"subscribe",notification:b,subscriber:c})},a.notification.unsubscribe=function(b,c){a.notification.subscribers[b]&&a.notification.subscribers[b][c]&&(delete a.notification.subscribers[b][c],a.notification.log.push({type:"unsubscribe",notification:b,unsubscriber:c}))},a.notification.publish=function(b,c,d){if(a.notification.subscribers[b]){d=d||"unidentified";var e=a.notification.subscribers[b],f=[];for(var g in e){var h={};h.notificationParams=c||null,h.responseParams=a.notification.subscribers[b][g].responseParams||null,setTimeout(function(a,b){return function(){e[a].response(b)}}(g,h),0),f.push(g)}a.notification.log.push({type:"publish",notification:b,informedSubscribers:f,publisher:d}),a.settings.consoleLog!==!1&&(console.log("\n Published: "+b+"\n Publisher: "+d+"\n Informed: "+JSON.stringify(f)),console.log("----------------------\n"))}},window.dxmPubSub=a.notification,window.dxmPubSub.consoleLogOn=function(){a.settings.consoleLog=!0},window.dxmPubSub.consoleLogOff=function(){a.settings.consoleLog=!1}}(),function(){function a(){var a=z();q(),j(),i(),h(),B(),A(),C(),F(),"up"===a?Y("network-up",null,this):Y("network-down",null,this),g(),m(cb),document.addEventListener("touchmove",function(a){for(var b=a.target;b!==document.body;)b=b.parentNode;a.preventDefault()})}function b(a){function b(){window.removeEventListener("keydown",c),d.removeEventListener("click",n)}function c(a){13===a.keyCode&&n()}var d=a.getElementsByClassName("btn")[0];$("teardown-screen","landing",b),window.addEventListener("keydown",c),d.addEventListener("click",n)}function c(){function a(){b.removeEventListener("click",O),c.removeEventListener("click",P)}var b=document.getElementById("start-add-product"),c=document.getElementById("start-view-products");$("teardown-screen","tasks",a),c.addEventListener("click",P),b.addEventListener("click",O)}function d(a){function b(){for(var a=0,b=e.length,c=b-1;c>=0;c--)e[c].value||(a+=1,K(e[c],"attention"),e[c].addEventListener("keydown",d));1>a&&(R=f.value,S=g.value,n())}function c(){for(var a=e.length,c=a-1;c>=0;c--)e[c].value="",J(e[c],"attention")&&L(e[c],"attention");h.removeEventListener("click",b)}function d(a){a.target.value&&(L(a.target,"attention"),a.target.removeEventListener("keydown",d))}var e=a.getElementsByTagName("input"),f=a.getElementsByClassName("product-name")[0],g=a.getElementsByClassName("manufacturer-name")[0],h=a.getElementsByClassName("btn")[0];h.addEventListener("click",b),$("teardown-screen","add-product-metadata",c),$("task-ended","reset-new-product-values",function(){R=null,S=null,T=null})}function e(a){function b(){var a,b={};b.name=encodeURIComponent(R),b.manufacturer=encodeURIComponent(S),M("add-product.php","product="+JSON.stringify(b)),a=confirm("Done! Add Another Product?"),a===!0&&(_("task-ended","task-teardown"),$("task-ended","restart-task",function(){p("add-product"),O()})),Y("task-ended",null,"add-product-btn")}for(var c=a.getElementsByClassName("manufacturer-name"),d=a.getElementsByClassName("product-name"),e=document.getElementById("submit-add-product"),f=c.length-1;f>=0;f--)c[f].innerHTML=S;for(f=d.length-1;f>=0;f--)d[f].innerHTML=R;e.addEventListener("click",b),$("teardown-screen","add-product-confirmation",function(){e.removeEventListener("click",b);for(var a=c.length-1;a>=0;a--)c[a].innerHTML="";for(a=d.length-1;a>=0;a--)d[a].innerHTML=""})}function f(a){function b(){k.removeEventListener("click",h),k.removeEventListener("touchmove",c),_("screens-resized","resize-list-wrapper"),_("product-list-rendered","filter-by-manufacturer"),_("product-metadata-updated","update-product-list"),$("setup-complete","cleanup-product-list",function(){setTimeout(function(){if(k.innerHTML="",l.selectedIndex=0,"createEvent"in document){var a=document.createEvent("HTMLEvents");a.initEvent("change",!1,!0),l.dispatchEvent(a)}else l.fireEvent("onchange");l.removeEventListener("change",i)},150)})}function c(b){for(var c=b.target;c!=k;){if(c.parentNode==a||c.parentNode==document.body)return;c=c.parentNode}b.stopPropagation()}function d(){e()}function e(){k.style.height=.7*a.offsetHeight+"px"}function f(){function a(){b=JSON.parse(manufacturer_db_json);for(var a in b)c+="<option value='"+b[a].Id+"'>"+b[a].Name+"</option>";l.innerHTML=c}var b,c="<option value='-1'>ALL</option>";"undefined"==typeof manufacturer_db_json?U.get("manufacturer",function(b,c){b?(manufacturer_db_json=c,a()):($("manufacturer-metadata-updated","render-product-list",function(b){manufacturer_db_json=b.notificationParams,a()}),u())}):a()}function g(){function a(){var a,b,g,h;if(a=JSON.parse(c),h=a.length,!a||a.length<1)f="there are no products in the database ...",k.innerHTML=f;else{b=N(e,"Id"),g=JSON.parse(d),g.product||(g.product={}),a.sort(function(a,b){return a=a.Name.toLowerCase(),b=b.Name.toLowerCase(),a>b?1:b>a?-1:0});for(var i=a.length;i>=1;i--){var j,l,m,n=a[h-i],o=n.Id,p=n.ManufacturerId;j=g.product&&g.product[o]?!0:!1,l=j&&g.product[o].price?!0:!1,m=l?"&#8358;"+g.product[o].price:n.Price?"&#8358;"+n.Price:"-----",f+="<div class='product"+(j?" editted-product":"")+"' data-product-name='"+n.Name+"' data-product-id='"+o+"'data-manufacturer-id='"+p+"'> <div class='name'>"+b[p].Name+" "+n.Name+"</div> <div class='price"+(l?" modified-value":"")+"'>"+m+"</div><div class='settings'>edit</div></div>"}k.innerHTML=f}Y("product-list-rendered",null,"render-product-list")}function b(){var a=!1;return"undefined"!=typeof c&&"undefined"!=typeof d&&"undefined"!=typeof e&&(a=!0),a}var c,d,e,f="";U.get("product",function(d,e){d&&""!==e?(c=e,b()&&a()):$("product-metadata-updated","render-product-list",function(d){c=d.notificationParams,b()&&a()}),t()}),U.get("manufacturer",function(c,d){c&&""!==d?(e=d,b()&&a()):$("manufacturer-metadata-updated","render-product-list",function(c){e=c.notificationParams,b()&&a()}),u()}),U.get("transaction",function(c,e){c&&""!==e?(d=e,b()&&a()):$("transaction-metadata-updated","render-product-list",function(c){d=c.notificationParams,b()&&a()})})}function h(a){for(var b,c,d,e=a.target;!J(e,"settings");){if(e.parentNode==k||e.parentNode==document.body)return;e=e.parentNode}if(b=e.parentNode,K(b,"edit-product"),c=b.getAttribute("data-product-id"),d=prompt("Set Price for '"+b.getAttribute("data-product-name").toUpperCase()+"'?"),null!==d){var f=b.getElementsByClassName("price")[0];j(c,d),f.innerHTML="&#8358;"+d,K(f,"modified-value"),K(b,"editted-product")}L(b,"edit-product")}function i(a){var b=a.target,c=b.options[b.selectedIndex],d=c.value,e=k.getElementsByClassName("product");-1==d?L(k,"filtered"):K(k,"filtered");for(var f in e){var g=e[f];"undefined"!=typeof g.parentNode&&(g.getAttribute("data-manufacturer-id")==d?K(g,"manufacturer-filter-match"):L(g,"manufacturer-filter-match"))}}function j(a,b){U.get("transaction",function(c,d){var e="{}";d&&(e=d),transaction_db=JSON.parse(e),transaction_db.product||(transaction_db.product={}),transaction_db.product[a]||(transaction_db.product[a]={}),transaction_db.product[a].price=encodeURIComponent(b),U.set("transaction",JSON.stringify(transaction_db))})}var k=document.getElementById("product-list"),l=document.getElementById("manufacturer-list");$("teardown-screen","teardown",b),Z("product-metadata-updated","update-product-list",function(a){var b=a.notificationParams;alert("Loading Updates"),g(b)}),Z("manufacturer-metadata-updated","update-manufacturer-list",function(a){var b=a.notificationParams;console.log("updated manufacturer db"),console.log(JSON.parse(b))}),Z("product-list-rendered","filter-by-manufacturer",function(){if("createEvent"in document){var a=document.createEvent("HTMLEvents");a.initEvent("change",!1,!0),l.dispatchEvent(a)}else l.fireEvent("onchange")}),d(),Z("screens-resized","resize-list-wrappers",d),k.addEventListener("click",h),k.addEventListener("touchmove",c),l.addEventListener("change",i),g(),f()}function g(){Z("setup-screen","do_screen_setup",l)}function h(){I(function(){Y("window-resized",null,this)})}function i(){Z("window-resized","screen-height-updater",j),Z("screens-resized","autoscroller",k)}function j(){for(var a,b,c=db.length-1;c>=0&&!(cb>c);c--)a=document.defaultView.getComputedStyle(db[c],null).getPropertyValue("padding-top").replace("px",""),b=document.defaultView.getComputedStyle(db[c],null).getPropertyValue("padding-bottom").replace("px",""),db[c].style.height=window.innerHeight-a-b+"px";Y("screens-resized",null,this)}function k(){eb(db[cb].offsetTop,150)}function l(){var a=db[cb],b=a.id.replace(/\-/g,"_");$("setup-complete","scroll-screen-into-view",function(){eb(a.offsetTop,400)}),K(a,"focal"),$("teardown-screen","defocalizer",function(){L(a,"focal")}),bb[b](a),Y("setup-complete",null,"do_screen_setup")}function m(a){Y("teardown-screen",null,this),cb=a,Y("setup-screen",null,this)}function n(){m(cb+1)}function o(a){for(var b=0,c=0;c<ab.length;c++)J(ab[c],a)&&(K(ab[c],"active"),db.push(ab[c]),b+=1);b>0&&j()}function p(a){for(var b=0,c=db.length-1;c>=0;c--)J(db[c],a)&&(L(db[c],"active"),db.splice(c,1),b+=1),b>0&&(j(),cb=db.length-1)}function q(){for(var a=0;a<ab.length;a++)L(ab[a],"active");db=[],o("landing"),o("tasks")}function r(){var a=function(){clearInterval(V.heartbeat),delete V.heartbeat};V.heartbeat=setInterval(W.check,7500),$("network-down","heartbeat",a,null)}function s(){var a=function(){clearInterval(V.transaction),delete V.transaction};V.transaction=setInterval(function(){U.get("transaction",function(a,b){var c=JSON.parse(b),d=!1;if(c){for(var e in c)if(c.hasOwnProperty(e)){d=!0;break}d&&(M("process-transaction.php","transaction="+b,function(a){var b=JSON.parse(a);t(),console.log("-- TRANSACTION REPORT --"),b.product&&U.get("product",function(a,c){var d=JSON.parse(c);for(var e in b.product){for(var f,g=d.length-1;g>=0;g--)if(d[d.length-1-g].Id==e){f=d[d.length-1-g].Name;break}for(var h in b.product[e])console.log(f.toUpperCase()+" "+h.toUpperCase()+" UPDATED TO '"+b.product[e][h]+"'")}})}),U.set("transaction","{}"))}})},3e4),$("network-down","transaction",a,null)}function t(){v("product","get-product.php")}function u(){v("manufacturer","get-manufacturer.php")}function v(a,b){return a&&b?void U.get(a,function(c,d){M(b,null,function(b){d!=b&&(U.set(a,b),Y(a+"-metadata-updated",b,"download-current-"+a+"-db"))})}):!1}function w(){var a=document.getElementsByClassName("connection-indicator");V.checkingLightFlickerInterval=setInterval(function(){for(var b=a.length-1;b>=0;b--)K(a[b],"connection-checking"),setTimeout(function(){var c=b;return function(){L(a[c],"connection-checking")}}(),350)},2e3),$("network-reconnecting-exit","light-flicker",function(){clearInterval(V.checkingLightFlickerInterval)},null)}function x(){L(document.body,"connection-offline"),K(document.body,"connection-online")}function y(){L(document.body,"connection-online"),K(document.body,"connection-offline")}function z(){return W.check(),W.state}function A(){W.on("up",function(){Y("network-up",null,"connection-watchdog")}),W.on("down",function(){Y("network-down",null,"connection-watchdog")}),W.on("reconnect:started",function(){Y("network-reconnecting",null,"connection-watchdog")}),W.on("reconnect:stopped",function(){Y("network-reconnecting-exit",null,"connection-watchdog")})}function B(){Z("network-up","online-indicator",x),Z("network-up","heartbeat",r),Z("network-up","transaction",s),Z("network-down","online-indicator",y),Z("network-reconnecting","light-flicker",w)}function C(){window.applicationCache&&(window.applicationCache.addEventListener("downloading",E),window.applicationCache.addEventListener("updateready",D))}function D(){alert("App Has Been Updated and will Restart Now"),window.applicationCache.swapCache(),location.reload(!0)}function E(){alert("Downloading App Updates - Sorry for the Wait")}function F(){G()}function G(){U=new Persist.Store("Pricing App Storage",{about:"Data Storage to enhance Offline usage",path:location.href})}function H(a,b,c,d){Z(a,b,function(){c(d),_(a,b)},d)}function I(a,b){return onresize=function(){clearTimeout(b),b=setTimeout(a,250)},a}function J(a,b){return a.className.match(new RegExp("(\\s|^)"+b+"(\\s|$)"))}function K(a,b){J(a,b)||(a.className+=" "+b)}function L(a,b){if(J(a,b)){var c=new RegExp("(\\s|^)"+b+"(\\s|$)");a.className=a.className.replace(c," ")}}function M(a,b,c,d){if(!a)return!1;var e=new XMLHttpRequest;return b=b||"",c=c||function(b){console.log("POST TO "+a+" SUCCESSFUL! \nRESPONSE: "),console.log(b)},d=d||function(b){console.log("POST TO "+a+" UNSUCCESSFUL. \nXMLHTTP OBJECT:"),console.log(b)},e.open("POST",a,!0),e.setRequestHeader("Content-type","application/x-www-form-urlencoded"),e.onreadystatechange=function(){4==e.readyState&&(e.status>199&&e.status<400?c(e.responseText):d(e))},e.send(b),!0}function N(a,b){var c,d={};c=JSON.parse(a);for(var e in c)d[c[e][b]]=c[e];return d}function O(){o("add-product"),n(),Q(),$("task-ended","task-teardown",function(){m(1),setTimeout(function(){p("add-product")},250)})}function P(){o("view-product"),n(),Q(),$("task-ended","task-teardown",function(){m(1),setTimeout(function(){p("view-product")},250)})}function Q(){var a=document.getElementById("context-settings"),b="<div id='cancel-task' class='setting'>cancel task</div>";a.innerHTML+=b,$("task-ended","remove-cancel-task-btn",function(){var a=document.getElementById("cancel-task");a.parentNode.removeChild(a)}),document.getElementById("cancel-task").addEventListener("click",function(){Y("task-ended","cancel-task-btn")})}var R,S,T,U,V={},W=Offline,X=dxmPubSub,Y=X.publish,Z=X.subscribe,$=H,_=X.unsubscribe,ab=document.getElementsByClassName("fullscreen"),bb={},cb=0,db=[];bb.landing=b,bb.tasks=c,bb.add_product_metadata=d,bb.add_product_confirmation=e,bb.view_product_list=f,W.options={checkOnLoad:!0,interceptRequests:!1,requests:!1,checks:{active:"xhr",xhr:{url:"server-check.php"}}};var eb=function(){var a,b,c;return function(d,e,f){function g(){var d;c=(Date.now()-b)/e,c>=1&&(clearInterval(a),c=1,f()),d=c*i+h,window.scrollBy(0,d-window.pageYOffset)}var h=window.pageYOffset,i=d-window.pageYOffset;return e=e||400,f=f||function(){Y("arrived-at-new-screen",null,"scroll-screen-into-view")},b=Date.now(),c=0,a&&clearInterval(a),a=setInterval(g,10)}}();X.log.crawl=function(a){for(var b="",c=0;c<X.log.length-1;c+=1)(("string"==typeof a||a instanceof String)&&(("string"==typeof X.log[c].publisher||X.log[c].publisher instanceof String)&&X.log[c].publisher.toLowerCase()==a.toLowerCase()||("string"==typeof X.log[c].subscriber||X.log[c].subscriber instanceof String)&&X.log[c].subscriber.toLowerCase()==a.toLowerCase()||("string"==typeof X.log[c].unsubscriber||X.log[c].unsubscriber instanceof String)&&X.log[c].unsubscriber.toLowerCase()==a.toLowerCase()||("string"==typeof X.log[c].type||X.log[c].type instanceof String)&&X.log[c].type.toLowerCase()==a.toLowerCase()||("string"==typeof X.log[c].notification||X.log[c].notification instanceof String)&&X.log[c].notification.toLowerCase()==a.toLowerCase())||null===a&&X.log[c].publisher)&&(b+="\n\n-["+c+"]-\n["+(X.log[c].subscriber||X.log[c].publisher||X.log[c].unsubscriber)+"] "+X.log[c].type+" "+X.log[c].notification);
-console.log(b)},X.log.range=function(a,b){var c,d,e="";if(c=a>b?b:a,d=a>b?a:b,0>c||d>X.log.length-1)return console.log("wtf bro");console.log("crawling "+c+" to "+d);for(var f=c;d>=f;f+=1)e+="\n\n-["+f+"]-\n["+(X.log[f].subscriber||X.log[f].publisher||X.log[f].unsubscriber)+"] "+X.log[f].type+" "+X.log[f].notification;console.log(e)},document.addEventListener("DOMContentLoaded",function(){a(),goto=m,ASE=db,currentIntervals=V,peepDB=function(a){U.get(a,function(b,c){return b?void console.log(JSON.parse(c)):void console.log("couldn't retrieve "+a+" db")})}})}();</script>
+(function(){
+
+    // container
+    var app = {},
+
+        intervals = {},
+
+        network = Offline,
+
+        pubsub = dxmPubSub,
+        _publish = pubsub.publish,
+        _subscribe = pubsub.subscribe,
+        _subscribe_once = subscribe_once,
+        _unsubscribe = pubsub.unsubscribe,
+        
+        allScreens = document.getElementsByClassName('fullscreen'),
+        screen_setup = {},
+
+        activeScreenIndex = 0,
+        activeScreens = [],
+
+        addProductName,
+        addProductManufacturer,
+        addProductAltname,
+
+        deviceStorage;
+
+    // screen setup bindings
+        screen_setup.landing = setup_landing;
+        screen_setup.tasks = setup_tasks;
+        screen_setup.add_product_metadata = setup_add_product_metadata;
+        screen_setup.add_product_confirmation = setup_add_product_confirmation;
+        screen_setup.view_product_list = setup_view_product_list;
+
+    // internal functions
+
+        /* INIT */
+            
+            // get the app started
+                function init(){
+
+                    // req vars
+                    var current_network_state = networkState();
+
+                    // Load Starting Pages
+                        resetActiveScreens();
+                        
+                    // Set Screen Heights
+                        setFullscreenHeight();
+
+                    // Prepare for Window Size Changes
+                        setResizeResponses();
+                        setResizeListener();
+
+                    // Prepare for Network Changes
+                        setNetworkChangeResponses();
+                        setNetworkListeners();
+
+                    // Set Appcache Listeners
+                        setAppcacheListeners();
+
+                    // Create Network Transaction Offline Storage Area
+                        setDeviceStorage();
+
+                    // Set Current Network State
+                        if( current_network_state === "up"){          
+
+                            _publish("network-up", null, this);
+                        } 
+                        else {          
+
+                            _publish("network-down", null, this);           
+                        }
+
+                    // Prepare Screen Setup Listeners
+                        screenSetupHandlers();
+
+                        gotoScreen( activeScreenIndex );
+
+                    // Disable Touch Scrolling
+                        document.addEventListener('touchmove', function(e){
+
+                            var swipe_target = e.target;
+
+                            while(swipe_target !== document.body){
+                                
+                                swipe_target = swipe_target.parentNode;
+                            }
+
+                            e.preventDefault();
+                        });
+                }
+
+        /* SCREENS */
+
+            // landing
+                function setup_landing(screen){
+
+                    // req vars
+                        var startBtn = screen.getElementsByClassName('btn')[0];
+                    
+                    /* SETUP */
+
+                        // listen for teardown event
+                            _subscribe_once('teardown-screen', 'landing', teardown);
+                        
+                        // bind enter key 
+                            window.addEventListener('keydown', enterHandler);
+
+                        // bind button
+                            startBtn.addEventListener('click', gotoNextScreen);
+
+
+                    function teardown(){
+
+                        // unbind enter key
+                            window.removeEventListener('keydown', enterHandler);
+
+                        //unbind button
+                            startBtn.removeEventListener('click', gotoNextScreen);
+                    }
+
+                    function enterHandler(e){
+
+                        if(e.keyCode === 13){
+                            
+                            gotoNextScreen();
+                        }
+                    }
+                }
+
+            // tasks
+                function setup_tasks(screen){
+
+                    /* SETUP */
+
+                        // req vars
+                        var addProductsBtn = document.getElementById('start-add-product'),
+                            viewProductsBtn = document.getElementById('start-view-products');
+                    
+                        // prep for teardown
+                            _subscribe_once('teardown-screen', 'tasks', teardown);
+
+                    /* ENABLE TASK LINKS */
+
+                        // view products
+                            viewProductsBtn.addEventListener("click", viewProductsWorkflow);
+
+                        // add product
+                            addProductsBtn.addEventListener("click", addProductsWorkflow);
+
+
+                    function teardown(){
+
+                        // disable task links
+                            addProductsBtn.removeEventListener("click", addProductsWorkflow);
+                            viewProductsBtn.removeEventListener("click", viewProductsWorkflow);
+                    }
+                }
+
+            // add product manufacturer
+                function setup_add_product_metadata(screen){
+
+                    /* SETUP */
+
+                        // required vars
+                            var currentScreenInputs = screen.getElementsByTagName('input'),
+                                productNameInput = screen.getElementsByClassName('product-name')[0],
+                                manufacturerNameInput = screen.getElementsByClassName('manufacturer-name')[0],
+                                nextBtn = screen.getElementsByClassName('btn')[0];
+
+                        //  activate next btn
+                            nextBtn.addEventListener("click", nextBtnHandler);
+                    
+                        // prep for teardown
+                            _subscribe_once('teardown-screen', 'add-product-metadata', teardown);
+                            
+                        // reset task global vars
+                            _subscribe_once('task-ended', 'reset-new-product-values', function(){
+
+                                addProductName = null;
+                                addProductManufacturer = null;
+                                addProductAltname = null;
+                            });
+
+
+                    function nextBtnHandler(){
+
+                        // required vars
+                            var missingInput = 0,
+                                totalInputs = currentScreenInputs.length;
+
+                        // mark empty fields
+                            for (var i = totalInputs - 1; i >= 0; i--){
+
+                                if( currentScreenInputs[i].value ){ continue; } 
+                                
+                                missingInput += 1;
+
+                                addClass( currentScreenInputs[i], "attention");
+
+                                currentScreenInputs[i].addEventListener("keydown", confirmValueExists);
+                            }
+
+                        // proceed if nothing is missing
+                            if(missingInput < 1){
+
+                                addProductName = productNameInput.value;
+                                addProductManufacturer = manufacturerNameInput.value;
+                                gotoNextScreen();
+                            }
+                    }
+
+                    function teardown(){
+
+                        // required vars
+                            var totalInputs = currentScreenInputs.length;
+
+                            for (var i = totalInputs - 1; i >= 0; i--) {
+                                
+                                // reset value
+                                    currentScreenInputs[i].value = "";
+
+                                // clear fields with attention
+                                    if( hasClass(currentScreenInputs[i], "attention") ){
+
+                                        removeClass(currentScreenInputs[i], "attention");
+                                    }
+                            }
+
+                        // disable next btn
+                            nextBtn.removeEventListener("click", nextBtnHandler);
+                    }
+
+                    function confirmValueExists(e){
+
+                        if(!e.target.value){ return; }
+
+                        removeClass(e.target, "attention");
+                        e.target.removeEventListener("keydown", confirmValueExists);
+                    }
+                }
+
+            // add product confirmation
+                function setup_add_product_confirmation(screen){
+
+                    // required variables
+                    var manufacturer_name_slots = screen.getElementsByClassName('manufacturer-name'),
+                        product_name_slots = screen.getElementsByClassName('product-name'),
+                        create_product_btn = document.getElementById('submit-add-product');
+
+                    // populate manufacturer name slots
+                        for (var i = manufacturer_name_slots.length - 1; i >= 0; i--) {
+                            
+                            manufacturer_name_slots[i].innerHTML = addProductManufacturer;
+                        }
+
+                    // populate product name slots
+                        for (i = product_name_slots.length - 1; i >= 0; i--) {
+                            
+                            product_name_slots[i].innerHTML = addProductName;
+                        }
+
+                    // Activate Submit Button
+                        create_product_btn.addEventListener("click", add_product_to_db);
+
+                        _subscribe_once("teardown-screen", "add-product-confirmation", function(){
+
+                            // disable finalize button
+                                create_product_btn.removeEventListener("click", add_product_to_db);
+
+                            // wipe manufacturer name slots
+                                for (var i = manufacturer_name_slots.length - 1; i >= 0; i--) {
+                                    
+                                    manufacturer_name_slots[i].innerHTML = "";
+                                }
+
+                            // wipe product name slots
+                                for (i = product_name_slots.length - 1; i >= 0; i--) {
+                                    
+                                    product_name_slots[i].innerHTML = "";
+                                } 
+                        });
+
+                    function add_product_to_db(){
+
+                        // required vars
+                        var product_metadata = {},
+                            restart_task;
+                            
+                            product_metadata.name = encodeURIComponent( addProductName );
+                            product_metadata.manufacturer = encodeURIComponent( addProductManufacturer );
+
+                        // send to server
+                            HTTP_POST("add-product.php", "product=" + JSON.stringify(product_metadata) );
+
+                        // restart task dialog
+                            restart_task = confirm("Done! Add Another Product?");                            
+                        
+                            if(restart_task === true){
+
+                                _unsubscribe('task-ended', 'task-teardown');                                        
+                           
+                                _subscribe_once(
+                                    "task-ended",
+                                    "restart-task",
+                                    function(){                                        
+
+                                        removeActiveScreens('add-product');
+                                        addProductsWorkflow();
+                                    }     
+                                );
+                            }                        
+
+                        // complete task
+                            _publish('task-ended', null, 'add-product-btn');
+                    }
+                }
+
+            // view product list
+                function setup_view_product_list(screen){
+
+                    // required vars
+                    var product_list_wrapper = document.getElementById('product-list'),
+                        manufacturer_list_wrapper = document.getElementById('manufacturer-list');
+
+
+                    _subscribe_once("teardown-screen", "teardown", teardown);
+
+
+                    // update product list view when model updates
+                        _subscribe("product-metadata-updated", "update-product-list", function(data){
+
+                            var updated_product_json = data.notificationParams;
+
+                            alert("Loading Updates");
+
+                            render_product_list( updated_product_json );
+                        });
+
+                    // update manufacturer list view when model updates
+                        _subscribe("manufacturer-metadata-updated", "update-manufacturer-list", function(data){
+
+                            var updated_manufacturer_json = data.notificationParams;
+
+                            console.log("updated manufacturer db");
+                            console.log( JSON.parse(updated_manufacturer_json) );
+                        });
+
+                    // filter rendered product list by manufacturer
+                        _subscribe("product-list-rendered", "filter-by-manufacturer", function(){
+
+                                if ("createEvent" in document) {
+                                    var evt = document.createEvent("HTMLEvents");
+                                    evt.initEvent("change", false, true);
+                                    manufacturer_list_wrapper.dispatchEvent(evt);
+                                }
+                                
+                                else {
+                                    manufacturer_list_wrapper.fireEvent("onchange");
+                                }
+                            }
+                        );
+
+                    // fit list wrapper to screen size
+                        resize_list_wrappers();
+                        _subscribe("screens-resized", "resize-list-wrappers", resize_list_wrappers);
+                    
+                    // activate edit button on product list  
+                        product_list_wrapper.addEventListener("click", edit_product);
+                        product_list_wrapper.addEventListener("touchmove", product_list_wrapper_scroll);
+                        manufacturer_list_wrapper.addEventListener("change", manufacturer_filter);
+
+                        render_product_list();
+                        render_manufacturer_list();
+
+
+                    function teardown(){
+
+                        product_list_wrapper.removeEventListener("click", edit_product);
+                        product_list_wrapper.removeEventListener("touchmove", product_list_wrapper_scroll);
+
+                        _unsubscribe("screens-resized", "resize-list-wrapper");
+
+                        _unsubscribe("product-list-rendered", "filter-by-manufacturer");
+
+                        _unsubscribe("product-metadata-updated", "update-product-list");
+                        
+                        _subscribe_once("setup-complete", "cleanup-product-list", function(){
+                            
+                            setTimeout(function(){
+                                
+                                product_list_wrapper.innerHTML = "";
+                                
+
+                                manufacturer_list_wrapper.selectedIndex = 0;
+
+                                if ("createEvent" in document) {
+                                    var evt = document.createEvent("HTMLEvents");
+                                    evt.initEvent("change", false, true);
+                                    manufacturer_list_wrapper.dispatchEvent(evt);
+                                }
+                                
+                                else {
+                                    manufacturer_list_wrapper.fireEvent("onchange");
+                                }
+
+                                manufacturer_list_wrapper.removeEventListener("change", manufacturer_filter);
+                            }, 150);
+                        });
+                    }
+
+                    function product_list_wrapper_scroll(e){
+
+                        var click_target = e.target;
+
+                        // filter events that arent from the edit btn
+                            while( click_target != product_list_wrapper ){
+
+                                if( click_target.parentNode == screen || click_target.parentNode == document.body ){ return; }
+                                click_target = click_target.parentNode;
+                            }
+
+                        // prevent bubbling to DOM where scroll behavior is disabled
+                            e.stopPropagation();
+                    }
+
+                    function resize_list_wrappers(){
+
+                        resize_product_list_wrapper();
+                    }
+
+                    function resize_product_list_wrapper(){
+
+                        product_list_wrapper.style.height = (screen.offsetHeight * 0.7) + "px";
+                    }
+
+                    function resize_manufacturer_list_wrapper(){
+
+                        manufacturer_list_wrapper.style.height = (screen.offsetHeight * 0.2) + "px";
+                    }
+
+                    function render_manufacturer_list(){
+
+                        var markup = "<option value='-1'>ALL</option>",
+                            manufacturer_db;
+
+                        // load 
+                            if(typeof manufacturer_db_json == "undefined"){
+
+                                deviceStorage.get("manufacturer", function(ok, value){
+
+                                    if(ok){
+
+                                        manufacturer_db_json = value;
+                                        do_list_rendering();
+                                    }
+
+                                    else {
+
+                                        _subscribe_once(
+
+                                            "manufacturer-metadata-updated",
+                                            "render-product-list",
+                                            function(data){
+
+                                                manufacturer_db_json = data.notificationParams;
+                                                do_list_rendering();
+                                            }
+                                        );
+
+                                        download_current_manufacturer_db();
+                                    }
+                                });
+                            } else {
+
+                                do_list_rendering();
+                            } 
+
+                            function do_list_rendering(){
+
+                                manufacturer_db = JSON.parse(manufacturer_db_json);
+
+                                for(var manufacturer in manufacturer_db){
+
+                                    markup += "<option value='" + manufacturer_db[manufacturer].Id + "'>" + manufacturer_db[manufacturer].Name + "</option>"; 
+                                }
+
+                                manufacturer_list_wrapper.innerHTML = markup;
+                            }
+                    }
+
+                    function render_product_list(){
+
+                        var markup = "",
+
+                            product_db_json,
+                            transaction_db_json,
+                            manufacturer_db_json;
+
+                        // load required db data
+                            deviceStorage.get("product", function(ok, value){
+
+                                if(ok && value !== ""){
+
+                                    product_db_json = value;
+
+                                    if(all_dbs_loaded()){
+
+                                        do_list_rendering();
+                                    }
+                                }
+
+                                else {
+
+                                    _subscribe_once(
+
+                                        "product-metadata-updated",
+                                        "render-product-list",
+                                        function(data){
+
+                                            product_db_json = data.notificationParams;
+
+                                            if(all_dbs_loaded()){
+
+                                                do_list_rendering();
+                                            }
+                                        }
+                                    );
+                                }
+
+                                download_current_product_db();
+                            });
+
+                            deviceStorage.get("manufacturer", function(ok, value){
+
+                                if(ok && value !== ""){
+
+                                    manufacturer_db_json = value;
+
+                                    if(all_dbs_loaded()){
+
+                                        do_list_rendering();
+                                    }
+                                }
+
+                                else {
+
+                                    _subscribe_once(
+
+                                        "manufacturer-metadata-updated",
+                                        "render-product-list",
+                                        function(data){
+
+                                            manufacturer_db_json = data.notificationParams;
+
+                                            if(all_dbs_loaded()){
+
+                                                do_list_rendering();
+                                            }
+                                        }
+                                    );
+                                }
+
+                                download_current_manufacturer_db();
+                            });
+
+                            deviceStorage.get("transaction", function(ok, value){
+
+                                if(ok && value !== ""){
+
+                                    transaction_db_json = value;
+
+                                    if(all_dbs_loaded()){
+
+                                        do_list_rendering();
+                                    }
+                                }
+
+                                else {
+
+                                    _subscribe_once(
+
+                                        "transaction-metadata-updated",
+                                        "render-product-list",
+                                        function(data){
+
+                                            transaction_db_json = data.notificationParams;
+
+                                            if(all_dbs_loaded()){
+
+                                                do_list_rendering();
+                                            }
+                                        }
+                                    );
+                                }
+                            });
+
+                        function do_list_rendering(){
+
+                            var product_db,
+                                manufacturer_db,
+                                transaction_db,
+
+                                product_db_length;
+
+                                product_db = JSON.parse(product_db_json);
+                                product_db_length = product_db.length;
+
+                                if(!product_db || product_db.length < 1){
+
+                                    markup = "there are no products in the database ...";
+                                    product_list_wrapper.innerHTML = markup;
+                                }
+
+                                else {
+
+                                    manufacturer_db = key_model_db_json(manufacturer_db_json, "Id");
+                                    transaction_db = JSON.parse(transaction_db_json);
+
+                                    if(!transaction_db.product){ transaction_db.product = {}; }
+
+                                    product_db.sort(function(a, b){
+
+                                        a = a.Name.toLowerCase();
+                                        b = b.Name.toLowerCase();
+
+                                        if(a > b){ return 1; }
+                                        else if(b > a){ return -1; }
+                                        else { return 0; }
+                                    });
+
+                                // render product view
+                                    for (var i = product_db.length; i >= 1; i--) {
+
+                                        var product = product_db[ product_db_length - i ],
+                                            product_id = product.Id,
+
+                                            manufacturer_id = product.ManufacturerId,
+
+                                            has_updates,
+                                            has_price_update,
+                                            price;
+
+                                        has_updates = transaction_db.product && transaction_db.product[ product_id ] ? true : false;
+                                        has_price_update = has_updates && transaction_db.product[ product_id ].price ? true : false;
+                                        price = has_price_update ? "&#8358;" + transaction_db.product[ product_id ].price : ( product.Price ? "&#8358;" + product.Price : "-----");
+                                        
+                                        markup += "<div class='product" + (has_updates ? " editted-product" : "") + "' data-product-name='" + product.Name + "' data-product-id='" + product_id + "'data-manufacturer-id='" + manufacturer_id + "'> <div class='name'>" + manufacturer_db[ manufacturer_id ].Name + " " + product.Name + "</div> <div class='price" + (has_price_update ? " modified-value" : "") + "'>" + price  + "</div>" + "<div class='settings'>edit</div></div>";
+                                    }                                    
+                                    
+                                    product_list_wrapper.innerHTML = markup;
+                                }
+
+                                _publish("product-list-rendered", null, "render-product-list");
+                        }
+
+                        function all_dbs_loaded(){
+
+                            var load_status = false;
+
+                            if(
+                                typeof product_db_json != "undefined" &&
+                                typeof transaction_db_json != "undefined" &&
+                                typeof manufacturer_db_json != "undefined"
+                            ){
+
+                                load_status = true;
+                            }
+
+                            return load_status;
+                        }
+                    }                        
+
+                    function edit_product(e){
+
+                        var edit_btn = e.target,
+                            click_target,
+                            click_target_id,
+                            set_price_prompt;
+
+                        // filter events that arent from the edit btn
+                            while( !hasClass(edit_btn, "settings") ){
+
+                                if( edit_btn.parentNode == product_list_wrapper || edit_btn.parentNode == document.body ){ return; }
+                                
+                                edit_btn = edit_btn.parentNode;
+                            }
+
+                        // identify the product
+                            click_target = edit_btn.parentNode;
+
+                            addClass(click_target, "edit-product");
+
+                            click_target_id = click_target.getAttribute('data-product-id');
+
+                        // get new price
+                            set_price_prompt = prompt("Set Price for '" + click_target.getAttribute('data-product-name').toUpperCase() + "'?");
+
+                            if(set_price_prompt !== null){
+
+                                var product_price = click_target.getElementsByClassName('price')[0];
+
+                                update_product_price(click_target_id, set_price_prompt);
+
+                                product_price.innerHTML = "&#8358;" + set_price_prompt;
+                                addClass(product_price, "modified-value");
+
+                                addClass(click_target, "editted-product");
+                            }
+
+                        // remove visual identifier
+                            removeClass(click_target, "edit-product");
+                    }
+
+                    function manufacturer_filter(e){
+
+                        var dropdown = e.target,
+                            dropdown_selection = dropdown.options[dropdown.selectedIndex],
+                            selected_manufacturer_id = dropdown_selection.value,
+                            product_list = product_list_wrapper.getElementsByClassName('product');
+
+                            if(selected_manufacturer_id == -1){
+
+                                removeClass(product_list_wrapper, "filtered");
+                            }
+
+                            else{
+
+                                addClass(product_list_wrapper, "filtered");
+                            } 
+
+                            for(var id in product_list){
+
+                                var product = product_list[id];
+
+                                if(typeof product.parentNode == "undefined"){ continue; }
+
+                                if(product.getAttribute('data-manufacturer-id') == selected_manufacturer_id){
+
+                                    addClass(product, 'manufacturer-filter-match');
+                                }
+
+                                else {
+                                    
+                                    removeClass(product, 'manufacturer-filter-match');
+                                }
+                            }                        
+                    }
+
+                    function update_product_price(product_id, price){
+
+                        deviceStorage.get("transaction", function(ok, value){
+
+                            // required vars
+                                var transactions_json = '{}';
+
+                            // get prexisting transactions
+                                if(value){ 
+
+                                    transactions_json = value;                                    
+                                }
+
+                            // add product update to next transaction
+                                transaction_db = JSON.parse(transactions_json);
+
+                                if(!transaction_db.product){ transaction_db.product = {}; }
+
+                                if(!transaction_db.product[product_id]){ transaction_db.product[product_id] = {}; }
+                                
+                                transaction_db.product[product_id].price = encodeURIComponent( price );
+
+                                deviceStorage.set('transaction', JSON.stringify(transaction_db));
+                        });
+                    }
+                }
+
+        /* SCREEN UTILS */
+
+            // screen setup handler
+                function screenSetupHandlers(){
+
+                    _subscribe("setup-screen", "do_screen_setup", do_screen_setup );                    
+                }
+
+            // set up window resize listener
+                function setResizeListener(){
+
+                    onResize(function(){
+
+                        _publish('window-resized', null, this);
+                    });
+                }
+
+            // set resize responses
+                function setResizeResponses(){
+                    
+                    // when window is resized, resize screens
+                        _subscribe( 'window-resized', 'screen-height-updater', setFullscreenHeight );
+
+                    // when screens are resized, scroll to the active one
+                        _subscribe( 'screens-resized', 'autoscroller', scrollToActiveScreen );
+                }
+
+            // set active screens heights
+                function setFullscreenHeight(){
+
+                    var padding_top,
+                        padding_bottom;
+
+                    for (var i = activeScreens.length - 1; i >= 0; i--) {
+
+                        if (i < activeScreenIndex) { break; }
+
+                        padding_top = document.defaultView.getComputedStyle(activeScreens[i],null).getPropertyValue('padding-top').replace("px", "");
+                        padding_bottom = document.defaultView.getComputedStyle(activeScreens[i],null).getPropertyValue('padding-bottom').replace("px", "");
+                        
+                        activeScreens[i].style.height = (window.innerHeight - padding_top - padding_bottom ) + "px";
+                    }
+
+                    _publish('screens-resized', null, this);
+                }
+
+            // quickly scroll to active screen
+                function scrollToActiveScreen(){
+
+                    scrollTo( activeScreens[activeScreenIndex].offsetTop, 150 ); 
+                }
+
+            // do screen setup
+                function do_screen_setup(){
+
+                    // req vars
+                    var thisScreen = activeScreens[ activeScreenIndex ],
+                        thisScreenSetupID = thisScreen.id.replace(/\-/g,"_");
+
+                    // scroll to screen when setup is complete
+                        _subscribe_once(
+                            'setup-complete', 
+                            'scroll-screen-into-view', 
+                            function(){ 
+                                
+                                scrollTo( thisScreen.offsetTop, 400);
+                            }
+                        );
+
+                    // focal screen tracker
+                        addClass( thisScreen, "focal" );
+                        
+                        _subscribe_once(
+
+                            'teardown-screen',
+                            'defocalizer',
+                            function(){
+
+                                removeClass(thisScreen, 'focal');
+                            }
+                        );
+
+                    // set up this screen
+                        screen_setup[ thisScreenSetupID ](thisScreen);
+
+                    // setup complete!
+                        _publish('setup-complete', null, 'do_screen_setup');
+                }
+
+            // deactivate screen and go to a new one
+                function gotoScreen(index){
+
+                    _publish("teardown-screen", null, this);
+
+                    activeScreenIndex = index;
+
+                    _publish("setup-screen", null, this );
+                }
+
+                    function gotoNextScreen(){
+
+                        gotoScreen(activeScreenIndex + 1);
+                    }
+
+            // add active screens
+                function addToActiveScreens( screenClass ){
+
+                    var new_screens_tally = 0;
+
+                    for (var i = 0; i < allScreens.length; i++) {
+                        
+                        if ( hasClass(allScreens[i], screenClass) ) { 
+
+                            // add active class
+                                addClass(allScreens[i], 'active');
+
+                            // add to active screens list
+                                activeScreens.push( allScreens[i] );
+
+                            // count new screens added
+                                new_screens_tally = new_screens_tally + 1;
+                        } 
+                    }
+
+                    if (new_screens_tally > 0){
+
+                        setFullscreenHeight();
+                    }
+                }
+
+            // remove active screens
+                function removeActiveScreens( screenClass ){
+
+                    var change_tally = 0;
+
+                    for (var i = activeScreens.length - 1; i >= 0; i--){
+                        
+                        if( hasClass(activeScreens[i], screenClass) ){
+
+                            // remove active class
+                                removeClass(activeScreens[i], 'active');
+
+                            // remove from active screens list
+                                activeScreens.splice(i, 1);
+
+                            // update tally
+                                change_tally = change_tally + 1;
+                        }
+
+                        if (change_tally > 0){
+
+                            setFullscreenHeight();
+                            activeScreenIndex = activeScreens.length - 1;
+                        }
+                    }
+                }
+
+            // reset active screens
+                function resetActiveScreens(){
+
+                    for (var i = 0; i < allScreens.length; i++) {
+                        
+                        // remove active class
+                            removeClass(allScreens[i], 'active');                     
+                    }
+
+                    activeScreens = [];
+                    addToActiveScreens('landing');
+                    addToActiveScreens('tasks');
+                } 
+
+        /* NETWORK */
+
+            // configure network detection
+                network.options = {
+
+                    checkOnLoad: true,
+                    interceptRequests: false,
+                    requests: false,
+                    checks: {active: 'xhr', xhr: {url: 'server-check.php'}}
+                };
+
+            // heartbeat
+                function heartbeat(){ 
+
+                    // req vars
+                    var stopHeartbeat = function(){
+
+                        clearInterval( intervals.heartbeat );
+                        delete intervals.heartbeat;
+                    };
+
+                    // check every 7.5s
+                        intervals.heartbeat = setInterval( network.check, 1000 * 7.5);
+
+                    // stop heartbeat on disconnect from the internet
+                        _subscribe_once(
+                            "network-down",
+                            "heartbeat",
+                            stopHeartbeat,
+                            null
+                        );
+                }
+
+            // send transaction to server
+                function doTransaction(){ 
+
+                    // req vars
+                    var stopTransactions = function(){
+
+                        clearInterval( intervals.transaction );
+                        delete intervals.transaction;
+                    };
+
+                    // check every 30 secs
+                        intervals.transaction = setInterval( function(){
+
+                            deviceStorage.get('transaction', function(ok, value){
+
+                                var transactions = JSON.parse(value),
+                                    has_transactions = false;
+
+                                if(!transactions){ return }
+
+                                for(var data in transactions){ if(transactions.hasOwnProperty(data)){ has_transactions = true; break; } }
+
+                                if(!has_transactions){ return }
+
+                                HTTP_POST(
+
+                                    "process-transaction.php",
+                                    "transaction=" + value,
+                                    function(response_json){
+
+                                        var response = JSON.parse(response_json);
+
+                                        download_current_product_db();
+
+                                        console.log("-- TRANSACTION REPORT --");
+
+                                        // product updates in the transaction
+                                            if(response.product){
+
+                                                deviceStorage.get('product', function(ok, value){
+
+                                                    var product_db = JSON.parse(value);
+                                                    
+                                                    for(var id in response.product){
+
+                                                        var product_name;
+
+                                                        for (var i = product_db.length - 1; i >= 0; i--) {
+                                                            
+                                                            if(product_db[product_db.length - 1 - i].Id == id){
+
+                                                                product_name = product_db[product_db.length - 1 - i].Name;
+                                                                break;
+                                                            }
+                                                        }                                                   
+
+                                                        for(var property in response.product[id]){
+
+                                                            console.log(product_name.toUpperCase() + " " + property.toUpperCase() + " UPDATED TO '" + response.product[id][property] + "'");
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                    }
+                                );
+
+                                deviceStorage.set('transaction', "{}");
+                            });
+
+                        }, 1000 * 60 * 0.5);
+
+                    // stop transaction on disconnect from the internet
+                        _subscribe_once(
+                            "network-down",
+                            "transaction",
+                            stopTransactions,
+                            null
+                        );
+                }
+
+            // update product db
+                function download_current_product_db(){
+
+                    download_to_local_db('product', 'get-product.php');
+                }
+
+            // update manufacturer db
+                function download_current_manufacturer_db(){
+
+                    download_to_local_db('manufacturer', 'get-manufacturer.php');
+                }
+
+            // download updates to db on device
+                function download_to_local_db(db_name, url){
+
+                    if(!db_name || !url){
+
+                        return false;
+                    }
+
+                    deviceStorage.get(db_name, function(ok, value){
+                        
+                        // get product db via ajax
+                            HTTP_POST(
+                                url, 
+                                null,
+                                function(response){
+
+                                    // filter unchanged list
+                                        if(value == response) { return; }
+                                        
+                                    // update the pricelist
+                                        deviceStorage.set(db_name, response);
+                                    
+                                    _publish(db_name + "-metadata-updated", response, "download-current-" + db_name + "-db");
+                                }
+                            );
+                    });
+                }
+
+            // flicker network connection lights
+                function flickerNetworkLights(){
+
+                    var indicators = document.getElementsByClassName('connection-indicator');
+                    
+                    // Flicker Lights while Reconnecting  
+                        intervals.checkingLightFlickerInterval = setInterval( function(){             
+
+                            for (var i = indicators.length - 1; i >= 0; i--) {
+                                
+                                // Orange On
+                                    addClass(indicators[i], "connection-checking");
+
+                                // Orange Off
+                                    setTimeout( function(){
+
+                                        var count = i;
+
+                                        return function(){ removeClass(indicators[count], "connection-checking"); };
+                                    }(), 350);
+                            }
+                        }, 2000);
+
+                    // Stop Flickering on Reconnect Exit
+                        _subscribe_once(
+
+                            'network-reconnecting-exit', 
+                            'light-flicker',
+                            function(){
+
+                                clearInterval( intervals.checkingLightFlickerInterval );
+                            },
+                            null
+                        );
+                }
+
+            // set network online class
+                function setOnlineBodyClass(){
+                   
+                   removeClass(document.body, "connection-offline");
+                   addClass(document.body, "connection-online");
+                }
+
+            // set network offline class
+                function setOfflineBodyClass(){
+                    
+                    removeClass(document.body, "connection-online");
+                    addClass(document.body, "connection-offline");
+                }
+
+            // get current network state
+                function networkState(){
+
+                    network.check();
+
+                    return network.state;
+                }
+
+            // set up network state listeners
+                function setNetworkListeners(){
+
+                    // connected to network
+                        network.on("up", function(){
+
+                            _publish("network-up", null, "connection-watchdog");
+                        });
+
+                    // disconnected from network
+                        network.on("down", function(){
+
+                            _publish("network-down", null, "connection-watchdog");
+                        });
+
+                    // started to reconnect
+                        network.on("reconnect:started", function(){
+
+                            _publish("network-reconnecting", null, "connection-watchdog");
+                        });
+
+                    // stopped reconnect
+                        network.on("reconnect:stopped", function(){
+
+                            _publish("network-reconnecting-exit", null, "connection-watchdog");
+                        });
+                }
+
+            // set network state change responses
+                function setNetworkChangeResponses(){
+
+                    // Online -> Set Body Class
+                        _subscribe( 'network-up', 'online-indicator', setOnlineBodyClass );
+
+                    // Online -> Continuously Check Network State
+                        _subscribe( 'network-up', 'heartbeat', heartbeat );
+
+                    // Online -> Process Pending Transactions
+                        _subscribe( 'network-up', 'transaction', doTransaction );
+
+                    // Offline -> Set Body Class
+                        _subscribe( 'network-down', 'online-indicator', setOfflineBodyClass );
+
+                    // Reconnect -> Flicker Lights
+                        _subscribe( 'network-reconnecting', 'light-flicker', flickerNetworkLights );
+                } 
+
+        /* APPCACHE */
+
+            // set appcache listeners
+                function setAppcacheListeners(){
+
+                    if (window.applicationCache){
+
+                        window.applicationCache.addEventListener('downloading', cacheDownloading);
+                        window.applicationCache.addEventListener('updateready', cacheReady);
+                    }
+                }
+
+            // new appcache ready
+                function cacheReady(){     
+
+                    alert('App Has Been Updated and will Restart Now');
+                    window.applicationCache.swapCache();
+                    location.reload(true);
+                }
+
+            // new appcache downloading
+                function cacheDownloading(){
+
+                    alert("Downloading App Updates - Sorry for the Wait");
+                }
+
+        /* OFFLINE STORAGE */
+
+            function setDeviceStorage(){
+
+                createDeviceStorage();
+            }
+
+            function createDeviceStorage(){
+
+                deviceStorage = new Persist.Store('Pricing App Storage', {
+
+                    about: "Data Storage to enhance Offline usage",
+                    path: location.href
+                });
+            }
+
+
+        /* UTILS */
+
+            // subscribe once
+                function subscribe_once(notification, subscriber, response, responseParams){
+
+                    _subscribe(
+                        notification, 
+                        subscriber,
+
+                        function(){
+
+                            response(responseParams);
+                            _unsubscribe(notification,subscriber);
+                        },
+
+                        responseParams
+                    );
+                }
+
+            // scroll to 
+               var scrollTo = (function(){
+
+                    var timer, start, factor;
+
+                    return function (target, duration, callback) {
+                        
+                        var offset = window.pageYOffset,
+                            delta  = target - window.pageYOffset; // Y-offset difference
+                            duration = duration || 400;              // default 400ms animation
+                            callback = callback || function(){ _publish("arrived-at-new-screen", null, "scroll-screen-into-view"); };
+                            start = Date.now();                       // get start time
+                            factor = 0;
+
+                        if( timer ) {
+                            clearInterval(timer); // stop any running animations
+                        }
+
+                        function step() {
+                            
+                            var y;
+                            factor = (Date.now() - start) / duration; // get interpolation factor
+
+                            if( factor >= 1 ) {
+                                clearInterval(timer); // stop animation
+                                factor = 1;           // clip to max 1.0
+
+                                callback();
+                            } 
+
+                            y = factor * delta + offset;
+
+                            window.scrollBy(0, y - window.pageYOffset);
+                        }
+
+                        timer = setInterval(step, 10);
+                        
+                        return timer;
+                    };
+                }());
+
+            // window resize detection + debouncer
+                function onResize(c,t){
+                    
+                    onresize = function(){
+                        
+                        clearTimeout(t);
+                        t=setTimeout(c,250);
+                    };
+
+                    return c;
+                }
+
+            // check if class exists
+                function hasClass(element, nameOfClass){
+
+                    return element.className.match(new RegExp('(\\s|^)'+nameOfClass+'(\\s|$)'));
+                }
+
+            // add class if it doesn't exist
+                function addClass(element, nameOfClass){
+                
+                    if ( !hasClass(element, nameOfClass) ){
+                        
+                        element.className += " "+nameOfClass;
+                    }
+                }
+
+            // remove class if it exists
+                function removeClass(element, nameOfClass){
+                
+                    if ( hasClass(element, nameOfClass) ){
+                        
+                        var reg = new RegExp('(\\s|^)'+nameOfClass+'(\\s|$)');
+                        element.className=element.className.replace(reg,' ');
+                    }
+                }
+
+            // XMLHTTP POST
+                function HTTP_POST(url, msg, success, fail){
+
+                    // filter
+                        if (!url){ return false; }
+
+                    // reqs
+                    var server_trip = new XMLHttpRequest();
+                        
+                        msg = msg || "";
+                        success = success || function(response){ console.log("POST TO " + url + " SUCCESSFUL! \nRESPONSE: "); console.log(response); };
+                        fail = fail || function(response){ console.log("POST TO " + url + " UNSUCCESSFUL. \nXMLHTTP OBJECT:"); console.log(response); };
+
+                    // prep POST
+                        server_trip.open('POST', url, true);
+                        server_trip.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                        server_trip.onreadystatechange = function(){
+
+                            // filter uncompleted responses
+                                if (server_trip.readyState !=4){ return; }
+
+                            // success
+                                if ( server_trip.status > 199 && server_trip.status < 400 ){ success(server_trip.responseText); }
+
+                            // fail
+                                else{ fail(server_trip); }                      
+                        };
+
+                    // POST
+                        server_trip.send(msg);
+
+                    return true;    
+                }
+
+            // model json by key
+                function key_model_db_json( db_json, key ){
+
+                    var db,
+                        modelled_db = {};
+
+                    db = JSON.parse( db_json );
+
+                    for(var row in db){
+
+                        modelled_db[ db[row][key] ] = db[row];
+                    }
+
+                    return modelled_db;
+                }
+
+            // model db by collection
+                function collection_model_db_json( db_json, key ){
+
+                    var db,
+                        modelled_db = {};
+
+                    db = JSON.parse( db_json );
+
+                    for(var row in db){
+
+                        if( !modelled_db[ db[row][key] ] ){  modelled_db[ db[row][key] ] = {}; }
+                        
+                        modelled_db[ row[key] ].push( db[row] );
+                    }
+
+                    return modelled_db;
+                }
+
+            function addProductsWorkflow(){
+
+                // activate add product screens 
+                    addToActiveScreens('add-product');
+                
+                // progress UI
+                    gotoNextScreen();
+
+                // add cancel task btn to HUD
+                    create_cancel_task_btn();
+
+                // clean up task when it ends
+                    _subscribe_once('task-ended', 'task-teardown', function(){
+
+                        gotoScreen(1);
+                        setTimeout(function(){
+                            removeActiveScreens('add-product');
+                        }, 250);
+                    });
+            }
+
+            function viewProductsWorkflow(){
+
+                // activate add product screens 
+                    addToActiveScreens('view-product');
+                
+                // progress UI
+                    gotoNextScreen();
+
+                // add cancel task btn to HUD
+                    create_cancel_task_btn();
+
+                // clean up task when it ends
+                    _subscribe_once('task-ended', 'task-teardown', function(){
+
+                        gotoScreen(1);
+                        setTimeout(function(){
+                            removeActiveScreens('view-product');
+                        }, 250);
+                    });
+            }
+
+            function create_cancel_task_btn(){
+
+                var contextSettingsMenu = document.getElementById('context-settings'),
+                    cancelTaskBtnMarkup = "<div id='cancel-task' class='setting'>cancel task</div>";
+
+                // create Cancel Task button                            
+                    contextSettingsMenu.innerHTML += cancelTaskBtnMarkup;
+
+                // remove btn when task ends
+                    _subscribe_once("task-ended", "remove-cancel-task-btn", 
+
+                        function(){
+
+                            var cancel_task_btn = document.getElementById('cancel-task');
+
+                            cancel_task_btn.parentNode.removeChild(cancel_task_btn);
+                        }
+                    );
+
+                // set behavior
+                    document.getElementById('cancel-task').addEventListener("click", function(){
+
+                        _publish("task-ended", "cancel-task-btn");
+                    });
+            }            
+            
+            pubsub.log.crawl = function(key){
+
+                var results = "";
+
+                for(var i = 0; i < pubsub.log.length - 1; i += 1){ 
+
+                if( 
+                    (
+                        (typeof key == 'string' || key instanceof String) && (   
+                            ((typeof pubsub.log[i].publisher == 'string' || pubsub.log[i].publisher instanceof String) && pubsub.log[i].publisher.toLowerCase() == key.toLowerCase()) ||  ((typeof pubsub.log[i].subscriber == 'string' || pubsub.log[i].subscriber instanceof String) && pubsub.log[i].subscriber.toLowerCase() == key.toLowerCase()) ||  ((typeof pubsub.log[i].unsubscriber == 'string' || pubsub.log[i].unsubscriber instanceof String) && pubsub.log[i].unsubscriber.toLowerCase() == key.toLowerCase()) ||  ((typeof pubsub.log[i].type == 'string' || pubsub.log[i].type instanceof String)  && pubsub.log[i].type.toLowerCase() == key.toLowerCase()) ||  ((typeof pubsub.log[i].notification == 'string' || pubsub.log[i].notification instanceof String) && pubsub.log[i].notification.toLowerCase() == key.toLowerCase()) 
+                        )
+                    ) || (key === null && pubsub.log[i].publisher) 
+                ){ 
+
+                    results += "\n\n-[" + i + "]-\n[" +  ( pubsub.log[i].subscriber || pubsub.log[i].publisher || pubsub.log[i].unsubscriber ) + "] " + pubsub.log[i].type + " " + pubsub.log[i].notification;
+                }
+                }
+
+                console.log(results);
+            };
+
+            pubsub.log.range = function(a,b){
+
+                var results = "",
+                    start,
+                    end;
+
+                start = a > b ? b : a;
+                end = a > b ? a : b;
+
+
+                if(start < 0 || end > pubsub.log.length - 1){
+
+                    return console.log("wtf bro");
+                }
+
+                console.log("crawling " + start + " to " + end);
+
+                for(var i = start; i <= end; i += 1){
+
+                    results += "\n\n-[" + i + "]-\n[" +  ( pubsub.log[i].subscriber || pubsub.log[i].publisher || pubsub.log[i].unsubscriber ) + "] " + pubsub.log[i].type + " " + pubsub.log[i].notification;
+                }
+
+                console.log(results);
+            };
+
+    // LAUNCH APP WHEN DOM IS READY
+        document.addEventListener("DOMContentLoaded", function(){ 
+
+            init();
+            goto = gotoScreen;
+            ASE = activeScreens;
+            currentIntervals = intervals;
+            peepDB = function(db_name){
+
+                deviceStorage.get(db_name, function(ok, value){
+
+                    if(!ok){ console.log("couldn't retrieve " + db_name + " db"); return; }
+
+                    console.log( JSON.parse(value) );
+                });
+            };
+        });
+}());</script>
 	</body>
 </html>
