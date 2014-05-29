@@ -308,6 +308,7 @@ html, body {
 	#product-list {
 
 		width: 100%;
+		font-size: 0.85em;
 		overflow: auto;
 	}
 
@@ -388,12 +389,39 @@ html, body {
 	#manufacturer-filter label {
 
 		text-transform: uppercase;
-		font-weight: 900;
 		color: #444;
 		font-size: 0.7em;
 		letter-spacing: 0.15em;
-		padding-right: 2em;
-	}</style>
+		padding-right: .5em;
+	}
+
+@media only screen and (min-width:500px)  { 
+
+	.fullscreen {
+
+		font-size: 115%;
+		padding: 1em 2.5em;
+	}
+}
+
+@media only screen and (min-width:625px)  { 
+
+	.fullscreen {
+
+		font-size: 127%;
+	}
+}
+
+@media only screen and (min-width:900px)  { 
+
+	.fullscreen {
+
+		font-size: 133%;
+		padding: 3.25em 5em;
+	}
+}
+
+</style>
 	</head>
 
 	<body>
