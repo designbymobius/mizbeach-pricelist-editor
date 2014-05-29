@@ -975,20 +975,16 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     // update product list view when model updates
                         _subscribe("product-metadata-updated", "update-product-list", function(data){
 
-                            var updated_product_json = data.notificationParams;
-
                             alert("Loading Updates");
 
-                            render_product_list( updated_product_json );
+                            render_product_list();
                         });
 
                     // update manufacturer list view when model updates
                         _subscribe("manufacturer-metadata-updated", "update-manufacturer-list", function(data){
 
-                            var updated_manufacturer_json = data.notificationParams;
-
-                            console.log("updated manufacturer db");
-                            console.log( JSON.parse(updated_manufacturer_json) );
+                            alert("Loading Updates");
+                            render_manufacturer_list();
                         });
 
                     // filter rendered product list by manufacturer
@@ -1087,6 +1083,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     function render_manufacturer_list(){
 
                         var markup = "<option value='-1'>ALL</option>",
+                            manufacturer_db_json,
                             manufacturer_db;
 
                         // load 
@@ -1094,7 +1091,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                                 deviceStorage.get("manufacturer", function(ok, value){
 
-                                    if(ok){
+                                    if(ok && value !== null){
 
                                         manufacturer_db_json = value;
                                         do_list_rendering();
