@@ -1195,20 +1195,12 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                                 else {
 
-                                    _subscribe_once(
+                                   transaction_db_json = "[]";
 
-                                        "transaction-metadata-updated",
-                                        "render-product-list",
-                                        function(data){
+                                    if(all_dbs_loaded()){
 
-                                            transaction_db_json = data.notificationParams;
-
-                                            if(all_dbs_loaded()){
-
-                                                do_list_rendering();
-                                            }
-                                        }
-                                    );
+                                        do_list_rendering();
+                                    }                                   
                                 }
                             });
 
