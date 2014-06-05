@@ -1026,12 +1026,10 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                 click_target = click_target.parentNode;
                             }
 
-                            if(click_target.scrollHeight > click_target.clientHeight){ 
+                            if(click_target.scrollTop === 0 || click_target.scrollTop === (click_target.scrollHeight - click_target.clientHeight) ){ 
                                 
                                 e.stopPropagation(); 
                             }
-
-                            else { e.preventDefault(); }
                     }
 
                     function resize_list_wrappers(){
