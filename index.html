@@ -661,10 +661,9 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
     // screen setup bindings
         screen_setup.landing = setup_landing;
-        screen_setup.tasks = setup_tasks;
+        screen_setup.view_product_list = setup_view_product_list;
         screen_setup.add_product_metadata = setup_add_product_metadata;
         screen_setup.add_product_confirmation = setup_add_product_confirmation;
-        screen_setup.view_product_list = setup_view_product_list;
 
     // internal functions
 
@@ -760,35 +759,6 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                             
                             gotoNextScreen();
                         }
-                    }
-                }
-
-            // tasks
-                function setup_tasks(screen){
-
-                    /* SETUP */
-
-                        // req vars
-                        var addProductsBtn = document.getElementById('start-add-product'),
-                            viewProductsBtn = document.getElementById('start-view-products');
-                    
-                        // prep for teardown
-                            _subscribe_once('teardown-screen', 'tasks', teardown);
-
-                    /* ENABLE TASK LINKS */
-
-                        // view products
-                            viewProductsBtn.addEventListener("click", viewProductsWorkflow);
-
-                        // add product
-                            addProductsBtn.addEventListener("click", addProductsWorkflow);
-
-
-                    function teardown(){
-
-                        // disable task links
-                            addProductsBtn.removeEventListener("click", addProductsWorkflow);
-                            viewProductsBtn.removeEventListener("click", viewProductsWorkflow);
                     }
                 }
 
@@ -991,7 +961,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                             }
                         );
 
-                    // fit list wrapper to screen size
+                    // fit list wrapper to screen size and update on resize
                         resize_list_wrappers();
                         _subscribe("screens-resized", "resize-list-wrappers", resize_list_wrappers);
                     
@@ -1049,15 +1019,19 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                         var click_target = e.target;
 
-                        // filter events that arent from the edit btn
+                        // filter events that arent from the product list
                             while( click_target != product_list_wrapper ){
 
                                 if( click_target.parentNode == screen || click_target.parentNode == document.body ){ return; }
                                 click_target = click_target.parentNode;
                             }
 
-                        // prevent bubbling to DOM where scroll behavior is disabled
-                            e.stopPropagation();
+                            if(click_target.scrollHeight > click_target.clientHeight){ 
+                                
+                                e.stopPropagation(); 
+                            }
+
+                            else { e.preventDefault(); }
                     }
 
                     function resize_list_wrappers(){
