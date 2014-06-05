@@ -1029,7 +1029,8 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                 click_target = click_target.parentNode;
                             }
 
-                            if(click_target.scrollTop === 0 && product_list_touch_pos - product_list_touchstart_pos < 0 || click_target.scrollTop === (click_target.scrollHeight - click_target.clientHeight) && product_list_touch_pos - product_list_touchstart_pos > 0 ){ 
+                        // prevent product list scroll from bubbling to body where all touchmove events go to die
+                            if(click_target.scrollTop === 0 && product_list_touch_pos - product_list_touchstart_pos > 0 || click_target.scrollTop === (click_target.scrollHeight - click_target.clientHeight) && product_list_touch_pos - product_list_touchstart_pos < 0 ){ 
                                 
                                 e.stopPropagation(); 
                             }
@@ -1037,7 +1038,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                     function set_scroll_touch_position(e){
 
-                        product_list_touchstart_pos = e.originalEvent.touches[0].clientY;
+                        product_list_touchstart_pos = e.originalEvent.changedTouches[0].clientY;
                     }
 
                     function resize_list_wrappers(){
