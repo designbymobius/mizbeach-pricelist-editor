@@ -926,7 +926,8 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                     // required vars
                     var product_list_wrapper = document.getElementById('product-list'),
-                        manufacturer_list_wrapper = document.getElementById('manufacturer-list');
+                        manufacturer_list_wrapper = document.getElementById('manufacturer-list'),
+                        product_list_touchstart_pos;
 
 
                     // teardown
@@ -969,6 +970,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         product_list_wrapper.addEventListener("click", edit_product);
 
                     // activate touch scrolling 
+                        product_list_wrapper.addEventListener("touchstart", set_scroll_touch_position);
                         product_list_wrapper.addEventListener("touchmove", product_list_wrapper_scroll);
 
                     // activate filtering by manufacturer
@@ -1017,7 +1019,8 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                     function product_list_wrapper_scroll(e){
 
-                        var click_target = e.target;
+                        var click_target = e.target,
+                            product_list_touch_pos = e.originalEvent.changedTouches[0].clientY;
 
                         // filter events that arent from the product list
                             while( click_target != product_list_wrapper ){
@@ -1026,10 +1029,15 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                 click_target = click_target.parentNode;
                             }
 
-                            if(click_target.scrollTop === 0 || click_target.scrollTop === (click_target.scrollHeight - click_target.clientHeight) ){ 
+                            if(click_target.scrollTop === 0 && product_list_touch_pos - product_list_touchstart_pos < 0 || click_target.scrollTop === (click_target.scrollHeight - click_target.clientHeight) && product_list_touch_pos - product_list_touchstart_pos > 0 ){ 
                                 
                                 e.stopPropagation(); 
                             }
+                    }
+
+                    function set_scroll_touch_position(e){
+
+                        product_list_touchstart_pos = e.originalEvent.touches[0].clientY;
                     }
 
                     function resize_list_wrappers(){
