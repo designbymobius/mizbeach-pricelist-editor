@@ -364,32 +364,35 @@ html, body {
 
 		position: absolute;
 		border: 8px solid #fff;
+		background-color: #fff;
 		color: #fff;
 		padding: 0px;
-		margin: .35em 0 0 7em;
-		font-size: .85em;
+		margin: .35em 0 0 -2em;
+		font-size: .95em;
 		list-style: none;
-		line-height: 2.5em;
 		text-align: center;
+
+		-webkit-box-shadow: 0 5px 3px 3px #E0E0E0;
+		box-shadow: 0 5px 3px 3px #E0E0E0;
 	}
 
 	#product-list .edit-product .settings .options li {
 		
 		background-color: #b84915;
 		margin-bottom: .25em;
-		padding: .75em 3em;
+		padding: .75em 1em;
 	}
 
 	#product-list .edit-product .settings > span {
 
 		background-color: #fff;
-		padding: .6em .75em;
+		padding: .7em .75em;
 		color: red;
 		font-weight: 900;
 	}
 
 	#product-list .edit-product .settings .options li:hover,
-	#product-list .edit-product .settings .options li:active{
+	#product-list .edit-product .settings .options li:active {
 
 		background-color: #C46005;
 	}
@@ -404,12 +407,12 @@ html, body {
 		background-color: #ffa;
 	}
 
-	#product-list.filtered .product{
+	#product-list.filtered .product {
 
 		display: none;
 	}
 
-	#product-list.filtered .manufacturer-filter-match{
+	#product-list.filtered .manufacturer-filter-match {
 
 		display: block;
 	}
@@ -456,7 +459,13 @@ html, body {
 	}
 }
 
-</style>
+@media only screen and (min-width:1120px)  {
+
+	#product-list .edit-product .settings .options {
+
+		margin-left: 5.5em;
+	}
+} </style>
 	</head>
 
 	<body>
