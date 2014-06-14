@@ -7,22 +7,26 @@
 	define ("DB_USER", 'db122241_imeiapp');
 	define ("DB_PASSWORD", 'e0a23c86a8e31cc12a1f29d6dbbc6b0ce70b86f7');
 	define ("DB_HOST", 'internal-db.s122241.gridserver.com');	
-	define ("DB_NAME", 'db122241_mizbeach_imeiapp_prod');
+	define ("DB_NAME", 'db122241_mizbeach_pricing_app');
 
 	define ("DB_PRODUCT_TABLE", 'product');
 	define ("DB_MANUFACTURER_TABLE", 'manufacturer');
 	define ("DB_PRODUCT_ALIAS_TABLE", 'product_alias');
+
+	define ("DB_RETAIL_PRICE_COLUMN", 'RetailPrice');
+	define ("DB_WHOLESALE_PRICE_COLUMN", 'WholesalePrice');
 
 
 # -----------------------------------------------
 # DATABASE
 
 	// update product price
-		function update_price($product_id, $price){
+		function update_price($product_id, $price, $price_type = null){
 
 			// req vars
 				$response = array();
 				$response['success'] = false;
+				$column_name;
 
 			// filter missing vars
 				if(!$product_id){
@@ -30,14 +34,25 @@
 					$response['msg'] = "PRODUCT ID FOR PRICE UPDATE IS MISSING";
 					return $response;
 				}
+				
 				if(!$price){
 
 					$response['msg'] = "NO UPDATED PRICE TO STORE";
 					return $response;
 				}
 
+				if(!$price_type || $price_type == "retail"){
+
+					$column_name = DB_RETAIL_PRICE_COLUMN;
+				}
+
+				elseif($price_type == "wholesale"){
+					
+					$column_name = DB_WHOLESALE_PRICE_COLUMN;
+				}
+
 			// update db
-				$update_price_querystring = "UPDATE `" . DB_NAME ."`.`". DB_PRODUCT_TABLE . "` SET `Price` = '" . $price . "' WHERE `Id` = " . $product_id;
+				$update_price_querystring = "UPDATE `" . DB_NAME ."`.`". DB_PRODUCT_TABLE . "` SET `" . $column_name . "` = '" . $price . "' WHERE `Id` = " . $product_id;
 				$update_price_query = mysql_query( $update_price_querystring );
 
 				if(!$update_price_query){
@@ -48,7 +63,7 @@
 				else {
 
 					$response['success'] = true;
-					$response['msg'] = 'PRICE FOR PRODUCT ID ' . $product_id . ' UPDATED TO "' . $price . '"';					
+					$response['msg'] =  $price_type . ' PRICE FOR PRODUCT ID ' . $product_id . ' UPDATED TO "' . $price . '"';					
 				}
 
 			return $response;

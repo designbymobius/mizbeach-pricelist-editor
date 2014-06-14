@@ -337,10 +337,11 @@ html, body {
 
 	#product-list .product .name {
 
-		width: 60%;
+		width: 42%;
 	}
 
-	#product-list .product .price,
+	#product-list .product .wholesale-price,
+	#product-list .product .retail-price,
 	#product-list .product .settings {
 
 		width: 19%;
@@ -357,6 +358,40 @@ html, body {
 	#product-list .edit-product .settings {
 
 		color: #fff;
+	}
+
+	#product-list .edit-product .settings .options {
+
+		position: absolute;
+		border: 8px solid #fff;
+		color: #fff;
+		padding: 0px;
+		margin: .35em 0 0 7em;
+		font-size: .85em;
+		list-style: none;
+		line-height: 2.5em;
+		text-align: center;
+	}
+
+	#product-list .edit-product .settings .options li {
+		
+		background-color: #b84915;
+		margin-bottom: .25em;
+		padding: .75em 3em;
+	}
+
+	#product-list .edit-product .settings > span {
+
+		background-color: #fff;
+		padding: .6em .75em;
+		color: red;
+		font-weight: 900;
+	}
+
+	#product-list .edit-product .settings .options li:hover,
+	#product-list .edit-product .settings .options li:active{
+
+		background-color: #C46005;
 	}
 
 	#product-list .product .modified-value {
@@ -453,7 +488,8 @@ html, body {
 		<div id="add-product-metadata" class="fullscreen add-product">
 			
 			<div class="headline">Basic Product Details</div>
-			<div class="title">What is the Product and its Manufacturer's Name? </div>
+			<div class="title">What is the Product and its Manufacturer's Name?</div>
+			<select><option>Select Manufacturer</option></select>
 			<input class="manufacturer-name" placeholder="Manufacturer">
 			<input class="product-name" placeholder="Product Name">
 			<div class="btn small">Next Step</div>	
@@ -1252,14 +1288,21 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                             manufacturer_id = product.ManufacturerId,
 
                                             has_updates,
-                                            has_price_update,
-                                            price;
+                                            has_retail_price_update,
+                                            has_wholesale_price_update,
+                                            
+                                            retail_price,
+                                            wholesale_price;
 
                                         has_updates = transaction_db.product && transaction_db.product[ product_id ] ? true : false;
-                                        has_price_update = has_updates && transaction_db.product[ product_id ].price ? true : false;
-                                        price = has_price_update ? "&#8358;" + transaction_db.product[ product_id ].price : ( product.Price ? "&#8358;" + product.Price : "-----");
                                         
-                                        markup += "<div class='product" + (has_updates ? " editted-product" : "") + "' data-product-name='" + product.Name + "' data-product-id='" + product_id + "'data-manufacturer-id='" + manufacturer_id + "'> <div class='name'>" + manufacturer_db[ manufacturer_id ].Name + " " + product.Name + "</div> <div class='price" + (has_price_update ? " modified-value" : "") + "'>" + price  + "</div>" + "<div class='settings'>edit</div></div>";
+                                        has_retail_price_update = has_updates && transaction_db.product[ product_id ].RetailPrice ? true : false;
+                                        retail_price = has_retail_price_update ? "&#8358;" + transaction_db.product[ product_id ].RetailPrice : ( product.RetailPrice ? "&#8358;" + product.RetailPrice : "-----");
+                                        
+                                        has_wholesale_price_update = has_updates && transaction_db.product[ product_id ].WholesalePrice ? true : false;
+                                        wholesale_price = has_wholesale_price_update ? "&#8358;" + transaction_db.product[ product_id ].WholesalePrice : ( product.WholesalePrice ? "&#8358;" + product.WholesalePrice : "-----");
+                                        
+                                        markup += "<div class='product" + (has_updates ? " editted-product" : "") + "' data-product-name='" + product.Name + "' data-product-id='" + product_id + "'data-manufacturer-id='" + manufacturer_id + "'> <div class='name'>" + manufacturer_db[ manufacturer_id ].Name + " " + product.Name + "</div> <div class='wholesale-price" + (has_wholesale_price_update ? " modified-value" : "") + "'>" + wholesale_price  + "</div>" + "<div class='retail-price" + (has_retail_price_update ? " modified-value" : "") + "'>" + retail_price  + "</div>" + "<div class='settings'><span>edit</span></div></div>";
                                     }                                    
                                     
                                     product_list_wrapper.innerHTML = markup;
@@ -1288,8 +1331,15 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     function edit_product(e){
 
                         var edit_btn = e.target,
+                            
                             click_target,
                             click_target_id,
+
+                            edit_options_markup,
+                            edit_options,
+                            edit_wholesale_price_btn,
+                            edit_retail_price_btn,
+                            
                             set_price_prompt;
 
                         // filter events that arent from the edit btn
@@ -1303,27 +1353,87 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         // identify the product
                             click_target = edit_btn.parentNode;
 
+                        // if options menu is already open ... bail
+                            if(edit_btn.getElementsByClassName('options').length > 0){
+
+                                return;
+                            }
+
                             addClass(click_target, "edit-product");
 
                             click_target_id = click_target.getAttribute('data-product-id');
 
-                        // get new price
-                            set_price_prompt = prompt("Set Price for '" + click_target.getAttribute('data-product-name').toUpperCase() + "'?");
+                        // display edit options
+                            edit_options_markup = "<ul class='options'><li class='edit-wholesale-price'>wholesale price</li><li class='edit-retail-price'>retail price</li></ul>";
+                            edit_btn.innerHTML += edit_options_markup;
 
-                            if(set_price_prompt !== null){
+                        // get dom nodes of options
+                            edit_options = edit_btn.getElementsByClassName('options')[0];
+                            edit_wholesale_price_btn = edit_options.getElementsByClassName('edit-wholesale-price')[0];
+                            edit_retail_price_btn = edit_options.getElementsByClassName('edit-retail-price')[0];
 
-                                var product_price = click_target.getElementsByClassName('price')[0];
+                        // activate edit options
+                            edit_retail_price_btn.addEventListener('click', set_retail_price);
+                            edit_wholesale_price_btn.addEventListener('click', set_wholesale_price);
 
-                                update_product_price(click_target_id, set_price_prompt);
+                        // add options removal on next click to event stack
+                            setTimeout(function(){
 
-                                product_price.innerHTML = "&#8358;" + set_price_prompt;
-                                addClass(product_price, "modified-value");
+                                screen.addEventListener('click', remove_edit_options_menu);                                
+                            }, 0);
 
-                                addClass(click_target, "editted-product");
-                            }
 
-                        // remove visual identifier
-                            removeClass(click_target, "edit-product");
+                        function remove_edit_options_menu(){
+
+                            // remove edit options
+                                edit_options.parentNode.removeChild(edit_options);
+
+                            // remove visual identifier
+                                removeClass(click_target, "edit-product");
+
+                            // cleanup option remover
+                                screen.removeEventListener('click', remove_edit_options_menu);
+                        }
+
+                        function set_retail_price(e){
+                            
+                            // required vars
+                                var product_price = click_target.getElementsByClassName('retail-price')[0];
+
+                            // get new price 
+                                set_price_prompt = prompt(click_target.getAttribute('data-product-name').toUpperCase() + " - Retail Price", product_price.innerHTML.replace(/\D/g,""));
+
+                                if(set_price_prompt !== null){
+
+
+                                    update_product_retail_price(click_target_id, set_price_prompt);
+
+                                    product_price.innerHTML = "&#8358;" + set_price_prompt;
+                                    
+                                    addClass(product_price, "modified-value");
+                                    addClass(click_target, "editted-product");
+                                }
+                        }
+
+                        function set_wholesale_price(e){
+
+                            // required vars
+                                var product_price = click_target.getElementsByClassName('wholesale-price')[0];
+                            
+                            // get new price 
+                                set_price_prompt = prompt( click_target.getAttribute('data-product-name').toUpperCase() + " - Wholesale Price", product_price.innerHTML.replace(/\D/g, ""));
+
+                                if(set_price_prompt !== null){
+
+
+                                    update_product_wholesale_price(click_target_id, set_price_prompt);
+
+                                    product_price.innerHTML = "&#8358;" + set_price_prompt;
+                                    
+                                    addClass(product_price, "modified-value");
+                                    addClass(click_target, "editted-product");
+                                }
+                        }
                     }
 
                     function manufacturer_filter(e){
@@ -1361,7 +1471,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                             }                        
                     }
 
-                    function update_product_price(product_id, price){
+                    function update_product_wholesale_price(product_id, price){
 
                         deviceStorage.get("transaction", function(ok, value){
 
@@ -1381,7 +1491,33 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                                 if(!transaction_db.product[product_id]){ transaction_db.product[product_id] = {}; }
                                 
-                                transaction_db.product[product_id].price = encodeURIComponent( price );
+                                transaction_db.product[product_id].WholesalePrice = encodeURIComponent( price );
+
+                                deviceStorage.set('transaction', JSON.stringify(transaction_db));
+                        });
+                    }
+
+                    function update_product_retail_price(product_id, price){
+
+                        deviceStorage.get("transaction", function(ok, value){
+
+                            // required vars
+                                var transactions_json = '{}';
+
+                            // get prexisting transactions
+                                if(value){ 
+
+                                    transactions_json = value;                                    
+                                }
+
+                            // add product update to next transaction
+                                transaction_db = JSON.parse(transactions_json);
+
+                                if(!transaction_db.product){ transaction_db.product = {}; }
+
+                                if(!transaction_db.product[product_id]){ transaction_db.product[product_id] = {}; }
+                                
+                                transaction_db.product[product_id].RetailPrice = encodeURIComponent( price );
 
                                 deviceStorage.set('transaction', JSON.stringify(transaction_db));
                         });
@@ -1620,42 +1756,70 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                                     "process-transaction.php",
                                     "transaction=" + value,
-                                    function(response_json){
+                                    function(){
 
-                                        var response = JSON.parse(response_json);
+                                        var transaction_json = value,
+                                            resend_prompt; 
 
-                                        download_current_product_db();
+                                        return function(response_json){
 
-                                        console.log("-- TRANSACTION REPORT --");
+                                            var response;
 
-                                        // product updates in the transaction
-                                            if(response.product){
+                                            try {
 
-                                                deviceStorage.get('product', function(ok, value){
+                                                response = JSON.parse(response_json);
+                                            } 
 
-                                                    var product_db = JSON.parse(value);
-                                                    
-                                                    for(var id in response.product){
+                                            catch(e){
 
-                                                        var product_name;
+                                                console.log("TRANSACTION ERROR");
+                                                console.log(response_json);
 
-                                                        for (var i = product_db.length - 1; i >= 0; i--) {
-                                                            
-                                                            if(product_db[product_db.length - 1 - i].Id == id){
+                                                resend_prompt = confirm("RESEND THESE UPDATES? " + transaction_json);
 
-                                                                product_name = product_db[product_db.length - 1 - i].Name;
-                                                                break;
-                                                            }
-                                                        }                                                   
+                                                if(resend_prompt){
 
-                                                        for(var property in response.product[id]){
+                                                    // iterate over object here
+                                                    console.log("do resend here");
+                                                    console.log(transaction_json);
+                                                }
 
-                                                            console.log(product_name.toUpperCase() + " " + property.toUpperCase() + " UPDATED TO '" + response.product[id][property] + "'");
-                                                        }
-                                                    }
-                                                });
+                                                return false;
                                             }
-                                    }
+
+                                            download_current_product_db();
+
+                                            console.log("-- TRANSACTION REPORT --");
+
+                                            // product updates in the transaction
+                                                if(response.product){
+
+                                                    deviceStorage.get('product', function(ok, value){
+
+                                                        var product_db = JSON.parse(value);
+                                                        
+                                                        for(var id in response.product){
+
+                                                            var product_name;
+
+                                                            for (var i = product_db.length - 1; i >= 0; i--) {
+                                                                
+                                                                if(product_db[product_db.length - 1 - i].Id == id){
+
+                                                                    product_name = product_db[product_db.length - 1 - i].Name;
+                                                                    break;
+                                                                }
+                                                            }                                                   
+
+                                                            for(var property in response.product[id]){
+
+                                                                console.log(product_name.toUpperCase() + " " + property.toUpperCase() + " UPDATED TO '" + response.product[id][property] + "'");
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                        };
+                                    }()
                                 );
 
                                 deviceStorage.set('transaction', "{}");
@@ -2118,7 +2282,9 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     });
             }
 
-            pubsub.log.crawl = function(key){                var results = "";
+            pubsub.log.crawl = function(key){
+
+                var results = "";
 
                 for(var i = 0; i < pubsub.log.length - 1; i += 1){ 
 
