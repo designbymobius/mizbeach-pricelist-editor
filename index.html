@@ -1073,7 +1073,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                             }
 
                         // prevent product list scroll from bubbling to body where all touchmove events go to die
-                            if( (click_target.scrollTop >= 0 && product_list_touch_pos - product_list_touchstart_pos < 0) || (click_target.scrollTop <= click_target.scrollHeight && product_list_touch_pos - product_list_touchstart_pos > 0 )){ 
+                            if( (click_target.scrollTop < (click_target.scrollHeight - click_target.clientHeight) && product_list_touch_pos - product_list_touchstart_pos < 0) || (click_target.scrollTop > 0 && product_list_touch_pos - product_list_touchstart_pos > 0 )){ 
                                 
                                 e.stopPropagation(); 
                             }
