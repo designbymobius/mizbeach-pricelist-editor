@@ -27,13 +27,13 @@ html, body {
 	display: none;
 	opacity: 0.4;
 
-	padding: 3.0625em 2.1875em;
+	padding: 3.0625em 1em;
 
-	-webkit-transition: opacity 0.2s ease-out;
-	-moz-transition: opacity 0.2s ease-out;
-    -ms-transition: opacity 0.2s ease-out;
-    -o-transition: opacity 0.2s ease-out;
-	transition: opacity 0.2s ease-out;
+	-webkit-transition: opacity 0.2s ease-in;
+	-moz-transition: opacity 0.2s ease-in;
+    -ms-transition: opacity 0.2s ease-in;
+    -o-transition: opacity 0.2s ease-in;
+	transition: opacity 0.2s ease-in;
 }
 
 .fullscreen.focal {
@@ -122,7 +122,8 @@ html, body {
 	float: right;
 }
 
-.fullscreen input {
+.fullscreen input,
+.fullscreen select.large {
 
 	width: 97.5%;
 	margin: 1em 1.25%;
@@ -290,18 +291,24 @@ html, body {
 	}
 
 /* Add Products */
-	.add-product.focal input.attention {
+	.add-product.focal input.attention,
+	.add-product.focal select.attention {
 
 		border-color: red;
 		color: red;
 	}
 
-	.add-product #product-metadata{
+	.add-product #product-metadata {
 
 		font-weight: 900;
 		line-height: 2em;
 		font-size: 2.25em;
 		text-transform: uppercase;
+	}
+
+	.add-product select.manufacturer-list {
+
+		margin-bottom: .5em;
 	}
 
 /* View Products */
@@ -495,10 +502,9 @@ html, body {
 
 		<div id="add-product-metadata" class="fullscreen add-product">
 			
-			<div class="headline">Basic Product Details</div>
-			<div class="title">What is the Product and its Manufacturer's Name?</div>
-			<select><option>Select Manufacturer</option></select>
-			<input class="manufacturer-name" placeholder="Manufacturer">
+			<div class="headline">New Product Details</div>
+			<select class="manufacturer-list large"></select>
+			<input class="manufacturer-name" type="hidden" placeholder="Manufacturer">
 			<input class="product-name" placeholder="Product Name">
 			<div class="btn small">Next Step</div>	
 		</div>
@@ -699,7 +705,6 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
         addProductName,
         addProductManufacturer,
-        addProductAltname,
 
         deviceStorage;
 
@@ -806,7 +811,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     }
                 }
 
-            // add product manufacturer
+            // add product metadata
                 function setup_add_product_metadata(screen){
 
                     /* SETUP */
@@ -815,10 +820,14 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                             var currentScreenInputs = screen.getElementsByTagName('input'),
                                 productNameInput = screen.getElementsByClassName('product-name')[0],
                                 manufacturerNameInput = screen.getElementsByClassName('manufacturer-name')[0],
+                                manufacturerList = screen.getElementsByClassName('manufacturer-list')[0],
                                 nextBtn = screen.getElementsByClassName('btn')[0];
 
                         //  activate next btn
                             nextBtn.addEventListener("click", nextBtnHandler);
+
+                        // enter button handler
+                            window.addEventListener("keydown", enterBtnHandler);
                     
                         // prep for teardown
                             _subscribe_once('teardown-screen', 'add-product-metadata', teardown);
@@ -828,36 +837,14 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                                 addProductName = null;
                                 addProductManufacturer = null;
-                                addProductAltname = null;
                             });
 
+                        // push manufacturer list value to manufacturer name input
+                            manufacturerList.addEventListener("change", update_manufacturer_name_field);
 
-                    function nextBtnHandler(){
+                        // populate manufacturer list
+                            render_manufacturer_list();
 
-                        // required vars
-                            var missingInput = 0,
-                                totalInputs = currentScreenInputs.length;
-
-                        // mark empty fields
-                            for (var i = totalInputs - 1; i >= 0; i--){
-
-                                if( currentScreenInputs[i].value ){ continue; } 
-                                
-                                missingInput += 1;
-
-                                addClass( currentScreenInputs[i], "attention");
-
-                                currentScreenInputs[i].addEventListener("keydown", confirmValueExists);
-                            }
-
-                        // proceed if nothing is missing
-                            if(missingInput < 1){
-
-                                addProductName = productNameInput.value;
-                                addProductManufacturer = manufacturerNameInput.value;
-                                gotoNextScreen();
-                            }
-                    }
 
                     function teardown(){
 
@@ -876,8 +863,156 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                     }
                             }
 
-                        // disable next btn
-                            nextBtn.removeEventListener("click", nextBtnHandler);
+                            if ( hasClass(manufacturerList, "attention") ){
+
+                                removeClass(manufacturerList, "attention");
+                            }
+
+                        // clean up listeners
+                            nextBtn.removeEventListener("click", nextBtnHandler);                            
+                            window.removeEventListener("keydown", enterBtnHandler);
+                            manufacturerNameInput.removeEventListener("change", update_manufacturer_name_field);
+                    }
+
+                    function render_manufacturer_list(){
+
+                        // required vars
+                            var manufacturer_db_json,
+                                manufacturer_db;
+
+                        // load
+                            deviceStorage.get("manufacturer", function(ok, value){
+
+                                if(ok && value !== null){
+
+                                    manufacturer_db_json = value;
+                                    do_list_rendering(manufacturer_db_json);
+                                }
+
+                                _subscribe_once(
+
+                                    "manufacturer-metadata-updated",
+                                    "render-manufacturer-list",
+                                    render_newest_db
+                                );
+                                
+                                download_current_manufacturer_db();
+
+                                function render_newest_db(data){
+
+                                    if(manufacturer_db_json == data.notificationParams){ return; }
+                                    
+                                    manufacturer_db_json = data.notificationParams;
+                                    do_list_rendering(manufacturer_db_json);
+                                }
+                            });
+
+                            function do_list_rendering(manufacturer_db_json){
+
+                                var manufacturer_json = manufacturer_db_json,
+                                    markup = "<option value='0'>-- Select Manufacturer --</option>";
+
+                                manufacturer_db = JSON.parse(manufacturer_db_json);
+
+                                manufacturer_db.sort(function(a, b){
+
+                                    a = a.Name.toLowerCase();
+                                    b = b.Name.toLowerCase();
+
+                                    if(a > b){ return 1; }
+                                    else if(b > a){ return -1; }
+                                    else { return 0; }
+                                });
+
+                                for(var manufacturer in manufacturer_db){
+
+                                    markup += "<option value='" + manufacturer_db[manufacturer].Id + "'>" + manufacturer_db[manufacturer].Name.toUpperCase() + "</option>"; 
+                                }
+
+                                markup += "<option value='-1'>-- New Manufacturer --</option>";
+
+                                manufacturerList.innerHTML = markup;
+                            }
+                    }
+
+                    function update_manufacturer_name_field(){
+
+                        var option = manufacturerList.options[manufacturerList.selectedIndex],
+                            option_value = option.value,
+                            option_text = option.text;
+
+                        // add new manufacturer
+                            if(option_value === "-1"){
+
+                                // view manufacturer name field
+                                    manufacturerNameInput.value = "";
+
+                                    if(manufacturerNameInput.type != "text"){
+                                        manufacturerNameInput.type = "text";
+                                    }
+
+                                    manufacturerNameInput.focus();
+
+                                // reset view state on screen teardown
+                                    _subscribe_once('teardown-screen', 'hide-manufacturer-textfield', function(){
+                                    
+                                        manufacturerNameInput.type = "hidden";
+                                    });
+
+                                return;
+                            }
+
+                        // hide default input field
+                            if(manufacturerNameInput.type != "hidden"){
+
+                                manufacturerNameInput.type = "hidden";
+                            }
+
+                        // blank option - do nothing
+                            if(option_value === "0"){ return; }
+
+                        // default - set hidden manufacturer field                         
+                            manufacturerNameInput.value = option_text;
+                    }
+
+                    function nextBtnHandler(){
+
+                        // required vars
+                            var missingInput = 0,
+                                totalInputs = currentScreenInputs.length;
+
+                        // mark empty fields
+                            for (var i = totalInputs - 1; i >= 0; i--){
+
+                                if( currentScreenInputs[i].value ){ continue; }
+
+                                if( currentScreenInputs[i] == manufacturerNameInput && manufacturerNameInput.getAttribute('type') == "hidden"){
+
+                                    addClass( manufacturerList, "attention");
+                                    manufacturerList.addEventListener("change", manufacturerSelected);                                    
+                                } 
+                                
+                                missingInput += 1;
+
+                                addClass( currentScreenInputs[i], "attention");
+
+                                currentScreenInputs[i].addEventListener("keyup", confirmValueExists);
+                            }
+
+                        // proceed if nothing is missing
+                            if(missingInput < 1){
+
+                                addProductName = productNameInput.value;
+                                addProductManufacturer = manufacturerNameInput.value;
+                                gotoNextScreen();
+                            }
+                    }
+
+                    function enterBtnHandler(e){
+
+                        if(e.keyCode != 13){ return; }
+
+                        nextBtnHandler();
                     }
 
                     function confirmValueExists(e){
@@ -886,6 +1021,14 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                         removeClass(e.target, "attention");
                         e.target.removeEventListener("keydown", confirmValueExists);
+                    }
+
+                    function manufacturerSelected(){
+
+                        if(!manufacturerNameInput.value){ return; }
+
+                        removeClass(manufacturerList, "attention");
+                        manufacturerList.addEventListener("keyup", manufacturerSelected);
                     }
                 }
 
@@ -2042,9 +2185,9 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         notification, 
                         subscriber,
 
-                        function(){
+                        function(data){
 
-                            response(responseParams);
+                            response(data);
                             _unsubscribe(notification,subscriber);
                         },
 
