@@ -326,6 +326,13 @@ html, body {
 		text-transform: uppercase;
 		padding: 1em;
 		line-height: 1.25em;
+
+		transition: all .25s ease-out, background-color .25s ease-in-out;
+	}
+
+	#product-list .product:nth-of-type(even) {
+
+		background-color: #eee;
 	}
 
 	#product-list .product.edit-product {
@@ -399,6 +406,12 @@ html, body {
 		text-align: center;
 
 		z-index: 100;
+	}
+
+	#product-list .edit-product ~ .product {
+		
+		background-color: #fff;
+		color: #aaa;
 	}
 
 	#product-list .edit-product .settings .options li {
