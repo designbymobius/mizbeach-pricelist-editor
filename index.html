@@ -321,6 +321,7 @@ html, body {
 
 	#product-list .product {
 
+		position: relative;
 		border-bottom: 1px solid #ddd;
 		text-transform: uppercase;
 		padding: 1em;
@@ -340,6 +341,11 @@ html, body {
 	#product-list .product > div {
 
 		display: inline-block;
+	}
+
+	#product-list .product .collapsed-content {
+
+		display: none;
 	}
 
 	#product-list .product .name {
@@ -362,6 +368,11 @@ html, body {
 		letter-spacing: 0.3em;
 	}
 
+	#product-list .edit-product .collapsed-content {
+
+		display: inline-block;
+	}
+
 	#product-list .edit-product .name {
 		
 		color: #fff;
@@ -382,8 +393,8 @@ html, body {
 		background-color: #fff;
 		color: #fff;
 		padding: 0px;
-		margin: .35em 0 0 -6em;
-		font-size: .95em;
+		margin: .35em 0 0 -6.8em;
+		font-size: .85em;
 		list-style: none;
 		text-align: center;
 
@@ -393,8 +404,8 @@ html, body {
 	#product-list .edit-product .settings .options li {
 		
 		background-color: #b84915;
-		margin-bottom: .25em;
-		padding: .75em 1em;
+		margin-bottom: .5em;
+		padding: .5em .75em;
 	}
 
 	#product-list .edit-product .settings > span {
@@ -1462,7 +1473,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                         has_wholesale_price_update = has_updates && transaction_db.product[ product_id ].WholesalePrice ? true : false;
                                         wholesale_price = has_wholesale_price_update ? "&#8358;" + transaction_db.product[ product_id ].WholesalePrice : ( product.WholesalePrice ? "&#8358;" + product.WholesalePrice : "-----");
                                         
-                                        markup += "<div class='product" + (has_updates ? " editted-product" : "") + "' data-product-name='" + product.Name + "' data-product-id='" + product_id + "'data-manufacturer-id='" + manufacturer_id + "'> <div class='name'>" + manufacturer_db[ manufacturer_id ].Name + " " + product.Name + "</div> <div class='wholesale-price" + (has_wholesale_price_update ? " modified-value" : "") + "'>" + wholesale_price  + "</div>" + "<div class='retail-price" + (has_retail_price_update ? " modified-value" : "") + "'>" + retail_price  + "</div>" + "<div class='settings'><span>edit</span></div></div>";
+                                        markup += "<div class='product" + (has_updates ? " editted-product" : "") + "' data-product-name='" + product.Name + "' data-product-id='" + product_id + "'data-manufacturer-id='" + manufacturer_id + "'> <div class='name'><span class='collapsed-content'>" + manufacturer_db[ manufacturer_id ].Name + "</span> " + product.Name + "</div> <div class='wholesale-price" + (has_wholesale_price_update ? " modified-value" : "") + "'>" + wholesale_price  + "</div>" + "<div class='retail-price" + (has_retail_price_update ? " modified-value" : "") + "'>" + retail_price  + "</div>" + "<div class='settings'><span>edit</span></div></div>";
                                     }                                    
                                     
                                     product_list_wrapper.innerHTML = markup;
