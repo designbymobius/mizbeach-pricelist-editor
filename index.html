@@ -326,23 +326,21 @@ html, body {
 		text-transform: uppercase;
 		padding: 1em;
 		line-height: 1.25em;
-
-		transition: all .25s ease-out, background-color .25s ease-in-out;
 	}
 
-	#product-list .product:nth-of-type(even) {
+	#product-list .manufacturer-filter-match {
 
-		background-color: #eee;
-	}
-
-	#product-list .product.edit-product {
-
-		background-color: orange;
+		background-color: #ffa;
 	}
 
 	#product-list .product.editted-product {
 
 		background-color: #8f8;
+	}
+
+	#product-list .product.edit-product {
+
+		background-color: orange;
 	}
 
 	#product-list .product > div {
@@ -357,21 +355,21 @@ html, body {
 
 	#product-list .product .name {
 
-		width: 42%;
+		width: 39%;
 	}
 
 	#product-list .product .wholesale-price,
 	#product-list .product .retail-price,
 	#product-list .product .settings {
 
-		width: 19%;
-		text-align: right;
+		width: 20%;
 	}
 
 	#product-list .product .settings {
 
 		color: #aaa;
 		font-size: 0.7em;
+		text-align: right;
 		letter-spacing: 0.3em;
 	}
 
@@ -386,6 +384,16 @@ html, body {
 		font-weight: 900;
 		font-size: 144%;
 		line-height: 1.2em;
+		text-shadow: 1px 1px 1px #AA763E;
+	}
+
+	#product-list .edit-product .retail-price,
+	#product-list .edit-product .wholesale-price {
+
+		color:	#ffa;
+		font-size: 120%;
+		font-weight: 900;
+		text-shadow: 1px 1px 1px #AA763E;
 	}
 
 	#product-list .edit-product .settings {
@@ -406,12 +414,6 @@ html, body {
 		text-align: center;
 
 		z-index: 100;
-	}
-
-	#product-list .edit-product ~ .product {
-		
-		background-color: #fff;
-		color: #aaa;
 	}
 
 	#product-list .edit-product .settings .options li {
@@ -438,11 +440,6 @@ html, body {
 	#product-list .product .modified-value {
 
 		font-weight: 900;
-	}
-
-	#product-list .manufacturer-filter-match {
-
-		background-color: #ffa;
 	}
 
 	#product-list.filtered .product {
