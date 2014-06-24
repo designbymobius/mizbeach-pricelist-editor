@@ -89,16 +89,6 @@
 					return $response; 
 				}
 
-			// filter products already in db
-				$duplicate_product_check_querystring = "SELECT `Id` FROM `" . DB_PRODUCT_TABLE . "` WHERE `Name` = '" . $name . "' LIMIT 1";
-				$duplicate_product_check_query = mysql_query($duplicate_product_check_querystring);
-
-				if( mysql_num_rows($duplicate_product_check_query) > 0 ){
-
-					$response['msg'] = "'" . $name . "' ALREADY EXISTS IN DATABASE (PRODUCT)";
-					return $response;
-				}
-
 			// get manufacturer id
 				$manufacturer_id;
 				$get_manufacturer_id_querystring = "SELECT `Id` FROM `" . DB_MANUFACTURER_TABLE . "` WHERE `Name` = '" . $manufacturer . "' LIMIT 1";
