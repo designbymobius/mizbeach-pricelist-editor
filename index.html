@@ -1083,11 +1083,16 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                     // Activate Submit Button
                         create_product_btn.addEventListener("click", add_product_to_db);
+                        
+                    // Enter Key Behavior
+                        window.addEventListener("keydown", enterBtnHandler);
 
+                    // Teardown
                         _subscribe_once("teardown-screen", "add-product-confirmation", function(){
 
                             // disable finalize button
                                 create_product_btn.removeEventListener("click", add_product_to_db);
+                                window.removeEventListener("keydown", enterBtnHandler);
 
                             // wipe manufacturer name slots
                                 for (var i = manufacturer_name_slots.length - 1; i >= 0; i--) {
@@ -1101,6 +1106,13 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                     product_name_slots[i].innerHTML = "";
                                 } 
                         });
+
+                    function enterBtnHandler(e){
+
+                        if(e.keyCode != 13){ return; }
+
+                        create_product_btn.click();
+                    }
 
                     function add_product_to_db(){
 
@@ -1282,14 +1294,14 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         // load
                             deviceStorage.get("manufacturer", function(ok, value){
 
-                                if(ok && value !== null){
+                                // if local data exists, render it
+                                    if(ok && value !== null){
 
-                                    manufacturer_db_json = value;
-                                    do_list_rendering();
-                                }
+                                        manufacturer_db_json = value;
+                                        do_list_rendering();
+                                    }
 
-                                else {
-
+                                // rerender list when next the metadata is updated
                                     _subscribe_once(
 
                                         "manufacturer-metadata-updated",
@@ -1300,31 +1312,35 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                             do_list_rendering();
                                         }
                                     );
-                                }
                                 
-                                download_current_manufacturer_db();
+                                // check for updates
+                                    download_current_manufacturer_db();
                             });
 
                             function do_list_rendering(){
 
-                                manufacturer_db = JSON.parse(manufacturer_db_json);
+                                // get array of manufacturers
+                                    manufacturer_db = JSON.parse(manufacturer_db_json);
 
-                                manufacturer_db.sort(function(a, b){
+                                // sort manufacturers alphabetically
+                                    manufacturer_db.sort(function(a, b){
 
-                                    a = a.Name.toLowerCase();
-                                    b = b.Name.toLowerCase();
+                                        a = a.Name.toLowerCase();
+                                        b = b.Name.toLowerCase();
 
-                                    if(a > b){ return 1; }
-                                    else if(b > a){ return -1; }
-                                    else { return 0; }
-                                });
+                                        if(a > b){ return 1; }
+                                        else if(b > a){ return -1; }
+                                        else { return 0; }
+                                    });
 
-                                for(var manufacturer in manufacturer_db){
+                                // add each option to the markup
+                                    for(var manufacturer in manufacturer_db){
 
-                                    markup += "<option value='" + manufacturer_db[manufacturer].Id + "'>" + manufacturer_db[manufacturer].Name.toUpperCase() + "</option>"; 
-                                }
+                                        markup += "<option value='" + manufacturer_db[manufacturer].Id + "'>" + manufacturer_db[manufacturer].Name.toUpperCase() + "</option>"; 
+                                    }
 
-                                manufacturer_list_wrapper.innerHTML = markup;
+                                // render liost
+                                    manufacturer_list_wrapper.innerHTML = markup;
                             }
                     }
 
