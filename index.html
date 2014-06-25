@@ -1365,23 +1365,20 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                     }
                                 }
 
-                                else {
+                                _subscribe_once(
 
-                                    _subscribe_once(
+                                    "product-metadata-updated",
+                                    "render-product-list",
+                                    function(data){
 
-                                        "product-metadata-updated",
-                                        "render-product-list",
-                                        function(data){
+                                        product_db_json = data.notificationParams;
 
-                                            product_db_json = data.notificationParams;
+                                        if(all_dbs_loaded()){
 
-                                            if(all_dbs_loaded()){
-
-                                                do_list_rendering();
-                                            }
+                                            do_list_rendering();
                                         }
-                                    );
-                                }
+                                    }
+                                );
 
                                 download_current_product_db();
                             });
@@ -1398,23 +1395,20 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                     }
                                 }
 
-                                else {
+                                _subscribe_once(
 
-                                    _subscribe_once(
+                                    "manufacturer-metadata-updated",
+                                    "render-product-list",
+                                    function(data){
 
-                                        "manufacturer-metadata-updated",
-                                        "render-product-list",
-                                        function(data){
+                                        manufacturer_db_json = data.notificationParams;
 
-                                            manufacturer_db_json = data.notificationParams;
+                                        if(all_dbs_loaded()){
 
-                                            if(all_dbs_loaded()){
-
-                                                do_list_rendering();
-                                            }
+                                            do_list_rendering();
                                         }
-                                    );
-                                }
+                                    }
+                                );
 
                                 download_current_manufacturer_db();
                             });
