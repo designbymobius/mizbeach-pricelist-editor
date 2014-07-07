@@ -104,13 +104,8 @@
 						$response['msg'] = "COULD NOT RETRIEVE OR STORE MANUFACTURER";
 						return $response;
 					}
-
-					$check_for_manufacturer_query = mysql_query($get_manufacturer_id_querystring);
-
-					while ($check_result = mysql_fetch_assoc($check_for_manufacturer_query)){
 					
-						$manufacturer_id = $check_result["Id"];
-					}
+					$manufacturer_id = mysql_insert_id();
 				} 
 
 				else {
@@ -118,6 +113,19 @@
 					while( $result = mysql_fetch_assoc($get_manufacturer_id_query) ){
 
 						$manufacturer_id = $result["Id"];
+					}
+				}
+
+			// prevent duplicate product entries for that manufacturer 
+				$duplicate_product_check_querystring = "SELECT `Id`, `ManufacturerId` FROM `" . DB_PRODUCT_TABLE . "` WHERE `Name` = '" . $name . "'";
+				$duplicate_product_check_query = mysql_query($duplicate_product_check_querystring);
+
+				while( $result = mysql_fetch_assoc($duplicate_product_check_query) ){
+
+					if( $manufacturer_id == $result['ManufacturerId']){
+
+						$response['msg'] = "'" . $name . "' ALREADY EXISTS IN " . $manufacturer . "'S PRODUCT LIST";
+						return $response;
 					}
 				}
 
