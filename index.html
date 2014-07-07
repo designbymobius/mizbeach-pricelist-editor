@@ -1157,7 +1157,6 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         manufacturer_list_wrapper = document.getElementById('manufacturer-list'),
                         product_list_touchstart_pos;
 
-
                     // teardown
                         _subscribe_once("teardown-screen", "teardown", teardown);
 
@@ -1586,44 +1585,67 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                 screen.removeEventListener('click', remove_edit_options_menu);
                         }
 
-                        function set_retail_price(e){
+                        function set_retail_price(){
                             
                             // required vars
-                                var product_price = click_target.getElementsByClassName('retail-price')[0];
+                                var product_price = click_target.getElementsByClassName('retail-price')[0],
+                                    current_price = product_price.innerHTML,
+                                    clean_price = current_price.replace(/\D/g,"");
 
-                            // get new price 
-                                set_price_prompt = prompt(click_target.getAttribute('data-product-name').toUpperCase() + " - Retail Price", product_price.innerHTML.replace(/\D/g,""));
+                            // get user-entered price 
+                                set_price_prompt = prompt(click_target.getAttribute('data-product-name').toUpperCase() + " - Retail Price", clean_price).replace(/\D/g,"");
 
-                                if(set_price_prompt !== null){
+                            // filter cancels
+                                if(set_price_prompt === null || (set_price_prompt === clean_price && current_price === '-----') ){ return; }
+                            
+                            // update UI
+                                if(set_price_prompt === '0' || set_price_prompt === ''){ 
 
+                                    set_price_prompt = null;
+                                    product_price.innerHTML = "-----";
+                                } 
 
-                                    update_product_retail_price(click_target_id, set_price_prompt);
-
-                                    product_price.innerHTML = "&#8358;" + set_price_prompt;
+                                else {
                                     
-                                    addClass(product_price, "modified-value");
-                                    addClass(click_target, "editted-product");
+                                    product_price.innerHTML = "&#8358;" + set_price_prompt;
                                 }
+
+                            // update dbs
+                                update_product_retail_price(click_target_id, set_price_prompt);
+                                    
+                                addClass(product_price, "modified-value");
+                                addClass(click_target, "editted-product");
                         }
 
-                        function set_wholesale_price(e){
+                        function set_wholesale_price(){
 
                             // required vars
-                                var product_price = click_target.getElementsByClassName('wholesale-price')[0];
+                                var product_price = click_target.getElementsByClassName('wholesale-price')[0],
+                                    current_price = product_price.innerHTML,
+                                    clean_price = current_price.replace(/\D/g,"");
                             
                             // get new price 
-                                set_price_prompt = prompt( click_target.getAttribute('data-product-name').toUpperCase() + " - Wholesale Price", product_price.innerHTML.replace(/\D/g, ""));
+                                set_price_prompt = prompt( click_target.getAttribute('data-product-name').toUpperCase() + " - Wholesale Price", clean_price).replace(/\D/g,"");
 
-                                if(set_price_prompt !== null){
+                            // filter cancels
+                                if(set_price_prompt === null || (set_price_prompt === clean_price && current_price === '-----') ) { return; }
+                            
+                            // update UI
+                                if(set_price_prompt === '0' || set_price_prompt === ''){ 
 
+                                    set_price_prompt = null;
+                                    product_price.innerHTML = "-----";
+                                } 
 
-                                    update_product_wholesale_price(click_target_id, set_price_prompt);
-
-                                    product_price.innerHTML = "&#8358;" + set_price_prompt;
+                                else {
                                     
-                                    addClass(product_price, "modified-value");
-                                    addClass(click_target, "editted-product");
+                                    product_price.innerHTML = "&#8358;" + set_price_prompt;
                                 }
+
+                                update_product_wholesale_price(click_target_id, set_price_prompt);
+                                
+                                addClass(product_price, "modified-value");
+                                addClass(click_target, "editted-product");
                         }
                     }
 
@@ -1682,7 +1704,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                                 if(!transaction_db.product[product_id]){ transaction_db.product[product_id] = {}; }
                                 
-                                transaction_db.product[product_id].WholesalePrice = encodeURIComponent( price );
+                                transaction_db.product[product_id].WholesalePrice = price;
 
                                 deviceStorage.set('transaction', JSON.stringify(transaction_db));
                         });
@@ -1708,7 +1730,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                                 if(!transaction_db.product[product_id]){ transaction_db.product[product_id] = {}; }
                                 
-                                transaction_db.product[product_id].RetailPrice = encodeURIComponent( price );
+                                transaction_db.product[product_id].RetailPrice = price;
 
                                 deviceStorage.set('transaction', JSON.stringify(transaction_db));
                         });
@@ -1978,8 +2000,6 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                                 return false;
                                             }
 
-                                            download_current_product_db();
-
                                             console.log("-- TRANSACTION REPORT --");
 
                                             // product updates in the transaction
@@ -2007,6 +2027,8 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                                                 console.log(product_name.toUpperCase() + " " + property.toUpperCase() + " UPDATED TO '" + response.product[id][property] + "'");
                                                             }
                                                         }
+
+                                                        download_current_product_db();
                                                     });
                                                 }
                                         };
@@ -2056,7 +2078,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                 function(response){
 
                                     // filter unchanged list
-                                        if(value == response) { return; }
+                                        if(value === response) { return; }
                                         
                                     // update the pricelist
                                         deviceStorage.set(db_name, response);

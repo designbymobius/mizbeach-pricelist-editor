@@ -35,7 +35,7 @@
 					return $response;
 				}
 				
-				if(!$price){
+				if(empty($price) && $price !== null ){
 
 					$response['msg'] = "NO UPDATED PRICE TO STORE";
 					return $response;
@@ -50,6 +50,7 @@
 					
 					$column_name = DB_WHOLESALE_PRICE_COLUMN;
 				}
+
 
 			// update db
 				$update_price_querystring = "UPDATE `" . DB_NAME ."`.`". DB_PRODUCT_TABLE . "` SET `" . $column_name . "` = '" . $price . "' WHERE `Id` = " . $product_id;
