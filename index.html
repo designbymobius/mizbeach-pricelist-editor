@@ -711,6 +711,24 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 	window.dxmPubSub.consoleLogOff = function(){ dxm.settings.consoleLog = false; };
 	
 })();
+/*
+CryptoJS v3.1.2
+code.google.com/p/crypto-js
+(c) 2009-2013 by Jeff Mott. All rights reserved.
+code.google.com/p/crypto-js/wiki/License
+
+usage: CryptoJS.SHA1("string");
+*/
+
+var CryptoJS=CryptoJS||function(e,m){var p={},j=p.lib={},l=function(){},f=j.Base={extend:function(a){l.prototype=this;var c=new l;a&&c.mixIn(a);c.hasOwnProperty("init")||(c.init=function(){c.$super.init.apply(this,arguments)});c.init.prototype=c;c.$super=this;return c},create:function(){var a=this.extend();a.init.apply(a,arguments);return a},init:function(){},mixIn:function(a){for(var c in a)a.hasOwnProperty(c)&&(this[c]=a[c]);a.hasOwnProperty("toString")&&(this.toString=a.toString)},clone:function(){return this.init.prototype.extend(this)}},
+n=j.WordArray=f.extend({init:function(a,c){a=this.words=a||[];this.sigBytes=c!=m?c:4*a.length},toString:function(a){return(a||h).stringify(this)},concat:function(a){var c=this.words,q=a.words,d=this.sigBytes;a=a.sigBytes;this.clamp();if(d%4)for(var b=0;b<a;b++)c[d+b>>>2]|=(q[b>>>2]>>>24-8*(b%4)&255)<<24-8*((d+b)%4);else if(65535<q.length)for(b=0;b<a;b+=4)c[d+b>>>2]=q[b>>>2];else c.push.apply(c,q);this.sigBytes+=a;return this},clamp:function(){var a=this.words,c=this.sigBytes;a[c>>>2]&=4294967295<<
+32-8*(c%4);a.length=e.ceil(c/4)},clone:function(){var a=f.clone.call(this);a.words=this.words.slice(0);return a},random:function(a){for(var c=[],b=0;b<a;b+=4)c.push(4294967296*e.random()|0);return new n.init(c,a)}}),b=p.enc={},h=b.Hex={stringify:function(a){var c=a.words;a=a.sigBytes;for(var b=[],d=0;d<a;d++){var f=c[d>>>2]>>>24-8*(d%4)&255;b.push((f>>>4).toString(16));b.push((f&15).toString(16))}return b.join("")},parse:function(a){for(var c=a.length,b=[],d=0;d<c;d+=2)b[d>>>3]|=parseInt(a.substr(d,
+2),16)<<24-4*(d%8);return new n.init(b,c/2)}},g=b.Latin1={stringify:function(a){var c=a.words;a=a.sigBytes;for(var b=[],d=0;d<a;d++)b.push(String.fromCharCode(c[d>>>2]>>>24-8*(d%4)&255));return b.join("")},parse:function(a){for(var c=a.length,b=[],d=0;d<c;d++)b[d>>>2]|=(a.charCodeAt(d)&255)<<24-8*(d%4);return new n.init(b,c)}},r=b.Utf8={stringify:function(a){try{return decodeURIComponent(escape(g.stringify(a)))}catch(c){throw Error("Malformed UTF-8 data");}},parse:function(a){return g.parse(unescape(encodeURIComponent(a)))}},
+k=j.BufferedBlockAlgorithm=f.extend({reset:function(){this._data=new n.init;this._nDataBytes=0},_append:function(a){"string"==typeof a&&(a=r.parse(a));this._data.concat(a);this._nDataBytes+=a.sigBytes},_process:function(a){var c=this._data,b=c.words,d=c.sigBytes,f=this.blockSize,h=d/(4*f),h=a?e.ceil(h):e.max((h|0)-this._minBufferSize,0);a=h*f;d=e.min(4*a,d);if(a){for(var g=0;g<a;g+=f)this._doProcessBlock(b,g);g=b.splice(0,a);c.sigBytes-=d}return new n.init(g,d)},clone:function(){var a=f.clone.call(this);
+a._data=this._data.clone();return a},_minBufferSize:0});j.Hasher=k.extend({cfg:f.extend(),init:function(a){this.cfg=this.cfg.extend(a);this.reset()},reset:function(){k.reset.call(this);this._doReset()},update:function(a){this._append(a);this._process();return this},finalize:function(a){a&&this._append(a);return this._doFinalize()},blockSize:16,_createHelper:function(a){return function(c,b){return(new a.init(b)).finalize(c)}},_createHmacHelper:function(a){return function(b,f){return(new s.HMAC.init(a,
+f)).finalize(b)}}});var s=p.algo={};return p}(Math);
+(function(){var e=CryptoJS,m=e.lib,p=m.WordArray,j=m.Hasher,l=[],m=e.algo.SHA1=j.extend({_doReset:function(){this._hash=new p.init([1732584193,4023233417,2562383102,271733878,3285377520])},_doProcessBlock:function(f,n){for(var b=this._hash.words,h=b[0],g=b[1],e=b[2],k=b[3],j=b[4],a=0;80>a;a++){if(16>a)l[a]=f[n+a]|0;else{var c=l[a-3]^l[a-8]^l[a-14]^l[a-16];l[a]=c<<1|c>>>31}c=(h<<5|h>>>27)+j+l[a];c=20>a?c+((g&e|~g&k)+1518500249):40>a?c+((g^e^k)+1859775393):60>a?c+((g&e|g&k|e&k)-1894007588):c+((g^e^
+k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2]+e|0;b[3]=b[3]+k|0;b[4]=b[4]+j|0},_doFinalize:function(){var f=this._data,e=f.words,b=8*this._nDataBytes,h=8*f.sigBytes;e[h>>>5]|=128<<24-h%32;e[(h+64>>>9<<4)+14]=Math.floor(b/4294967296);e[(h+64>>>9<<4)+15]=b;f.sigBytes=4*e.length;this._process();return this._hash},clone:function(){var e=j.clone.call(this);e._hash=this._hash.clone();return e}});e.SHA1=j._createHelper(m);e.HmacSHA1=j._createHmacHelper(m)})();
 (function(){
 
     // container
@@ -771,7 +789,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         setAppcacheListeners();
 
                     // Create Network Transaction Offline Storage Area
-                        setDeviceStorage();
+                        createDeviceStorage();
 
                     // Set Current Network State
                         if( current_network_state === "up"){          
@@ -1123,8 +1141,11 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                             product_metadata.name = encodeURIComponent( addProductName );
                             product_metadata.manufacturer = encodeURIComponent( addProductManufacturer );
 
+                            product_hash = CryptoJS.SHA1( JSON.stringify(product_metadata) ).toString();
+
                         // send to server
-                            HTTP_POST("add-product.php", "product=" + JSON.stringify(product_metadata) );
+                            create_transaction('product', 'create-' + product_hash, 'name', addProductName);
+                            create_transaction('product', 'create-' + product_hash, 'manufacturer', addProductManufacturer);
 
                         // restart task dialog
                             restart_task = confirm("Done! Add Another Product?");                            
@@ -1153,9 +1174,9 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                 function setup_view_product_list(screen){
 
                     // required vars
-                    var product_list_wrapper = document.getElementById('product-list'),
-                        manufacturer_list_wrapper = document.getElementById('manufacturer-list'),
-                        product_list_touchstart_pos;
+                        var product_list_wrapper = document.getElementById('product-list'),                        
+                            manufacturer_list_wrapper = document.getElementById('manufacturer-list'),
+                            product_list_touchstart_pos;
 
                     // teardown
                         _subscribe_once("teardown-screen", "teardown", teardown);
@@ -1166,6 +1187,13 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                             alert("Loading Updates");
 
                             render_product_list();
+                        });
+
+                    // update product list view when model updates
+                        _subscribe("requeue-failed-transaction", "update-product-list", function(data){
+
+                            console.log('requeue data');
+                            console.log(data.notificationParams);
                         });
 
                     // update manufacturer list view when model updates
@@ -1193,10 +1221,10 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         resize_list_wrappers();
                         _subscribe("screens-resized", "resize-list-wrappers", resize_list_wrappers);
                     
-                    // activate edit button on product list  
+                    // activate edit button on product list
                         product_list_wrapper.addEventListener("click", edit_product);
 
-                    // activate touch scrolling 
+                    // activate touch scrolling
                         product_list_wrapper.addEventListener("touchstart", set_scroll_touch_position);
                         product_list_wrapper.addEventListener("touchmove", product_list_wrapper_scroll);
 
@@ -1208,7 +1236,6 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         render_manufacturer_list();
                         create_add_product_btn();
 
-
                     function teardown(){
 
                         product_list_wrapper.removeEventListener("click", edit_product);
@@ -1219,6 +1246,7 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                         _unsubscribe("product-list-rendered", "filter-by-manufacturer");
 
                         _unsubscribe("product-metadata-updated", "update-product-list");
+                        _unsubscribe("requeue-failed-transaction", "update-product-list");
                         
                         _subscribe_once("setup-complete", "cleanup-product-list", function(){
                             
@@ -1686,54 +1714,12 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                     function update_product_wholesale_price(product_id, price){
 
-                        deviceStorage.get("transaction", function(ok, value){
-
-                            // required vars
-                                var transactions_json = '{}';
-
-                            // get prexisting transactions
-                                if(value){ 
-
-                                    transactions_json = value;                                    
-                                }
-
-                            // add product update to next transaction
-                                transaction_db = JSON.parse(transactions_json);
-
-                                if(!transaction_db.product){ transaction_db.product = {}; }
-
-                                if(!transaction_db.product[product_id]){ transaction_db.product[product_id] = {}; }
-                                
-                                transaction_db.product[product_id].WholesalePrice = price;
-
-                                deviceStorage.set('transaction', JSON.stringify(transaction_db));
-                        });
+                        create_transaction('product', product_id, 'WholesalePrice', price);
                     }
 
                     function update_product_retail_price(product_id, price){
-
-                        deviceStorage.get("transaction", function(ok, value){
-
-                            // required vars
-                                var transactions_json = '{}';
-
-                            // get prexisting transactions
-                                if(value){ 
-
-                                    transactions_json = value;                                    
-                                }
-
-                            // add product update to next transaction
-                                transaction_db = JSON.parse(transactions_json);
-
-                                if(!transaction_db.product){ transaction_db.product = {}; }
-
-                                if(!transaction_db.product[product_id]){ transaction_db.product[product_id] = {}; }
-                                
-                                transaction_db.product[product_id].RetailPrice = price;
-
-                                deviceStorage.set('transaction', JSON.stringify(transaction_db));
-                        });
+                        
+                        create_transaction('product', product_id, 'RetailPrice', price);
                     }
                 }
 
@@ -1986,16 +1972,41 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                                             catch(e){
 
                                                 console.log("TRANSACTION ERROR");
-                                                console.log(response_json);
 
-                                                resend_prompt = confirm("RESEND THESE UPDATES? " + transaction_json);
+                                                // put failed transaction back on the transaction queue
+                                                    deviceStorage.get('transaction', function(ok, transaction_queue_json){
 
-                                                if(resend_prompt){
+                                                        var requeue_json;
 
-                                                    // iterate over object here
-                                                    console.log("do resend here");
-                                                    console.log(transaction_json);
-                                                }
+                                                        if(transaction_queue_json){
+
+                                                            requeue_json = JSON.stringify(
+                                                                copyObj({
+
+                                                                    'srcObj': JSON.parse(transaction_queue_json),
+                                                                    'output': JSON.parse(transaction_json)
+                                                                })
+                                                            );
+                                                        }
+
+                                                        else {
+
+                                                            requeue_json = transaction_json;
+                                                        }
+
+                                                        deviceStorage.set('transaction', requeue_json);
+                                                        
+                                                        _publish(
+                                                            'requeue-failed-transaction',
+                                                            {
+                                                                "failed_transaction": transaction_json,
+                                                                "server_response": response_json,
+                                                                "queue_before_retry": transaction_queue_json,
+                                                                "requeue_json": requeue_json
+                                                            },
+                                                            'do-transaction' 
+                                                        );
+                                                    });
 
                                                 return false;
                                             }
@@ -2013,21 +2024,34 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
                                                             var product_name;
 
-                                                            for (var i = product_db.length - 1; i >= 0; i--) {
-                                                                
-                                                                if(product_db[product_db.length - 1 - i].Id == id){
+                                                            // get product name
+                                                                if(response.product[id].name){
 
-                                                                    product_name = product_db[product_db.length - 1 - i].Name;
-                                                                    break;
+                                                                    product_name = response.product[id].name;
                                                                 }
-                                                            }                                                   
 
-                                                            for(var property in response.product[id]){
+                                                                else {
 
-                                                                console.log(product_name.toUpperCase() + " " + property.toUpperCase() + " UPDATED TO '" + response.product[id][property] + "'");
-                                                            }
+                                                                    for (var i = product_db.length - 1; i >= 0; i--) {
+                                                                        
+                                                                        if(product_db[product_db.length - 1 - i].Id == id){
+
+                                                                            product_name = product_db[product_db.length - 1 - i].Name;
+                                                                            break;
+                                                                        }
+                                                                    }                                                   
+                                                                }
+
+                                                            // log updates
+                                                                for(var property in response.product[id]){
+
+                                                                    if(property === 'name'){ continue; }
+
+                                                                    console.log(product_name.toUpperCase() + " " + property.toUpperCase() + " UPDATED TO '" + response.product[id][property] + "'");
+                                                                }
                                                         }
 
+                                                        _publish('transaction-metadata-updated', null, 'do-transaction');
                                                         download_current_product_db();
                                                     });
                                                 }
@@ -2222,20 +2246,44 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
 
         /* OFFLINE STORAGE */
 
-            function setDeviceStorage(){
+            // create device storage
+                function createDeviceStorage(){
 
-                createDeviceStorage();
-            }
+                    deviceStorage = new Persist.Store('Pricing App Storage', {
 
-            function createDeviceStorage(){
+                        about: "Data Storage to enhance Offline usage",
+                        path: location.href
+                    });
+                }
 
-                deviceStorage = new Persist.Store('Pricing App Storage', {
+            // locally store data to push server-side
+                function create_transaction(type, id, property, value){
+                            
+                    // required vars
+                        var transactions_json = '{}';
 
-                    about: "Data Storage to enhance Offline usage",
-                    path: location.href
-                });
-            }
+                    // get transactions on device
+                        deviceStorage.get("transaction", function(ok, cache){
 
+                            // update transaction json on cache hit
+                                if(cache && JSON.parse(transactions_json)){ transactions_json = cache; }
+
+                            // add product update to next transaction
+                                transaction_db = JSON.parse(transactions_json);
+
+                                if(!transaction_db[type]){ transaction_db[type] = {}; }
+
+                                if(!transaction_db[type][id]){ transaction_db[type][id] = {}; }
+                                
+                                transaction_db[type][id][property] = value;
+
+                            // store it
+                                deviceStorage.set('transaction', JSON.stringify(transaction_db));
+
+                            // publish
+                                _publish("transaction-metadata-updated", {'type': type, 'id': id, 'property': property, 'value': value }, "create-" + type + "-transaction");
+                        });
+                }
 
         /* UTILS */
 
@@ -2452,6 +2500,79 @@ throw new Error("No suitable storage found");o=o||{};this.name=name;o.domain=o.d
                     // set behavior
                         document.getElementById('start-add-product').addEventListener("click", addProductsWorkflow);
                 }            
+
+            // is object
+                function isObj(item){
+
+                    return (Object.prototype.toString.call(item) === '[object Object]');
+                }
+
+            // is array
+                function isArray(item){
+
+                    return (Object.prototype.toString.call(item) === '[object Array]');
+                }
+
+            // in array
+            // - @params: {item, array}
+            // - @returns: array index if item is in array, -1 if item is not in array, false if some required param was messed up 
+                function inArray(params){
+
+                    // return false if there is a missing/broken parameter
+                    if (!params || !isObj(params) || !params.item || !isArray(params.array)) {
+
+                        return false;   
+                    }
+
+                    // check array for item
+                    for (var i in params.array){
+
+                        // return index if it exists
+                        if (params.item === params.array[i]) {
+                            return i;
+                        }
+                    }
+
+                    // return -1 if it doesn't exist 
+                    return -1;
+                }
+
+            // copy Object
+            // - @params: {srcObj [,output ,]}
+            // - @returns: {} or output on success, false on fail
+                function copyObj(params){
+
+                    // exit if params are improper (params not an object, no source object, source object isn't a true object)
+                    if (!isObj(params) || !params.srcObj || !isObj(params.srcObj) ) {
+
+                        return false;
+                    }
+
+                    // use defined output or plain obj for return
+                    var output = (isObj(params.output) ? params.output : {});
+
+                    // check if there's any items to skip in the copy process
+                    var skip = (params.skip && isArray(params.skip) && params.skip.length > 0);
+
+                    // start copying
+                    for (var i in params.srcObj){
+
+                        if (params.srcObj.hasOwnProperty(i)){
+
+                            // ensure item isn't on the skip list
+                            if (skip === true && inArray({"item": i, "array": params.skip }) > -1 ) {
+
+                                continue;
+                            }
+
+                            // write 
+                            output[i] = params.srcObj[i];
+                        }    
+                    }
+
+                    return output;
+                }
+
             
             function addProductsWorkflow(){
 

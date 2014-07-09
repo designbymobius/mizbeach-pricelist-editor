@@ -22,7 +22,22 @@
 
 			foreach ($transaction->product as $product_id => $product) {
 
-				$response['product'][$product_id] = array();
+				// prepare response
+					$response['product'][$product_id] = array();
+				
+				// create product
+					if( property_exists($product, "name") && property_exists($product, "manufacturer") ){
+
+						$add_product_to_db = add_product($product->name, $product->manufacturer);
+						if($add_product_to_db['success'] !== true){ continue; }
+						
+						$response['product'][$product_id]['name'] = $product->name;
+						$response['product'][$product_id]['product_id'] = $add_product_to_db['product_id'];
+						$response['product'][$product_id]['manufacturer_id'] = $add_product_to_db['manufacturer_id'];
+
+					// update product id if product was successfully added
+						$product_id = $add_product_to_db['product_id'];						 
+					}
 				
 				// wholesale price updates
 					if( property_exists($product, "WholesalePrice") ){

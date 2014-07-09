@@ -137,10 +137,13 @@
 				if(!$add_product_query){
 
 					$response['msg'] = mysql_error();
+					return $response;
 				}
-					$response['success'] = true;
-					$response['msg'] = "'" . $name . "' ADDED TO PRODUCT DATABASE";
-					$response['product_id'] = mysql_insert_id();
+					
+				$response['success'] = true;
+				$response['msg'] = "'" . $name . "' ADDED TO PRODUCT DATABASE";
+				$response['manufacturer_id'] = $manufacturer_id;
+				$response['product_id'] = mysql_insert_id();
 
 			// save product alias
 				add_alias($name, $response['product_id']);
@@ -181,7 +184,8 @@
 				$add_manufacturer_query = mysql_query($add_manufacturer_querystring);
 
 				$response['success'] = true;
-				$response['msg'] = "MANUFACTURER '" . $name . "' ADDED";		
+				$response['msg'] = "MANUFACTURER '" . $name . "' ADDED";
+				$response['manufacturer_id'] = mysql_insert_id();		
 
 				return $response;
 		}
