@@ -731,8 +731,8 @@ f)).finalize(b)}}});var s=p.algo={};return p}(Math);
 k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2]+e|0;b[3]=b[3]+k|0;b[4]=b[4]+j|0},_doFinalize:function(){var f=this._data,e=f.words,b=8*this._nDataBytes,h=8*f.sigBytes;e[h>>>5]|=128<<24-h%32;e[(h+64>>>9<<4)+14]=Math.floor(b/4294967296);e[(h+64>>>9<<4)+15]=b;f.sigBytes=4*e.length;this._process();return this._hash},clone:function(){var e=j.clone.call(this);e._hash=this._hash.clone();return e}});e.SHA1=j._createHelper(m);e.HmacSHA1=j._createHmacHelper(m)})();
 (function(){
 
-    // container
-    var app = {},
+    // required vars
+        var app = {},
 
         intervals = {},
 
@@ -745,10 +745,9 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
         _unsubscribe = pubsub.unsubscribe,
         
         allScreens = document.getElementsByClassName('fullscreen'),
-        screen_setup = {},
-
         activeScreenIndex = 0,
         activeScreens = [],
+        screen_setup = {},
 
         addProductName,
         addProductManufacturer,
@@ -767,9 +766,6 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
             
             // get the app started
                 function init(){
-
-                    // req vars
-                    var current_network_state = networkState();
 
                     // Load Starting Pages
                         resetActiveScreens();
@@ -792,19 +788,18 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
                         createDeviceStorage();
 
                     // Set Current Network State
-                        if( current_network_state === "up"){          
+                        if( networkState() === "up"){          
 
-                            _publish("network-up", null, this);
-                        } 
+                            _publish("network-up", null, 'app-init');
+                        }
+
                         else {          
 
-                            _publish("network-down", null, this);           
+                            _publish("network-down", null, 'app-init');           
                         }
 
                     // Prepare Screen Setup Listeners
                         screenSetupHandlers();
-
-                        gotoScreen( activeScreenIndex );
 
                     // Disable Touch Scrolling
                         document.addEventListener('touchmove', function(e){
@@ -818,6 +813,10 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                             e.preventDefault();
                         });
+
+
+                    // Activate the Requested Screen
+                        gotoScreen( activeScreenIndex );
                 }
 
         /* SCREENS */
@@ -1189,17 +1188,17 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
                             render_product_list();
                         });
 
-                    // update product list view when model updates
-                        _subscribe("requeue-failed-transaction", "update-product-list", function(data){
-
-                            console.log('requeue data');
-                            console.log(data.notificationParams);
-                        });
-
                     // update manufacturer list view when model updates
                         _subscribe("manufacturer-metadata-updated", "update-manufacturer-list", function(data){
 
                             render_manufacturer_list();
+                        });
+
+                    // log failed transaction and reattempt
+                        _subscribe("requeue-failed-transaction", "update-product-list", function(data){
+
+                            console.log('requeue data');
+                            console.log(data.notificationParams);
                         });
 
                     // filter rendered product list by manufacturer
@@ -1221,7 +1220,7 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
                         resize_list_wrappers();
                         _subscribe("screens-resized", "resize-list-wrappers", resize_list_wrappers);
                     
-                    // activate edit button on product list
+                    // product list edit button behavior
                         product_list_wrapper.addEventListener("click", edit_product);
 
                     // activate touch scrolling
@@ -1454,7 +1453,7 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                                 else {
 
-                                   transaction_db_json = "[]";
+                                   transaction_db_json = "{}";
 
                                     if(all_dbs_loaded()){
 
@@ -1465,29 +1464,95 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                         function do_list_rendering(){
 
-                            var product_db,
-                                manufacturer_db,
-                                transaction_db,
+                            // required vars
+                                var model_to_render,
+                                    model_length,
 
-                                product_db_length;
+                                    product_db,
+                                    transaction_db,
+                                    manufacturer_db,
 
+                                    product_db_id_model,
+                                    manufacturer_db_id_model;
+
+                            // create dbs and models needed
+                                manufacturer_db = JSON.parse(manufacturer_db_json);
+                                transaction_db = JSON.parse(transaction_db_json);
                                 product_db = JSON.parse(product_db_json);
-                                product_db_length = product_db.length;
+                                
+                                product_db_id_model = key_model_db_json(product_db_json, 'Id');                              
+                                manufacturer_db_id_model = key_model_db_json(manufacturer_db_json, 'Id');
 
-                                if(!product_db || product_db.length < 1){
+                            // set base model to render
+                                model_to_render = product_db;
 
-                                    markup = "there are no products in the database ...";
-                                    product_list_wrapper.innerHTML = markup;
+                            // add transaction　data to model being rendered
+                                if(!transaction_db.product){ transaction_db.product = {}; }
+                                
+                                for (var this_product_id in transaction_db.product) {
+
+                                    // required vars
+                                        var this_product = transaction_db.product[ this_product_id ];
+
+                                    // filter
+                                        if( !transaction_db.product.hasOwnProperty(this_product_id) ){ continue; }
+
+                                    // update to existing product
+                                        if(typeof product_db_id_model[ this_product_id ] != 'undefined'){
+
+                                            // overlay product's transaction properties over its product db properties
+                                                product_db_id_model[ this_product_id ] = copyObj({
+
+                                                    "srcObj": transaction_db.product[ this_product_id ],
+                                                    "output": product_db_id_model[ this_product_id ]
+                                                });
+                                        }
+
+                                    // new product
+                                        else {
+
+                                            // required vars
+                                                var manufacturer_db_name_model = key_model_db_json(manufacturer_db_json, "Name"),
+                                                    confirmed_manufacturer_id;
+                                                
+                                            // if manufacturer exists, get its id
+                                                if(manufacturer_db_name_model[ this_product.manufacturer.toLowerCase() ]){  
+
+                                                    // set manufacturer id
+                                                        confirmed_manufacturer_id = manufacturer_db_name_model[ this_product.manufacturer.toLowerCase() ].Id;
+                                                }
+
+                                            // inject product into list view data-source
+                                                model_to_render.push(
+                                                    
+                                                    // overlay transaction data over acquired data
+                                                        copyObj({
+                                                            "srcObj": this_product,
+                                                            "output": 
+                                                                { 
+                                                                    "Id": this_product_id,
+                                                                    "Name": this_product.name,
+                                                                    "ManufacturerId": (confirmed_manufacturer_id ? confirmed_manufacturer_id : "n/a")
+                                                                }
+                                                        })
+                                                );
+                                        }
                                 }
 
+                            // cache length of render model
+                                model_length = model_to_render.length;
+
+                            // filter empty render model
+                                if(!model_to_render || model_length < 1){
+
+                                    markup += "there are no products to display";
+                                }
+
+                            // process data models for rendering
                                 else {
 
-                                    manufacturer_db = key_model_db_json(manufacturer_db_json, "Id");
-                                    transaction_db = JSON.parse(transaction_db_json);
-
-                                    if(!transaction_db.product){ transaction_db.product = {}; }
-
-                                    product_db.sort(function(a, b){
+                                // alpha-sort model to render
+                                    model_to_render.sort(function(a, b){
 
                                         a = a.Name.toLowerCase();
                                         b = b.Name.toLowerCase();
@@ -1497,35 +1562,60 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
                                         else { return 0; }
                                     });
 
-                                // render product view
-                                    for (var i = product_db.length; i >= 1; i--) {
+                                // each product in model to render
+                                    for (var i = model_to_render.length; i > 1; i--) {
 
-                                        var product = product_db[ product_db_length - i ],
-                                            product_id = product.Id,
+                                        // required vars
+                                            var product = model_to_render[ model_length - i ],
+                                                
+                                                product_id = product.Id,
+                                                manufacturer_id = product.ManufacturerId,
 
-                                            manufacturer_id = product.ManufacturerId,
+                                                has_updates,
+                                                has_retail_price_update,
+                                                has_wholesale_price_update,
+                                                
+                                                retail_price,
+                                                wholesale_price;
 
-                                            has_updates,
-                                            has_retail_price_update,
-                                            has_wholesale_price_update,
-                                            
-                                            retail_price,
-                                            wholesale_price;
-
-                                        has_updates = transaction_db.product && transaction_db.product[ product_id ] ? true : false;
+                                        // set flags
+                                            has_updates = transaction_db.product[ product_id ] ? true : false;
+                                            has_retail_price_update = has_updates && transaction_db.product[ product_id ].RetailPrice ? true : false;
+                                            has_wholesale_price_update = has_updates && transaction_db.product[ product_id ].WholesalePrice ? true : false;
                                         
-                                        has_retail_price_update = has_updates && transaction_db.product[ product_id ].RetailPrice ? true : false;
-                                        retail_price = has_retail_price_update ? "&#8358;" + transaction_db.product[ product_id ].RetailPrice : ( product.RetailPrice ? "&#8358;" + product.RetailPrice : "-----");
+                                        // set prices
+                                            retail_price = has_retail_price_update && product_db_id_model[product_id] ? "&#8358;" + product_db_id_model[product_id].RetailPrice : product.RetailPrice ? "&#8358;" + product.RetailPrice : "-----";                                        
+                                            wholesale_price = has_wholesale_price_update && product_db_id_model[product_id] ? "&#8358;" + product_db_id_model[ product_id ].WholesalePrice : product.WholesalePrice ? "&#8358;" + product.WholesalePrice : "-----";
                                         
-                                        has_wholesale_price_update = has_updates && transaction_db.product[ product_id ].WholesalePrice ? true : false;
-                                        wholesale_price = has_wholesale_price_update ? "&#8358;" + transaction_db.product[ product_id ].WholesalePrice : ( product.WholesalePrice ? "&#8358;" + product.WholesalePrice : "-----");
-                                        
-                                        markup += "<div class='product" + (has_updates ? " editted-product" : "") + "' data-product-name='" + product.Name + "' data-product-id='" + product_id + "'data-manufacturer-id='" + manufacturer_id + "'> <div class='name'><span class='collapsed-content'>" + manufacturer_db[ manufacturer_id ].Name + "</span> " + product.Name + "</div> <div class='wholesale-price" + (has_wholesale_price_update ? " modified-value" : "") + "'>" + wholesale_price  + "</div>" + "<div class='retail-price" + (has_retail_price_update ? " modified-value" : "") + "'>" + retail_price  + "</div>" + "<div class='settings'><span>edit</span></div></div>";
+                                        // add product to markup being rendered 
+                                            markup +=   "<div class='product" + (has_updates ? " editted-product" : "") + "' " + 
+                                                            "data-product-name='" + product.Name + "' " +
+                                                            "data-product-id='" + product_id + "' " + 
+                                                            "data-manufacturer-id='" + manufacturer_id + "'" + 
+                                                        ">" + 
+                                                            "<div class='name'>" + 
+                                                                "<span class='collapsed-content'>" + manufacturer_db_id_model[ manufacturer_id ].Name + "</span> " + 
+                                                                product.Name + 
+                                                            "</div>"+
+
+                                                            "<div class='wholesale-price" + (has_wholesale_price_update ? " modified-value" : "") + "'>" + 
+                                                                wholesale_price  + 
+                                                            "</div>" + 
+
+                                                            "<div class='retail-price" + (has_retail_price_update ? " modified-value" : "") + "'>" + 
+                                                                retail_price  + 
+                                                            "</div>" + 
+
+                                                            "<div class='settings'>"+
+                                                                "<span>edit</span>"+
+                                                            "</div>"+
+                                                        "</div>";
                                     }                                    
                                     
-                                    product_list_wrapper.innerHTML = markup;
                                 }
-
+                            
+                            // render markup and publish
+                                product_list_wrapper.innerHTML = markup;
                                 _publish("product-list-rendered", null, "render-product-list");
                         }
 
@@ -1548,7 +1638,8 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                     function edit_product(e){
 
-                        var edit_btn = e.target,
+                        // required vars
+                            var edit_btn = e.target,
                             
                             click_target,
                             click_target_id,
@@ -1582,7 +1673,11 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
                             click_target_id = click_target.getAttribute('data-product-id');
 
                         // display edit options
-                            edit_options_markup = "<ul class='options'><li class='edit-wholesale-price'>wholesale price</li><li class='edit-retail-price'>retail price</li></ul>";
+                            edit_options_markup = "<ul class='options'>" + 
+                                                    "<li class='edit-wholesale-price'>wholesale price</li>" + 
+                                                    "<li class='edit-retail-price'>retail price</li>" + 
+                                                  "</ul>";
+
                             edit_btn.innerHTML += edit_options_markup;
 
                         // get dom nodes of options
@@ -1619,8 +1714,9 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
                                 var product_price = click_target.getElementsByClassName('retail-price')[0],
                                     current_price = product_price.innerHTML,
                                     clean_price = current_price.replace(/\D/g,"");
+                                //  click_target_id -- from edit_product scope 
 
-                            // get user-entered price 
+                            // get user-entered price
                                 set_price_prompt = prompt(click_target.getAttribute('data-product-name').toUpperCase() + " - Retail Price", clean_price).replace(/\D/g,"");
 
                             // filter cancels
@@ -2018,11 +2114,12 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                                                     deviceStorage.get('product', function(ok, value){
 
-                                                        var product_db = JSON.parse(value);
+                                                        var product_db_json = value,
+                                                            product_db = JSON.parse(product_db_json);
                                                         
                                                         for(var id in response.product){
 
-                                                            var product_name;
+                                                            var product_name = "oops! :'(";
 
                                                             // get product name
                                                                 if(response.product[id].name){
@@ -2032,14 +2129,32 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                                                                 else {
 
-                                                                    for (var i = product_db.length - 1; i >= 0; i--) {
-                                                                        
-                                                                        if(product_db[product_db.length - 1 - i].Id == id){
+                                                                    var product_db_id_model = key_model_db_json(product_db_json, "Id");
 
-                                                                            product_name = product_db[product_db.length - 1 - i].Name;
-                                                                            break;
-                                                                        }
-                                                                    }                                                   
+                                                                    if(product_db_id_model[id]){
+
+                                                                        product_name = product_db_id_model[id].Name;
+                                                                    }
+
+                                                                    else {
+
+                                                                        var created_products_search = {},
+                                                                            search_id;
+
+                                                                        for (search_id in response.product) {                                                                            
+
+                                                                            if(search_id.indexOf('create-') !== 0){ continue }
+
+                                                                            created_products_search.product = response.product[search_id];
+
+                                                                            if(created_products_search.product.product_id == id){
+
+                                                                                product_name = created_products_search.product.name;
+                                                                                break;
+                                                                            }
+                                                                        }                                                   
+                                                                    }
+
                                                                 }
 
                                                             // log updates
@@ -2427,10 +2542,13 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
                     for(var row in db){
 
                         modelled_db[ db[row][key] ] = db[row];
+                        modelled_db[ db[row][key] ]['db-index'] = row;
                     }
 
                     return modelled_db;
                 }
+
+
 
             // model db by collection
                 function collection_model_db_json( db_json, key ){
@@ -2444,6 +2562,7 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                         if( !modelled_db[ db[row][key] ] ){  modelled_db[ db[row][key] ] = {}; }
                         
+                        db[row]['db-index'] = row;
                         modelled_db[ row[key] ].push( db[row] );
                     }
 
