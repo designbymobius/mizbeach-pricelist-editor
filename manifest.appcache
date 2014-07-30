@@ -1,11 +1,10 @@
 CACHE MANIFEST
-# Time: Wed Jul 30 2014 06:47:34 GMT+0100 (W. Central Africa Standard Time)
+# Time: Wed Jul 30 2014 13:15:55 GMT+0100 (W. Central Africa Standard Time)
 
 CACHE:
 index.html
 
 NETWORK:
-*
 add-product.php
 get-product.php
 get-manufacturer.php
