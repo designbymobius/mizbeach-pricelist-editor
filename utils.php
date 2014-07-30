@@ -1,13 +1,20 @@
-
 <?php
+# -----------------------------------------------
+# DB CONFIGS
+
+
+
+		    $url=parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+			define ("DB_USER", $url["user"]);
+			define ("DB_PASSWORD", $url["pass"]);
+			define ("DB_HOST", $url["host"]);	
+			define ("DB_NAME", substr($url["path"],1));
+		
 
 # -----------------------------------------------
 # CONSTANTS
 
-	define ("DB_USER", 'db122241_imeiapp');
-	define ("DB_PASSWORD", 'e0a23c86a8e31cc12a1f29d6dbbc6b0ce70b86f7');
-	define ("DB_HOST", 'internal-db.s122241.gridserver.com');	
-	define ("DB_NAME", 'db122241_mizbeach_pricing_app');
 
 	define ("DB_PRODUCT_TABLE", 'product');
 	define ("DB_MANUFACTURER_TABLE", 'manufacturer');
