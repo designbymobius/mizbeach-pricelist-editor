@@ -767,6 +767,19 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
             // get the app started
                 function init(){
 
+                    // Disable Touch Scrolling
+                        document.addEventListener('touchmove', function(e){
+
+                            var swipe_target = e.target;
+
+                            while(swipe_target !== document.body){
+                                
+                                swipe_target = swipe_target.parentNode;
+                            }
+
+                            e.preventDefault();
+                        });
+
                     // Load Starting Pages
                         resetActiveScreens();
                         
@@ -800,20 +813,6 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                     // Prepare Screen Setup Listeners
                         screenSetupHandlers();
-
-                    // Disable Touch Scrolling
-                        document.addEventListener('touchmove', function(e){
-
-                            var swipe_target = e.target;
-
-                            while(swipe_target !== document.body){
-                                
-                                swipe_target = swipe_target.parentNode;
-                            }
-
-                            e.preventDefault();
-                        });
-
 
                     // Activate the Requested Screen
                         gotoScreen( activeScreenIndex );
@@ -2343,21 +2342,23 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
                         window.applicationCache.addEventListener('downloading', cacheDownloading);
                         window.applicationCache.addEventListener('updateready', cacheReady);
                     }
+
+                    
+                    // new appcache ready
+                        function cacheReady(){     
+
+                            alert('App Has Been Updated and will Restart Now');
+                            window.applicationCache.swapCache();
+                            location.reload(true);
+                        }
+
+                    // new appcache downloading
+                        function cacheDownloading(){
+
+                            alert("Downloading App Updates - Sorry for the Wait");
+                        }
                 }
 
-            // new appcache ready
-                function cacheReady(){     
-
-                    alert('App Has Been Updated and will Restart Now');
-                    window.applicationCache.swapCache();
-                    location.reload(true);
-                }
-
-            // new appcache downloading
-                function cacheDownloading(){
-
-                    alert("Downloading App Updates - Sorry for the Wait");
-                }
 
         /* OFFLINE STORAGE */
 
