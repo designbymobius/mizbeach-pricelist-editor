@@ -1,19 +1,15 @@
 CACHE MANIFEST
-# Time: Fri Aug 08 2014 20:54:18 GMT+0100 (W. Central Africa Standard Time)
+# Time: Sat Aug 09 2014 08:37:26 GMT+0100 (W. Central Africa Standard Time)
 
 CACHE:
 index.html
 
 NETWORK:
-add-product.php
+server-check.php
 get-product.php
 get-manufacturer.php
 process-transaction.php
-server-check.php
-setup-db.php
+http://www.google-analytics.com
 
 FALLBACK:
 / index.html
-
-SETTINGS:
-prefer-online
