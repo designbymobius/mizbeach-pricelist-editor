@@ -1,7 +1,9 @@
-{
+{	
+	"minimum-stability": "dev",
+	
 	"require":{
-
-		"firebase/php-jwt": "master",
-		"ext-mysql": "*"
+		
+		"ext-mysql": "*",
+		"firebase/php-jwt": "@dev"
 	}
 }
