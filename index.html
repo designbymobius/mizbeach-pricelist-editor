@@ -2779,17 +2779,15 @@ k)-899497514);j=k;k=e;e=g<<30|g>>>2;g=h;h=c}b[0]=b[0]+h|0;b[1]=b[1]+g|0;b[2]=b[2
 
                 if(start < 0 || end > pubsub.log.length - 1){
 
-                    return console.log("wtf bro");
+                    return "wtf bro";
                 }
-
-                console.log("crawling " + start + " to " + end);
 
                 for(var i = start; i <= end; i += 1){
 
                     results += "\n\n-[" + i + "]-\n[" +  ( pubsub.log[i].subscriber || pubsub.log[i].publisher || pubsub.log[i].unsubscriber ) + "] " + pubsub.log[i].type + " " + pubsub.log[i].notification;
                 }
 
-                console.log(results);
+                return results;
             };
 
     // LAUNCH APP WHEN DOM IS READY

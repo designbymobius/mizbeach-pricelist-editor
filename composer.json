@@ -1,6 +1,7 @@
 {
 	"require":{
 
+		"firebase/php-jwt": "master",
 		"ext-mysql": "*"
 	}
 }
