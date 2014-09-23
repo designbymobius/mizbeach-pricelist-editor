@@ -20,21 +20,12 @@
 	// prep session
 		session_start();
 
-		$token_metadata = array();
-		$token_metadata['id'] = session_id();
-		$token_metadata['time_issued'] = time();
-
-	// set session type
-		$session_metadata = array();
-		$session_metadata['type'] = 'guest';
-
-	// store session in memcached
-		$mc = new Memcached();
-		$mc->set( $token_metadata['id'], json_encode($session_metadata) );	
+		$_SESSION['start_time'] = time();
+		$_SESSION['type'] = 'guest';
 
 	// create session token
 		$_jwt = new JWT;
-		$session_token = $_jwt->encode( $token_metadata, $server_signature . $user_signature );
+		$session_token = $_jwt->encode( $_SESSION, $server_signature . $user_signature );
 
 	echo $session_token;
 ?>
