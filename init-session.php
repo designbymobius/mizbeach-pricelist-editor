@@ -10,25 +10,26 @@
 		$user_signature = $_POST['signature'];		
 		$server_signature = getenv('PRICINGAPP_SIGNATURE');
 
+	// memcached server connection config
+		ini_set('session.save_handler=memcached');
+		ini_set('session.save_path', 'PERSISTENT=myapp_session ' . $_ENV['MEMCACHEDCLOUD_SERVERS']);
+		ini_set('memcached.sess_binary', 1);
+		ini_set('memcached.sess_sasl_username', $_ENV['MEMCACHEDCLOUD_USERNAME']);
+		ini_set('memcached.sess_sasl_password', $_ENV['MEMCACHEDCLOUD_PASSWORD']);
+		
 	// prep session
-		ini_set('session.use_cookies', 0);
 		session_start();
 
 		$token_metadata = array();
 		$token_metadata['id'] = session_id();
 		$token_metadata['time_issued'] = time();
 
-	// memcached server connection config
-		$mc = new Memcached();
-		$mc->setOption(Memcache::OPT_BINARY_PROTOCOL, true);
-		$mc->addServers(array_map(function($server) { return explode(':', $server, 2); }, explode(',', $_ENV['MEMCACHEDCLOUD_SERVERS'])));
-		$mc->setSaslAuthData($_ENV['MEMCACHEDCLOUD_USERNAME'], $_ENV['MEMCACHEDCLOUD_PASSWORD']);
-		
 	// set session type
 		$session_metadata = array();
 		$session_metadata['type'] = 'guest';
 
 	// store session in memcached
+		$mc = new Memcached();
 		$mc->set( $token_metadata['id'], json_encode($session_metadata) );	
 
 	// create session token
