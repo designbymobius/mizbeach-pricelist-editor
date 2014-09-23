@@ -7,7 +7,6 @@
 		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
 
 	// required vars
-		require('vendor/autoload.php'); // jwt token lib
 		$user_signature = $_POST['signature'];		
 		$server_signature = getenv('PRICINGAPP_SIGNATURE');
 
