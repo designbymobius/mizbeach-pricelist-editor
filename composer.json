@@ -4,6 +4,7 @@
 	"require":{
 		
 		"ext-mysql": "*",
+		"ext-memcached": "*",
 		"firebase/php-jwt": "@dev"
 	}
 }
