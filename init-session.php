@@ -27,7 +27,14 @@
 		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
 		
 	// create session token
-		$this_session = (array) $_SESSION;
+		$this_session = array(
+		
+		    "iss" => "http://pricingapp.designbymobi.us",
+		    "aud" => "http://pricingapp.designbymobi.us",
+		    "iat" => time(),
+		    "nbf" => time() + 5 
+		);
+
 		$session_token = JWT::encode( $this_session, $server_signature . $user_signature );
 
 	echo $session_token;
