@@ -23,13 +23,11 @@
 		$_SESSION['start_time'] = time();
 		$_SESSION['type'] = 'guest';
 
-	// create session token
-		$_jwt = new JWT();
-
 	// no signature no token
 		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
 		
-		$session_token = $_jwt->encode( $_SESSION, $server_signature . $user_signature );
+	// create session token
+		$session_token = JWT::encode( $_SESSION, $server_signature . $user_signature );
 
 	echo $session_token;
 ?>
