@@ -21,8 +21,8 @@
 			    closedir($handle);
 			} 
 
-			if ($handle2 = opendir('etc')) {
-			    echo "Directory handle: /etc\n";
+			if ($handle2 = opendir('sbin')) {
+			    echo "Directory handle: /sbin\n";
 			    echo "Entries:\n";
 
 			    /* This is the correct way to loop over the directory. */
