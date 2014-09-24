@@ -4,7 +4,7 @@
 		header( 'Access-Control-Allow-Origin: *' );
 
 	// required vars
-		require('vendor/autoloader.php'); // load composer packages
+		require('vendor/firebase/php-jwt/Firebase/PHP-JWT/Authentication.php'); // load JWT class
 		$user_signature = $_POST['signature'];		
 		$server_signature = getenv('PRICINGAPP_SIGNATURE');
 
