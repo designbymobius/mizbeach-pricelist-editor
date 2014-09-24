@@ -10,7 +10,7 @@
 		if ( !isset($_POST['signature']) ){ 
 
 			if ($handle = opendir('app')) {
-			    echo "Directory handle: $handle\n";
+			    echo "Directory handle: app\n";
 			    echo "Entries:\n";
 
 			    /* This is the correct way to loop over the directory. */
@@ -21,16 +21,16 @@
 			    closedir($handle);
 			} 
 
-			if ($handle = opendir('../dev')) {
-			    echo "Directory handle: $handle\n";
+			if ($handle2 = opendir('../dev')) {
+			    echo "Directory handle: ../dev\n";
 			    echo "Entries:\n";
 
 			    /* This is the correct way to loop over the directory. */
-			    while (false !== ($entry = readdir($handle))) {
+			    while (false !== ($entry = readdir($handle2))) {
 			        echo "$entry\n";
 			    }
 
-			    closedir($handle);
+			    closedir($handle2);
 			}
 
 			exit('cool.story.bro'); }
