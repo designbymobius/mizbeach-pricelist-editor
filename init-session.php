@@ -40,5 +40,5 @@
 
 		$session_token = JWT::encode( $this_session, $this_key );
 
-	echo $session_token;
+	var_dump($session_token);
 ?>
