@@ -3,13 +3,15 @@
 	// set headers
 		header( 'Access-Control-Allow-Origin: *' );
 
-	// required vars
-		require('vendor/firebase/php-jwt/Firebase/PHP-JWT/Authentication.php'); // load JWT class
-		$user_signature = $_POST['signature'];		
-		$server_signature = getenv('PRICINGAPP_SIGNATURE');
+	// load JWT class
+		require('vendor/firebase/php-jwt/Firebase/PHP-JWT/Authentication.php'); 
 
 	// no signature no token
 		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
+		
+	// required vars
+		$user_signature = $_POST['signature'];		
+		$server_signature = getenv('PRICINGAPP_SIGNATURE');
 
 	// cookieless sessions 
 		ini_set('session.use_cookies', 0);
