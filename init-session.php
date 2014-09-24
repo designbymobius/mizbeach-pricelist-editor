@@ -4,6 +4,7 @@
 		header( 'Access-Control-Allow-Origin: *' );
 
 	// required vars
+		require('vendor/autoloader.php'); // load composer packages
 		$user_signature = $_POST['signature'];		
 		$server_signature = getenv('PRICINGAPP_SIGNATURE');
 
@@ -27,18 +28,8 @@
 		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
 		
 	// create session token
-		$this_session = array(
-		
-		    "iss" => "http://pricingapp.designbymobi.us",
-		    "aud" => "http://pricingapp.designbymobi.us",
-		    "iat" => time(),
-		    "nbf" => time() + 5 
-		);
+		$this_session = (array) $_SESSION;
+		$session_token = JWT::encode( $this_session, $server_signature . $user_signature );
 
-		$this_key = $server_signature . $user_signature; 
-
-
-		$session_token = JWT::encode( $this_session, $this_key );
-
-	var_dump($session_token);
+	echo $session_token;
 ?>
