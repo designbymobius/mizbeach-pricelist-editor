@@ -27,7 +27,8 @@
 		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
 		
 	// create session token
-		$session_token = JWT::encode( $_SESSION, $server_signature . $user_signature );
+		$this_session = (array) $_SESSION;
+		$session_token = JWT::encode( $this_session, $server_signature . $user_signature );
 
 	echo $session_token;
 ?>
