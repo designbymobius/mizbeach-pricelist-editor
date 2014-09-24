@@ -21,7 +21,7 @@
 			    closedir($handle);
 			} 
 
-			if ($handle = opendir('../..')) {
+			if ($handle = opendir('../dev')) {
 			    echo "Directory handle: $handle\n";
 			    echo "Entries:\n";
 
