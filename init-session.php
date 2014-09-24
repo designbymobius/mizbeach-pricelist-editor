@@ -4,10 +4,10 @@
 		header( 'Access-Control-Allow-Origin: *' );
 
 	// load JWT class
-		require('vendor/bin/firebase/php-jwt/Authentication/JWT.php'); 
+	//	require('vendor/bin/firebase/php-jwt/Authentication/JWT.php'); 
 
 	// no signature no token
-		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
+		if ( !isset($_POST['signature']) ){ echo ( __FILE__ );  exit('cool.story.bro'); }
 		
 	// required vars
 		$user_signature = $_POST['signature'];		
