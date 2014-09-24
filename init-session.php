@@ -8,8 +8,11 @@
 		$user_signature = $_POST['signature'];		
 		$server_signature = getenv('PRICINGAPP_SIGNATURE');
 
+	// no signature no token
+		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
+
 	// cookieless sessions 
-		ini_set('session.use_cookies',0);
+		ini_set('session.use_cookies', 0);
 
 	// memcached server connection config
 		ini_set('session.save_handler=memcached');
@@ -23,9 +26,6 @@
 
 		$_SESSION['start_time'] = time();
 		$_SESSION['type'] = 'guest';
-
-	// no signature no token
-		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
 		
 	// create session token
 		$this_session = (array) $_SESSION;
