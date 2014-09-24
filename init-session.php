@@ -3,9 +3,6 @@
 	// set headers
 		header( 'Access-Control-Allow-Origin: *' );
 
-	// no signature no token
-		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
-
 	// required vars
 		$user_signature = $_POST['signature'];		
 		$server_signature = getenv('PRICINGAPP_SIGNATURE');
@@ -25,6 +22,12 @@
 
 		$_SESSION['start_time'] = time();
 		$_SESSION['type'] = 'guest';
+
+		var_dump($_ENV);
+		var_dump($_SESSION);
+
+	// no signature no token
+		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
 
 	// create session token
 		$_jwt = new JWT;
