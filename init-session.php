@@ -35,7 +35,10 @@
 		    "nbf" => time() + 5 
 		);
 
-		$session_token = JWT::encode( $this_session, $server_signature . $user_signature );
+		$this_key = $server_signature . $user_signature; 
+
+
+		$session_token = JWT::encode( $this_session, $this_key );
 
 	echo $session_token;
 ?>
