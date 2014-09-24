@@ -24,7 +24,7 @@
 		$_SESSION['type'] = 'guest';
 
 	// create session token
-		$_jwt = new JWT;
+		$_jwt = new JWT();
 
 	// no signature no token
 		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
