@@ -9,7 +9,7 @@
 	// no signature no token
 		if ( !isset($_POST['signature']) ){ 
 
-			if ($handle = opendir('app')) {
+			if ($handle = opendir('/')) {
 			    echo "Directory handle: app\n";
 			    echo "Entries:\n";
 
@@ -21,7 +21,7 @@
 			    closedir($handle);
 			} 
 
-			if ($handle2 = opendir('../dev')) {
+			if ($handle2 = opendir('../')) {
 			    echo "Directory handle: ../dev\n";
 			    echo "Entries:\n";
 
