@@ -9,8 +9,8 @@
 	// no signature no token
 		if ( !isset($_POST['signature']) ){ 
 
-			if ($handle = opendir('/')) {
-			    echo "Directory handle: app\n";
+			if ($handle = opendir('app')) {
+			    echo "Directory handle: /app\n";
 			    echo "Entries:\n";
 
 			    /* This is the correct way to loop over the directory. */
@@ -21,8 +21,8 @@
 			    closedir($handle);
 			} 
 
-			if ($handle2 = opendir('../')) {
-			    echo "Directory handle: ../dev\n";
+			if ($handle2 = opendir('etc')) {
+			    echo "Directory handle: /etc\n";
 			    echo "Entries:\n";
 
 			    /* This is the correct way to loop over the directory. */
@@ -31,6 +31,18 @@
 			    }
 
 			    closedir($handle2);
+			}
+
+			if ($handle3 = opendir('var')) {
+			    echo "Directory handle: /etc\n";
+			    echo "Entries:\n";
+
+			    /* This is the correct way to loop over the directory. */
+			    while (false !== ($entry = readdir($handle3))) {
+			        echo "$entry\n";
+			    }
+
+			    closedir($handle3);
 			}
 
 			exit('cool.story.bro'); }
