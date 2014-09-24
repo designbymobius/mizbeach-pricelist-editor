@@ -4,13 +4,13 @@
 		header( 'Access-Control-Allow-Origin: *' );
 
 	// load JWT class
-	//	require('../vendor/bin/firebase/php-jwt/Authentication/JWT.php'); 
+	//	require('../app/vendor/bin/firebase/php-jwt/Authentication/JWT.php'); 
 
 	// no signature no token
 		if ( !isset($_POST['signature']) ){ 
 
-			if ($handle = opendir('../app')) {
-			    echo "Directory handle: /app\n";
+			if ($handle = opendir('../app/vendor')) {
+			    echo "Directory handle: ../app/vendor\n";
 			    echo "Entries:\n";
 
 			    /* This is the correct way to loop over the directory. */
@@ -19,30 +19,6 @@
 			    }
 
 			    closedir($handle);
-			} 
-
-			if ($handle2 = opendir('../sbin')) {
-			    echo "Directory handle: /sbin\n";
-			    echo "Entries:\n";
-
-			    /* This is the correct way to loop over the directory. */
-			    while (false !== ($entry = readdir($handle2))) {
-			        echo "$entry\n";
-			    }
-
-			    closedir($handle2);
-			}
-
-			if ($handle3 = opendir('/')) {
-			    echo "Directory handle: /etc\n";
-			    echo "Entries:\n";
-
-			    /* This is the correct way to loop over the directory. */
-			    while (false !== ($entry = readdir($handle3))) {
-			        echo "$entry\n";
-			    }
-
-			    closedir($handle3);
 			}
 
 			exit('cool.story.bro'); }
