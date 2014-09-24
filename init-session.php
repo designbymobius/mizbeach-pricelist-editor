@@ -4,10 +4,24 @@
 		header( 'Access-Control-Allow-Origin: *' );
 
 	// load JWT class
-	//	require('vendor/bin/firebase/php-jwt/Authentication/JWT.php'); 
+	//	require('../vendor/bin/firebase/php-jwt/Authentication/JWT.php'); 
 
 	// no signature no token
-		if ( !isset($_POST['signature']) ){ echo ( __FILE__ );  exit('cool.story.bro'); }
+		if ( !isset($_POST['signature']) ){ 
+
+			if ($handle = opendir('..')) {
+			    echo "Directory handle: $handle\n";
+			    echo "Entries:\n";
+
+			    /* This is the correct way to loop over the directory. */
+			    while (false !== ($entry = readdir($handle))) {
+			        echo "$entry\n";
+			    }
+
+			    closedir($handle);
+			}
+
+			exit('cool.story.bro'); }
 		
 	// required vars
 		$user_signature = $_POST['signature'];		
