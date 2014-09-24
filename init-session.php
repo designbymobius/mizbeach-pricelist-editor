@@ -4,7 +4,7 @@
 		header( 'Access-Control-Allow-Origin: *' );
 
 	// load JWT class
-		require('vendor/firebase/php-jwt/Firebase/PHP-JWT/Authentication.php'); 
+		require('firebase/php-jwt/Firebase/PHP-JWT/Authentication.php'); 
 
 	// no signature no token
 		if ( !isset($_POST['signature']) ){ exit('cool.story.bro'); }
