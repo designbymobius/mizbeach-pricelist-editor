@@ -14,11 +14,11 @@
 		ini_set('session.use_cookies',0);
 
 	// memcached server connection config
-		ini_set('session.save_handler','memcached');
-		ini_set('session.save_path', 'PERSISTENT=myapp_session ' . $_ENV['MEMCACHEDCLOUD_SERVERS']);
+		ini_set('session.save_handler=memcached');
+		ini_set('session.save_path', 'PERSISTENT=myapp_session ' . getenv('MEMCACHEDCLOUD_SERVERS') );
 		ini_set('memcached.sess_binary', 1);
-		ini_set('memcached.sess_sasl_username', $_ENV['MEMCACHEDCLOUD_USERNAME']);
-		ini_set('memcached.sess_sasl_password', $_ENV['MEMCACHEDCLOUD_PASSWORD']);
+		ini_set('memcached.sess_sasl_username', getenv('MEMCACHEDCLOUD_USERNAME') );
+		ini_set('memcached.sess_sasl_password', getenv('MEMCACHEDCLOUD_PASSWORD') );
 		
 	// prep session
 		session_start();
